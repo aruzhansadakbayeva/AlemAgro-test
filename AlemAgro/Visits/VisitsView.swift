@@ -6,45 +6,53 @@
 //
 
 import SwiftUI
-
 struct VisitsView: View {
     @StateObject private var vm = UsersViewModel()
+    @State private var selectedDate = Date()
 
     var body: some View {
         NavigationView{
-            ZStack{
-                if vm.isRefreshing {
-                    ProgressView()
-                }
-                
-                else{
-                    List{
-                        ForEach(vm.users, id: \.id){
-                            
-                             user in
-                            UserView(user: user).scaleEffect(x: 1, y: -1, anchor: .center)
-                                .listRowSeparator(.hidden)
-                        
+            VStack {
+                DatePicker(
+                    "",
+                    selection: $selectedDate,
+                    displayedComponents: [.date]
+                )
+                .padding()
+
+                ZStack{
+                    if vm.isRefreshing {
+                        ProgressView()
+                    }
+
+                    else{
+                        List{
+                            ForEach(filteredUsers(), id: \.id){ user in
+                                UserView(user: user)
+                                   
+                                    .listRowSeparator(.hidden)
+                            }
                         }
                         
-                       
-                        
-                    }.scaleEffect(x: 1, y: -1, anchor: .center)
-
-.listStyle(.plain)
-              
+                        .listStyle(.plain)
+                    }
                 }
+                .padding(.bottom)
+
             }
-            
             .onAppear(perform: vm.fetchUsers)
             .alert(isPresented: $vm.hasError, error: vm.error){
                 Button(action: vm.fetchUsers) {
                     Text("Retry")
                 }
             }
+            .navigationTitle("Визиты")
         }
-            
+    }
+
+    private func filteredUsers() -> [User] {
+        return vm.users.filter {
+            Calendar.current.isDate($0.time, inSameDayAs: selectedDate)
+        }
     }
 }
-
-

@@ -14,7 +14,7 @@ final class UsersViewModel: ObservableObject {
     func fetchUsers(){
         isRefreshing = true
         hasError = false
-        let usersUrlString = "https://mocki.io/v1/7260eb95-f710-47e5-b969-e653c05df58b"
+        let usersUrlString = "https://mocki.io/v1/4b7b28cb-51eb-420e-b168-015138830af9"
         if let url = URL(string: usersUrlString){
             URLSession
                 .shared
