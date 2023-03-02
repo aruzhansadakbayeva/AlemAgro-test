@@ -5,9 +5,7 @@
 //  Created by Aruzhan  on 23.02.2023.
 //
 import Foundation
-
 var clients: [Client] = load("clientInfoData.json")
-
 
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data

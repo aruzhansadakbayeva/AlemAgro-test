@@ -31,6 +31,12 @@
 		33D859A428AC34A000C842CF /* Tickets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D859A328AC34A000C842CF /* Tickets.swift */; };
 		33D859A628AD6ABB00C842CF /* TabData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D859A528AD6ABB00C842CF /* TabData.swift */; };
 		33D859A828AD74F000C842CF /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D859A728AD74F000C842CF /* CustomTabBar.swift */; };
+		CD0D0F3F29AC5BCF00A6EDFC /* VisitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0D0F3E29AC5BCF00A6EDFC /* VisitsView.swift */; };
+		CD0D0F4129AC5C8600A6EDFC /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0D0F4029AC5C8600A6EDFC /* UserModel.swift */; };
+		CD0D0F4329AC5D2F00A6EDFC /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0D0F4229AC5D2F00A6EDFC /* UsersViewModel.swift */; };
+		CD0D0F4529AC5FA200A6EDFC /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0D0F4429AC5FA200A6EDFC /* UserView.swift */; };
+		CD0D0F5929AE5DB700A6EDFC /* visits.json in Resources */ = {isa = PBXBuildFile; fileRef = CD0D0F5829AE5DB700A6EDFC /* visits.json */; };
+		CD0D0F6229B04AA800A6EDFC /* DatePickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0D0F6129B04AA700A6EDFC /* DatePickerTextField.swift */; };
 		CD4A3FC529A724B60061744A /* SessionUserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FC229A724B60061744A /* SessionUserDetails.swift */; };
 		CD4A3FC629A724B60061744A /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FC429A724B60061744A /* SessionService.swift */; };
 		CD4A3FDB29A724D10061744A /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FD629A724D10061744A /* ForgotPasswordViewModel.swift */; };
@@ -88,6 +94,12 @@
 		33D859A328AC34A000C842CF /* Tickets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tickets.swift; sourceTree = "<group>"; };
 		33D859A528AD6ABB00C842CF /* TabData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabData.swift; sourceTree = "<group>"; };
 		33D859A728AD74F000C842CF /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		CD0D0F3E29AC5BCF00A6EDFC /* VisitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsView.swift; sourceTree = "<group>"; };
+		CD0D0F4029AC5C8600A6EDFC /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		CD0D0F4229AC5D2F00A6EDFC /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
+		CD0D0F4429AC5FA200A6EDFC /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		CD0D0F5829AE5DB700A6EDFC /* visits.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = visits.json; sourceTree = "<group>"; };
+		CD0D0F6129B04AA700A6EDFC /* DatePickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTextField.swift; sourceTree = "<group>"; };
 		CD0F872829A157BF002D6056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CD4A3FC229A724B60061744A /* SessionUserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionUserDetails.swift; sourceTree = "<group>"; };
 		CD4A3FC429A724B60061744A /* SessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
@@ -163,9 +175,10 @@
 				33D8598C28AC0E4500C842CF /* Data */,
 				33D8598B28AC0E2F00C842CF /* Buttons */,
 				33D8598A28AC0E0000C842CF /* Views */,
+				CD0D0F3B29AC5BB100A6EDFC /* Visits */,
 				33D8597B28ABDDCB00C842CF /* AlemAgroApp.swift */,
-				33D8597D28ABDDCB00C842CF /* ContentView.swift */,
 				CD4A400429A741B90061744A /* ClientInfo */,
+				33D8597D28ABDDCB00C842CF /* ContentView.swift */,
 				33D8597F28ABDDCC00C842CF /* Assets.xcassets */,
 				33D8598128ABDDCC00C842CF /* Preview Content */,
 				33D859A128AC2DF800C842CF /* utils.swift */,
@@ -234,6 +247,18 @@
 				33D859A328AC34A000C842CF /* Tickets.swift */,
 			);
 			path = Cards;
+			sourceTree = "<group>";
+		};
+		CD0D0F3B29AC5BB100A6EDFC /* Visits */ = {
+			isa = PBXGroup;
+			children = (
+				CD0D0F6129B04AA700A6EDFC /* DatePickerTextField.swift */,
+				CD0D0F3E29AC5BCF00A6EDFC /* VisitsView.swift */,
+				CD0D0F4029AC5C8600A6EDFC /* UserModel.swift */,
+				CD0D0F4229AC5D2F00A6EDFC /* UsersViewModel.swift */,
+				CD0D0F4429AC5FA200A6EDFC /* UserView.swift */,
+			);
+			path = Visits;
 			sourceTree = "<group>";
 		};
 		CD4A3FC029A724B60061744A /* Session */ = {
@@ -393,6 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				CD4A400129A7413C0061744A /* clientInfoData.json */,
+				CD0D0F5829AE5DB700A6EDFC /* visits.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -496,6 +522,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD0D0F5929AE5DB700A6EDFC /* visits.json in Resources */,
 				CD4A400229A7413D0061744A /* clientInfoData.json in Resources */,
 				CDB683C029A71CC8003BED40 /* GoogleService-Info.plist in Resources */,
 				33D8598328ABDDCC00C842CF /* Preview Assets.xcassets in Resources */,
@@ -513,10 +540,12 @@
 				33D8599228AC179800C842CF /* TimeButton.swift in Sources */,
 				33D859A228AC2DF800C842CF /* utils.swift in Sources */,
 				CD4A3FF529A724ED0061744A /* InputTextFieldView.swift in Sources */,
+				CD0D0F3F29AC5BCF00A6EDFC /* VisitsView.swift in Sources */,
 				33D859A828AD74F000C842CF /* CustomTabBar.swift in Sources */,
 				3314726D28AD8298000AFD83 /* HomeView.swift in Sources */,
 				CD4A3FF729A724ED0061744A /* ButtonComponentView.swift in Sources */,
 				3314727F28B03852000AFD83 /* RoundButton.swift in Sources */,
+				CD0D0F4129AC5C8600A6EDFC /* UserModel.swift in Sources */,
 				33D859A628AD6ABB00C842CF /* TabData.swift in Sources */,
 				CD4A401229A744720061744A /* ClientRow.swift in Sources */,
 				CD4A3FF629A724ED0061744A /* InputPasswordView.swift in Sources */,
@@ -527,6 +556,7 @@
 				CD4A3FE929A724DD0061744A /* LoginView.swift in Sources */,
 				3314726F28AEAF4F000AFD83 /* CustomSearchBar.swift in Sources */,
 				3314727528B0292A000AFD83 /* LargeButton.swift in Sources */,
+				CD0D0F4529AC5FA200A6EDFC /* UserView.swift in Sources */,
 				CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */,
 				33D8598E28AC0EA600C842CF /* TicketData.swift in Sources */,
 				CD4A3FDB29A724D10061744A /* ForgotPasswordViewModel.swift in Sources */,
@@ -539,12 +569,14 @@
 				33D859A428AC34A000C842CF /* Tickets.swift in Sources */,
 				CD4A401529A744720061744A /* ClientDetail.swift in Sources */,
 				CD4A3FE729A724DD0061744A /* LoginViewModel.swift in Sources */,
+				CD0D0F6229B04AA800A6EDFC /* DatePickerTextField.swift in Sources */,
 				CD4A3FDD29A724D10061744A /* ForgotPasswordService.swift in Sources */,
 				CD4A400829A741FC0061744A /* Client.swift in Sources */,
 				3314727328B01EE4000AFD83 /* BookingView.swift in Sources */,
 				3314727128AEB325000AFD83 /* ScrollSection.swift in Sources */,
 				CD4A3FEA29A724DD0061744A /* LoginService.swift in Sources */,
 				33D8599D28AC288000C842CF /* TicketView.swift in Sources */,
+				CD0D0F4329AC5D2F00A6EDFC /* UsersViewModel.swift in Sources */,
 				CD4A3FF429A724ED0061744A /* CloseModifier.swift in Sources */,
 				33D859A028AC2D0700C842CF /* Ticket.swift in Sources */,
 				CD4A401129A744720061744A /* ClientList.swift in Sources */,

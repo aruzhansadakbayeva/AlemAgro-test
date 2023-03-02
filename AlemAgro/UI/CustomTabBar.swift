@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomTabBar: View {
     @Binding var currentTab: Tab
     
-    var backgroundColors: [Color] = [Color("purple"),Color("lightBlue"), Color("pink")]
+    var backgroundColors: [Color] = [Color("purple"),Color("lightBlue"), Color("purple")]
     var gradientCircle: [Color] = [Color("cyan"),Color("cyan").opacity(0.1), Color("cyan")]
     
     var body: some View {
@@ -78,8 +78,3 @@ struct CustomTabBar: View {
     }
 }
 
-struct CustomTabBar_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
