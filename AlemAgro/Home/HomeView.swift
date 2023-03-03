@@ -41,7 +41,7 @@ struct HomeView: View {
                             
                             VStack(spacing: 20.0) {
                                 Spacer()
-                                MatchedView()
+                                TestView()
                                 
                             }
                             .padding(.bottom, 90)
@@ -64,7 +64,7 @@ struct HomeView: View {
                             
                             }
                  
-                }    .toolbarBackground(Color("purple"), for: .navigationBar)
+                        }    .toolbarBackground(Color("purple"), for: .navigationBar)
                         .toolbarBackground(.visible, for: .navigationBar)
                 )
             
