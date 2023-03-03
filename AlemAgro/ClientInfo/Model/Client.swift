@@ -14,7 +14,7 @@ struct Client: Identifiable, Hashable, Decodable{
     var id: Int
     var Row: Int
     var clientName: String
-    var sumClient: Int
+    var sumClient: Double
     var clientIin: Int
     var clientAddress: String
 

@@ -11,7 +11,7 @@ import SwiftUI
 struct HomeView: View {
     @State var animate: Bool = false
     @State private var selection: String? = nil
-    
+  
     var backgroundColors: [Color] = [Color("backgroundColor"),Color("purple")]
     var body: some View {
         NavigationView{
@@ -41,7 +41,7 @@ struct HomeView: View {
                             
                             VStack(spacing: 20.0) {
                                 Spacer()
-                                TestView()
+                                MatchedView()
                                 
                             }
                             .padding(.bottom, 90)
@@ -90,8 +90,3 @@ struct HomeView: View {
 
 
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
-}

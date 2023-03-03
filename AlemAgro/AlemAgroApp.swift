@@ -26,6 +26,7 @@ struct AlemAgroApp: App {
     init() {
         FirebaseApp.configure()
         UITabBar.appearance().isHidden = true
+      
     }
 
 

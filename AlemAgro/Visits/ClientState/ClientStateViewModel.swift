@@ -1,21 +1,22 @@
 //
-//  UsersViewModel.swift
+//  ClientStateViewModel.swift
 //  AlemAgro
 //
-//  Created by Aruzhan  on 27.02.2023.
+//  Created by Aruzhan  on 03.03.2023.
 //
 
-import Foundation
-final class UsersViewModel: ObservableObject {
-    @Published var users: [User] = []
+import SwiftUI
+
+final class ClientStateViewModel: ObservableObject {
+    @Published var clientstates: [ClientSt] = []
     @Published var hasError = false
-    @Published var error: UserError?
+    @Published var error: ClientStError?
     @Published private(set) var isRefreshing = false
-    func fetchUsers(){
+    func fetchClientSt(){
         isRefreshing = true
         hasError = false
-        let usersUrlString = "https://my-json-server.typicode.com/aruzhansadakbayeva/datab/posts/"
-        if let url = URL(string: usersUrlString){
+        let clientstateUrlString = "https://my-json-server.typicode.com/aruzhansadakbayeva/database/posts/"
+        if let url = URL(string: clientstateUrlString){
             URLSession
                 .shared
                 .dataTask(with: url){ [weak self]
@@ -27,11 +28,11 @@ final class UsersViewModel: ObservableObject {
                             let decoder = JSONDecoder()
                             decoder.keyDecodingStrategy = .convertFromSnakeCase
                             if let data = data,
-                               let users = try? decoder.decode([User].self, from: data){
-                                self?.users = users
+                               let clientstates = try? decoder.decode([ClientSt].self, from: data){
+                                self?.clientstates = clientstates
                             } else {
                                 self?.hasError = true
-                                self?.error = UserError.failedToDecode
+                                self?.error = ClientStError.failedToDecode
                             }
                         }
                         self?.isRefreshing = false
@@ -43,8 +44,8 @@ final class UsersViewModel: ObservableObject {
     }
 }
 
-extension UsersViewModel{
-    enum UserError: LocalizedError {
+extension ClientStateViewModel{
+    enum ClientStError: LocalizedError {
         case custom(error: Error)
         case failedToDecode
         var errorDescription: String?{
@@ -57,4 +58,3 @@ extension UsersViewModel{
         }
     }
 }
-

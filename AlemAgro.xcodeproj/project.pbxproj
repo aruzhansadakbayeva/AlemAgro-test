@@ -45,7 +45,10 @@
 		CD4A401229A744720061744A /* ClientRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A400D29A744720061744A /* ClientRow.swift */; };
 		CD4A401429A744720061744A /* ClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A400F29A744720061744A /* ClientView.swift */; };
 		CD4A401529A744720061744A /* ClientDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A401029A744720061744A /* ClientDetail.swift */; };
-		CD556A2F29B19B7500A8E722 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A2E29B19B7500A8E722 /* TestView.swift */; };
+		CD556A3429B1BAB500A8E722 /* ClientStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3329B1BAB500A8E722 /* ClientStateView.swift */; };
+		CD556A3629B1BAC000A8E722 /* ClientStateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3529B1BAC000A8E722 /* ClientStateModel.swift */; };
+		CD556A3829B1BAED00A8E722 /* ClientStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3729B1BAED00A8E722 /* ClientStateViewModel.swift */; };
+		CD556A3A29B1BD0600A8E722 /* ClientStView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3929B1BD0600A8E722 /* ClientStView.swift */; };
 		CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */; };
 		CDB683C029A71CC8003BED40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDB683BF29A71CC8003BED40 /* GoogleService-Info.plist */; };
 		CDD1A073299E1636003E4C43 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A072299E1636003E4C43 /* FirebaseFirestore */; };
@@ -92,7 +95,10 @@
 		CD4A400D29A744720061744A /* ClientRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientRow.swift; sourceTree = "<group>"; };
 		CD4A400F29A744720061744A /* ClientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientView.swift; sourceTree = "<group>"; };
 		CD4A401029A744720061744A /* ClientDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientDetail.swift; sourceTree = "<group>"; };
-		CD556A2E29B19B7500A8E722 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		CD556A3329B1BAB500A8E722 /* ClientStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStateView.swift; sourceTree = "<group>"; };
+		CD556A3529B1BAC000A8E722 /* ClientStateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStateModel.swift; sourceTree = "<group>"; };
+		CD556A3729B1BAED00A8E722 /* ClientStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStateViewModel.swift; sourceTree = "<group>"; };
+		CD556A3929B1BD0600A8E722 /* ClientStView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStView.swift; sourceTree = "<group>"; };
 		CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		CDB683BF29A71CC8003BED40 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -167,7 +173,6 @@
 			children = (
 				3314726C28AD8298000AFD83 /* HomeView.swift */,
 				CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */,
-				CD556A2E29B19B7500A8E722 /* TestView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 		CD0D0F3B29AC5BB100A6EDFC /* Visits */ = {
 			isa = PBXGroup;
 			children = (
+				CD556A3229B1BA9600A8E722 /* ClientState */,
 				CD0D0F3E29AC5BCF00A6EDFC /* VisitsView.swift */,
 				CD0D0F4029AC5C8600A6EDFC /* UserModel.swift */,
 				CD0D0F4229AC5D2F00A6EDFC /* UsersViewModel.swift */,
@@ -392,6 +398,17 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		CD556A3229B1BA9600A8E722 /* ClientState */ = {
+			isa = PBXGroup;
+			children = (
+				CD556A3329B1BAB500A8E722 /* ClientStateView.swift */,
+				CD556A3529B1BAC000A8E722 /* ClientStateModel.swift */,
+				CD556A3729B1BAED00A8E722 /* ClientStateViewModel.swift */,
+				CD556A3929B1BD0600A8E722 /* ClientStView.swift */,
+			);
+			path = ClientState;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -493,19 +510,22 @@
 				CD0D0F4529AC5FA200A6EDFC /* UserView.swift in Sources */,
 				CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */,
 				CD4A3FDB29A724D10061744A /* ForgotPasswordViewModel.swift in Sources */,
+				CD556A3429B1BAB500A8E722 /* ClientStateView.swift in Sources */,
 				CD4A400A29A742070061744A /* ModelData.swift in Sources */,
 				CD4A3FC629A724B60061744A /* SessionService.swift in Sources */,
 				33D8599728AC1E4D00C842CF /* CircleBackground.swift in Sources */,
-				CD556A2F29B19B7500A8E722 /* TestView.swift in Sources */,
 				CD4A401529A744720061744A /* ClientDetail.swift in Sources */,
 				CD4A3FE729A724DD0061744A /* LoginViewModel.swift in Sources */,
 				CD4A3FDD29A724D10061744A /* ForgotPasswordService.swift in Sources */,
+				CD556A3629B1BAC000A8E722 /* ClientStateModel.swift in Sources */,
 				CD4A400829A741FC0061744A /* Client.swift in Sources */,
 				CD4A3FEA29A724DD0061744A /* LoginService.swift in Sources */,
 				CD0D0F4329AC5D2F00A6EDFC /* UsersViewModel.swift in Sources */,
 				CD4A3FF429A724ED0061744A /* CloseModifier.swift in Sources */,
 				CD4A401129A744720061744A /* ClientList.swift in Sources */,
 				CD4A3FC529A724B60061744A /* SessionUserDetails.swift in Sources */,
+				CD556A3A29B1BD0600A8E722 /* ClientStView.swift in Sources */,
+				CD556A3829B1BAED00A8E722 /* ClientStateViewModel.swift in Sources */,
 				33D8597C28ABDDCB00C842CF /* AlemAgroApp.swift in Sources */,
 				CD4A3FF329A724ED0061744A /* PreviewLayoutComponentModifier.swift in Sources */,
 				CD4A401429A744720061744A /* ClientView.swift in Sources */,

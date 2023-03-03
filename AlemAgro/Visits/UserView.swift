@@ -9,11 +9,15 @@ import SwiftUI
 
 struct UserView: View {
     let user: User
-    
+
     var body: some View {
         VStack(alignment: .leading){
-            
-            Text("**Клиенты**: \(user.company)")
+            HStack{
+                Text("**Клиенты**: \(user.company)")
+                NavigationLink("Клиенты", destination: ClientStateView())
+                               
+               
+            }
             Text("**Цель визита**: \(user.goal)")
             Text("**Статус**: \(user.status)")
             Text("**Дата**: \(user.time.formatted(.dateTime.day().month()))")
