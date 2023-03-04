@@ -9,10 +9,10 @@ import SwiftUI
 struct VisitsView: View {
     @StateObject private var vm = UsersViewModel()
     @State private var selectedDate = Date()
-
     var body: some View {
         NavigationView{
             VStack {
+    
                 DatePicker(
                     "",
                     selection: $selectedDate,
