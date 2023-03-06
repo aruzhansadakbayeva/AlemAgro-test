@@ -14,8 +14,10 @@ struct ClientStateView: View {
     @State private var selectdDate = Date()
     @State var filteredData: [CombinedData] = []
     @State var selectedID: Int? = nil
+
+
     var body: some View {
-        NavigationView{
+      
             VStack {
                 DatePicker(
                     "",
@@ -27,52 +29,66 @@ struct ClientStateView: View {
                 VStack(alignment: .leading){
                     List{
                         ForEach(filteredUsers(), id: \.id) { data in
-                            Button(action: {
-                                viewModel.selectedID = data.id
-                                viewModel.filterData()
-                            }) {
+
+                  
                                 Text("**Клиенты**: \(data.company)")
                                 Text("**Цель визита**: \(data.goal)")
                                 Text("**Статус**: \(data.status)")
                                 Text("**Дата**: \(data.time.formatted(.dateTime.day().month()))")
-                                Divider()
-                            }.listRowSeparator(.hidden)
-                            
-                            
-                        }
-                    }.listStyle(.plain)
-                }.frame(maxWidth: .infinity, alignment: .leading).padding().background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 10, style: .continuous)).padding(.horizontal, 4)
-                
-                ZStack{
-                    if let combinedData = viewModel.combinedData {
-                        List{
-                            ForEach(viewModel.filteredData, id: \.id) { data in
-                                //      List{
-                                //   ForEach(viewModel.combinedData ?? [], id: \.id){
-                                //      data in
                                 
                                 
-                                
-                                Text("****: \(data.company)")
-                                Text("**Дата**: \((data.time).formatted(.dateTime.day().month()))")
-                                Text("**Район**: \(data.district)")
-                                Text("**Потенциал**: \(data.potential) тг")
-                                Text("**Проникновение АА**: \(data.pa) %")
-                                Text("**Количество Визитов**: \(data.visitsQty)")
-                                Text("**Cумма Закл Договоров**: \((data.potential)/100*10) 10% от потенциала")
-                                
-                                
+                          
+                                NavigationLink(destination:
+                                                ClientStView(data: data)){
+                                 
+                                    Label: do {
+                                            Text("Детали")
+                                        }
+                                    ForEach(viewModel.filteredData, id: \.id) { data in
+                                    
+                                    //   ClientStView(data: data)
+                                    
+                                }
                             }
+                            
                         }
-                        
-                    }
+                   }.listStyle(.plain)
+              
+
+                  //  ClientStView(data: data) .listRowSeparator(.hidden)}
+                } .frame(maxWidth: .infinity, alignment: .leading).padding().background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 10, style: .continuous)).padding(.horizontal, 4)
+                
+                
+                if let combinedData = viewModel.combinedData {
+                    /*  List{
+                     ForEach(viewModel.filteredData, id: \.id) { data in
+                     //      List{
+                     //   ForEach(viewModel.combinedData ?? [], id: \.id){
+                     //      data in
+                     
+                     ClientStView(data: data)
+                     .listRowSeparator(.hidden)
+                     
+                     /*   Text("****: \(data.company)")
+                      Text("**Дата**: \((data.time).formatted(.dateTime.day().month()))")
+                      Text("**Район**: \(data.district)")
+                      Text("**Потенциал**: \(data.potential) тг")
+                      Text("**Проникновение АА**: \(data.pa) %")
+                      Text("**Количество Визитов**: \(data.visitsQty)")
+                      Text("**Cумма Закл Договоров**: \((data.potential)/100*10) 10% от потенциала")
+                      */
+                     
+                     }
+                     }.listStyle(.plain) */
+                     
+                     }
                     else {
                         ProgressView()
                     }
-                } .padding(.bottom)
+          
                 
             }
-            }
+            
             .onAppear {
                 viewModel.fetchData()
                 
@@ -153,6 +169,7 @@ struct ClientStateView: View {
         var potential: Int
         var pa: Int
         var visitsQty: Int
+
     }
     
     

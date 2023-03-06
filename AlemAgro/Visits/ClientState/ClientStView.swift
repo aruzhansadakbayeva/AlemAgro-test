@@ -9,107 +9,87 @@ import SwiftUI
 import Combine
 
 struct ClientStView: View {
-
-    //@ObservedObject var viewModel = ClientStateViewModel()
+    
+    @StateObject var viewModel = ContentViewModel()
+    @State var filteredData: [CombinedData] = []
+    let data: CombinedData
+    @State private var response: String = ""
     var body: some View {
-        VStack {
-         
+        NavigationView{
+        
+                VStack(alignment: .leading){
+                    Text("**Компания**: \(data.company)")
+                    Text("**Дата**: \((data.time).formatted(.dateTime.day().month()))")
+                    Text("**Район**: \(data.district)")
+                    Text("**Потенциал**: \(data.potential) тг")
+                    Text("**Проникновение АА**: \(data.pa) %")
+                    Text("**Количество Визитов**: \(data.visitsQty)")
+                    Text("**Cумма Закл Договоров**: \((data.potential)/100*10) 10% от потенциала")
+                    
+                    VStack {
+                               Text(response)
+                                   .padding()
+
+                               Button(action: {
+                                   makeRequest()
+                               }, label: {
+                                   Text("Start")
+                               })
+                           }
+                    
+                }
+            
+                
+                .frame(maxWidth: .infinity, alignment: .leading).padding().background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 10, style: .continuous)).padding(.horizontal, 4)
+            
         }
+        
+    }
+    
+    func makeRequest() {
+        let newStatus = Status(isFlagged: true, timestamp: Date())
+        guard let url = URL(string: "https://my-json-server.typicode.com/aruzhansadakbayeva/database/posts") else {
+            return
+        }
+
+        let data = ["isTrue": true] // boolean data to send in the request body
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: data, options: []) else {
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                print("Error: invalid HTTP response")
+                return
+            }
+
+            guard let data = data else {
+                print("Error: missing response data")
+                return
+            }
+
+            if let responseString = String(data: data, encoding: .utf8) {
+                DispatchQueue.main.async {
+                    self.response = responseString
+                }
+            }
+        }
+
+        task.resume()
     }
 }
-    /* func fetchUser(id: Int, completion: @escaping (User?) -> ()) {
-     guard let url = URL(string: "https://my-json-server.typicode.com/aruzhansadakbayeva/datab/posts/\(id)") else {
-     return
-     }
-     
-     URLSession.shared.dataTask(with: url) { data, response, error in
-     guard let data = data else {
-     return
-     }
-     
-     let decoder = JSONDecoder()
-     do {
-     let user = try decoder.decode(User.self, from: data)
-     completion(user)
-     } catch {
-     print(error.localizedDescription)
-     }
-     }.resume()
-     }
-     
-     func fetchPost(id: Int, completion: @escaping (ClientSt?) -> ()) {
-     guard let url = URL(string: "https://my-json-server.typicode.com/aruzhansadakbayeva/database/posts/\(id)") else {
-     return
-     }
-     
-     URLSession.shared.dataTask(with: url) { data, response, error in
-     guard let data = data else {
-     return
-     }
-     
-     let decoder = JSONDecoder()
-     do {
-     let post = try decoder.decode(ClientSt.self, from: data)
-     completion(post)
-     } catch {
-     print(error.localizedDescription)
-     }
-     }.resume()
-     }
-     }*/
     
-    /*      func fetchData() {
-     
-     // Fetch data from first API
-     let api1Url = URL(string: "https://my-json-server.typicode.com/aruzhansadakbayeva/database/posts")!
-     URLSession.shared.dataTask(with: api1Url) { data, response, error in
-     
-     guard let data = data, error == nil else {
-     print("Error fetching data from API 1: \(error?.localizedDescription ?? "Unknown error")")
-     return
-     }
-     
-     do {
-     let decodedData = try JSONDecoder().decode([ClientSt].self, from: data)
-     DispatchQueue.main.async {
-     self.data2.append(contentsOf: decodedData)
-     }
-     } catch {
-     print("Error decoding data from API 1: \(error.localizedDescription)")
-     }
-     }.resume()
-     
-     // Fetch data from second API
-     let api2Url = URL(string: "https://my-json-server.typicode.com/aruzhansadakbayeva/datab/posts")!
-     URLSession.shared.dataTask(with: api2Url) { data2, response, error in
-     
-     guard let data2 = data2, error == nil else {
-     print("Error fetching data from API 2: \(error?.localizedDescription ?? "Unknown error")")
-     return
-     }
-     
-     do {
-     let decodedData = try JSONDecoder().decode([ClientSt].self, from: data2)
-     DispatchQueue.main.async {
-     self.data2.append(contentsOf: decodedData)
-     }
-     } catch {
-     print("Error decoding data from API 2: \(error.localizedDescription)")
-     }
-     }.resume()
-     }
-     func getDataById(_ id: Int) -> (User?, ClientSt?) {
-     let api1Data = self.data.first(where: { $0.id == id })
-     let api2Data = self.data2.first(where: { $0.id == id })
-     return (api1Data, api2Data)
-     }
-     }
-     */
-    
-    
-    
-    
-
-
-
-    
+struct Status: Codable {
+    var isFlagged: Bool
+    var timestamp: Date
+}
