@@ -13,5 +13,6 @@ struct ClientSt: Identifiable, Hashable, Codable {
     var potential: Int
     var pa: Int
     var visitsQty: Int
-
+    var isFlagged: Bool
+    var timestamp: Date = Date()
 }

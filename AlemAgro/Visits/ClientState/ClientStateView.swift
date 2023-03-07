@@ -56,9 +56,9 @@ struct ClientStateView: View {
               
 
                   //  ClientStView(data: data) .listRowSeparator(.hidden)}
-                } .frame(maxWidth: .infinity, alignment: .leading).padding().background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 10, style: .continuous)).padding(.horizontal, 4)
+                } /*.frame(maxWidth: .infinity, alignment: .leading).padding().background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 10, style: .continuous)).padding(.horizontal, 4)
                 
-                
+                */
                 if let combinedData = viewModel.combinedData {
                     /*  List{
                      ForEach(viewModel.filteredData, id: \.id) { data in
@@ -128,7 +128,7 @@ struct ClientStateView: View {
                     User.compactMap { api1Item in
                         ClientSt.first(where: { $0.id == api1Item.id })
                             .map { api2Item in
-                                CombinedData(id: api1Item.id, company: api1Item.company, goal: api1Item.goal, status: api1Item.status, time:  api1Item.time, district: api2Item.district, potential: api2Item.potential, pa: api2Item.pa, visitsQty: api2Item.visitsQty)
+                                CombinedData(id: api1Item.id, company: api1Item.company, goal: api1Item.goal, status: api1Item.status, time:  api1Item.time, district: api2Item.district, potential: api2Item.potential, pa: api2Item.pa, visitsQty: api2Item.visitsQty, isFlagged: api2Item.isFlagged, timestamp: api2Item.timestamp)
                             }
                     }
                 }
@@ -169,6 +169,8 @@ struct ClientStateView: View {
         var potential: Int
         var pa: Int
         var visitsQty: Int
+        var isFlagged: Bool
+        var timestamp: Date = Date()
 
     }
     
