@@ -12,7 +12,7 @@ struct UserView: View {
   //  @StateObject var viewModel = ContentViewModel()
     var body: some View {
         VStack(alignment: .leading){
-
+            
             Text("**Клиенты**: \(user.company)")
             Text("**Цель визита**: \(user.goal)")
             Text("**Статус**: \(user.status)")

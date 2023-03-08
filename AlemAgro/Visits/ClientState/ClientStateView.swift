@@ -128,7 +128,7 @@ struct ClientStateView: View {
                     User.compactMap { api1Item in
                         ClientSt.first(where: { $0.id == api1Item.id })
                             .map { api2Item in
-                                CombinedData(id: api1Item.id, company: api1Item.company, goal: api1Item.goal, status: api1Item.status, time:  api1Item.time, district: api2Item.district, potential: api2Item.potential, pa: api2Item.pa, visitsQty: api2Item.visitsQty, isFlagged: api2Item.isFlagged, timestamp: api2Item.timestamp)
+                                CombinedData(id: api1Item.id, company: api1Item.company, goal: api1Item.goal, status: api1Item.status, time:  api1Item.time, district: api2Item.district, potential: api2Item.potential, pa: api2Item.pa, visitsQty: api2Item.visitsQty, isFlagged: api2Item.isFlagged, timestamp: api2Item.timestamp, main_goal: api2Item.main_goal)
                             }
                     }
                 }
@@ -171,6 +171,7 @@ struct ClientStateView: View {
         var visitsQty: Int
         var isFlagged: Bool
         var timestamp: Date = Date()
+        var main_goal: String
 
     }
     

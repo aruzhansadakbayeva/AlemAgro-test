@@ -15,4 +15,5 @@ struct ClientSt: Identifiable, Hashable, Codable {
     var visitsQty: Int
     var isFlagged: Bool
     var timestamp: Date = Date()
+    var main_goal: String
 }

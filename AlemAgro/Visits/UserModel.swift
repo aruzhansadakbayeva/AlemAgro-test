@@ -14,7 +14,7 @@ struct User: Identifiable, Hashable, Codable {
     var goal: String
     var status: String
     var time: Date = Date()
-    
+  
 }
 
 

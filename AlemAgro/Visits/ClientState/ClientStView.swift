@@ -21,7 +21,7 @@ struct ClientStView: View {
             
             VStack(alignment: .leading){
                 Text("**Компания**: \(data.company)")
-                Text("**Дата**: \((data.time).formatted(.dateTime.day().month()))")
+                Text("**На**: \((data.time).formatted(.dateTime.day().month()))")
                 Text("**Район**: \(data.district)")
                 Text("**Потенциал**: \(data.potential) тг")
                 Text("**Проникновение АА**: \(data.pa) %")
@@ -78,7 +78,7 @@ struct ClientStView: View {
                                 }}
                                 if isFinished {
                                     NavigationLink(
-                                        destination: FinishSurveyView(),
+                                        destination: FinishSurveyView(data: data),
                                         label: {
                                             Text("Продолжить").foregroundColor(Color.white)
                                                 .padding()
