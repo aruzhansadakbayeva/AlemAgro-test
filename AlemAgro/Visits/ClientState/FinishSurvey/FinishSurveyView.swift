@@ -11,9 +11,10 @@ struct FinishSurveyView: View {
     let data: CombinedData
     @State private var response: String = ""
     @State var buttonPressed = false
+    @State var isPressed = false
     @State private var text: String = ""
     var body: some View {
-        NavigationView{
+        
             
             
             VStack(spacing: 10){
@@ -71,19 +72,38 @@ struct FinishSurveyView: View {
                         
                     } .buttonStyle(CustomButtonStyle())
                     
+                    /*    Button(action: {
+                     self.buttonPressed.toggle()
+                     
+                     var key = "main_goal"
+                     
+                     var newValue = "Осмотр поля"
+                     updateAPIValue(key: key, newValue: newValue)
+                     }
+                     ) {
+                     Text("Осмотр поля")
+                     
+                     } .buttonStyle(CustomButtonStyle())
+                     */
+                    
                     Button(action: {
                         self.buttonPressed.toggle()
-                        
                         var key = "main_goal"
-                        
-                        var newValue = "Осмотр поля"
+                        var newValue =  "Осмотр поля"
                         updateAPIValue(key: key, newValue: newValue)
                     }
-                    ) {     Text("Осмотр поля")
+                    ) {
+                    
+                        NavigationLink(
+                            destination: SurveyView(), label: {
+                                Text("Осмотр поля")
+                            }
+                        )
                         
-                    } .buttonStyle(CustomButtonStyle())
-                    
-                    
+                    }
+                    .buttonStyle(CustomButtonStyle())
+                         
+                     
                     
                     
                     
@@ -96,8 +116,6 @@ struct FinishSurveyView: View {
                         updateAPIValue(key: key, newValue: newValue)
                     }
                     ) {     Text("Оплата сбор/долгов")
-                        
-                        
                     } .buttonStyle(CustomButtonStyle())
                     
                     
@@ -110,9 +128,8 @@ struct FinishSurveyView: View {
                         var newValue = "Работа с документами"
                         updateAPIValue(key: key, newValue: newValue)
                     }
-                    ) {     Text("Работа с документами")
-                        
-                        
+                    ) {
+                        Text("Работа с документами")
                     } .buttonStyle(CustomButtonStyle())
                     
                     
@@ -159,7 +176,7 @@ struct FinishSurveyView: View {
             }
             
             
-        }.navigationTitle("\(data.company) **На**: \((data.time).formatted(.dateTime.day().month()))")
+        .navigationTitle("\(data.company) **На**: \((data.time).formatted(.dateTime.day().month()))")
                            
         
     }
