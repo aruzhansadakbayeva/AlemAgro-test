@@ -111,7 +111,7 @@ struct ClientStateView: View {
         
         @Published var combinedData: [CombinedData] = []
         @Published var filteredData: [CombinedData] = []
-         @Published var selectedID: Int? = nil
+        @Published var selectedID: Int? = nil
         private var cancellables = Set<AnyCancellable>()
         
         func fetchData() {
@@ -123,12 +123,14 @@ struct ClientStateView: View {
                 .map { $0.data }
                 .decode(type: [ClientSt].self, decoder: JSONDecoder())
             
+            
+            
             Publishers.Zip(api1, api2)
                 .map {(User, ClientSt) in
                     User.compactMap { api1Item in
                         ClientSt.first(where: { $0.id == api1Item.id })
                             .map { api2Item in
-                                CombinedData(id: api1Item.id, company: api1Item.company, goal: api1Item.goal, status: api1Item.status, time:  api1Item.time, district: api2Item.district, potential: api2Item.potential, pa: api2Item.pa, visitsQty: api2Item.visitsQty, isFlagged: api2Item.isFlagged, timestamp: api2Item.timestamp, main_goal: api2Item.main_goal)
+                                CombinedData(id: api1Item.id, company: api1Item.company, goal: api1Item.goal, status: api1Item.status, time:  api1Item.time, district: api2Item.district, potential: api2Item.potential, pa: api2Item.pa, visitsQty: api2Item.visitsQty, isFlagged: api2Item.isFlagged, timestamp: api2Item.timestamp, main_goal: api2Item.main_goal, culture: api2Item.culture, stages: api2Item.stages, problem_detection: api2Item.problem_detection)
                             }
                     }
                 }
@@ -172,7 +174,9 @@ struct ClientStateView: View {
         var isFlagged: Bool
         var timestamp: Date = Date()
         var main_goal: String
-
+        var culture: String
+        var stages: String
+        var problem_detection = [String]()
     }
     
     

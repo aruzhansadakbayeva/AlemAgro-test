@@ -15,18 +15,17 @@ struct FinishSurveyView: View {
     @State private var text: String = ""
     var body: some View {
         
-            
-            
             VStack(spacing: 10){
                 Text(response)
+                var id = data.id
                 Group{
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                        let key = "main_goal"
                         
-                        var newValue = "Установление/ поддержание контакта"
-                        updateAPIValue(key: key, newValue: newValue)
+                       let newValue = "Установление/ поддержание контакта"
+                        updateAPIValue(id: id,key: key, newValue: newValue)
                     }
                     ) {     Text("Установление/ поддержание контакта")
                         
@@ -37,10 +36,10 @@ struct FinishSurveyView: View {
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                       let key = "main_goal"
                         
-                        var newValue = "Определение потребностей"
-                        updateAPIValue(key: key, newValue: newValue)
+                        let newValue = "Определение потребностей"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {     Text("Определение потребностей")
                         
@@ -51,10 +50,10 @@ struct FinishSurveyView: View {
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                        let key = "main_goal"
                         
-                        var newValue = "Предложение КП"
-                        updateAPIValue(key: key, newValue: newValue)
+                        let newValue = "Предложение КП"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {     Text("Предложение КП")
                         
@@ -63,10 +62,10 @@ struct FinishSurveyView: View {
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                        let key = "main_goal"
                         
-                        var newValue = "Заключение договора"
-                        updateAPIValue(key: key, newValue: newValue)
+                        let newValue = "Заключение договора"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {     Text("Заключение договора")
                         
@@ -88,14 +87,14 @@ struct FinishSurveyView: View {
                     
                     Button(action: {
                         self.buttonPressed.toggle()
-                        var key = "main_goal"
-                        var newValue =  "Осмотр поля"
-                        updateAPIValue(key: key, newValue: newValue)
+                        let key = "main_goal"
+                        let newValue =  "Осмотр поля"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {
                     
                         NavigationLink(
-                            destination: SurveyView(), label: {
+                            destination: SurveyView(data: data), label: {
                                 Text("Осмотр поля")
                             }
                         )
@@ -110,10 +109,10 @@ struct FinishSurveyView: View {
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                       let key = "main_goal"
                         
-                        var newValue = "Оплата сбор/долгов"
-                        updateAPIValue(key: key, newValue: newValue)
+                        let newValue = "Оплата сбор/долгов"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {     Text("Оплата сбор/долгов")
                     } .buttonStyle(CustomButtonStyle())
@@ -123,10 +122,10 @@ struct FinishSurveyView: View {
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                       let key = "main_goal"
                         
-                        var newValue = "Работа с документами"
-                        updateAPIValue(key: key, newValue: newValue)
+                       let newValue = "Работа с документами"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {
                         Text("Работа с документами")
@@ -136,10 +135,10 @@ struct FinishSurveyView: View {
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                        let key = "main_goal"
                         
-                        var newValue = "Отработка рекламации"
-                        updateAPIValue(key: key, newValue: newValue)
+                        let newValue = "Отработка рекламации"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {     Text("Отработка рекламации")
                         
@@ -149,10 +148,10 @@ struct FinishSurveyView: View {
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                        let key = "main_goal"
                         
-                        var newValue = "День рождения клиента"
-                        updateAPIValue(key: key, newValue: newValue)
+                       let newValue = "День рождения клиента"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {     Text("День рождения клиента")
                         
@@ -161,10 +160,10 @@ struct FinishSurveyView: View {
                     Button(action: {
                         self.buttonPressed.toggle()
                         
-                        var key = "main_goal"
+                        let key = "main_goal"
                         
-                        var newValue = "\($text)"
-                        updateAPIValue(key: key, newValue: newValue)
+                        let newValue = "\($text)"
+                        updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {      TextField("Другое", text: $text)
                             .multilineTextAlignment(.center)
@@ -180,10 +179,10 @@ struct FinishSurveyView: View {
                            
         
     }
-func updateAPIValue(key: String, newValue: String) {
+    func updateAPIValue(id: Int, key: String, newValue: String) {
     
     
-    guard let url = URL(string: "https://my-json-server.typicode.com/aruzhansadakbayeva/database/posts/\(909)") else {
+    guard let url = URL(string: "https://my-json-server.typicode.com/aruzhansadakbayeva/database/posts/\(id)") else {
         return
     }
     

@@ -16,4 +16,8 @@ struct ClientSt: Identifiable, Hashable, Codable {
     var isFlagged: Bool
     var timestamp: Date = Date()
     var main_goal: String
+    var culture: String
+    var stages: String
+    var problem_detection = [String]()
+    
 }
