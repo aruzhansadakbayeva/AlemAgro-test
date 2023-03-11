@@ -38,7 +38,9 @@ struct AlemAgroApp: App {
                     VStack(spacing: 0) {
                         
                         TabView(selection: $currentTab) {
+                            
                             HomeView()
+                            
                                 .tag(Tab.home)
                             
                             ClientView()

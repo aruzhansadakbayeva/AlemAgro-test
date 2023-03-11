@@ -12,6 +12,7 @@ import SwiftUI
 struct MatchedView: View {
 
     var body: some View {
+        
         VStack(spacing: -20){
             HStack(spacing: 14){
                 Image(systemName: "person.circle").resizable()

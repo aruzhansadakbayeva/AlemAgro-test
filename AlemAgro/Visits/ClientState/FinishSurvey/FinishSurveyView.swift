@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct FinishSurveyView: View {
     let data: CombinedData
     @State private var response: String = ""
@@ -31,6 +33,7 @@ struct FinishSurveyView: View {
                         
                         
                     }  .buttonStyle(CustomButtonStyle())
+                      
                     
                     
                     Button(action: {
@@ -84,25 +87,26 @@ struct FinishSurveyView: View {
                      
                      } .buttonStyle(CustomButtonStyle())
                      */
-                    
-                    Button(action: {
-                        self.buttonPressed.toggle()
-                        let key = "main_goal"
-                        let newValue =  "Осмотр поля"
-                        updateAPIValue(id: id, key: key, newValue: newValue)
-                    }
-                    ) {
-                    
-                        NavigationLink(
-                            destination: SurveyView(data: data), label: {
-                                Text("Осмотр поля")
+                    NavigationLink(
+                        destination: SurveyView(data: data), label: {
+                            Button(action: {
+                                self.buttonPressed.toggle()
+                                let key = "main_goal"
+                                let newValue =  "Осмотр поля"
+                                updateAPIValue(id: id, key: key, newValue: newValue)
                             }
-                        )
-                        
-                    }
+                            )
+                            {    NavigationLink(
+                                destination: SurveyView(data: data), label: {
+                                    Text("Осмотр поля")
+                                })
+                                
+                            }
+                            
+                        })
                     .buttonStyle(CustomButtonStyle())
                          
-                     
+                       
                     
                     
                     
@@ -189,7 +193,7 @@ struct FinishSurveyView: View {
     let jsonData = try? JSONSerialization.data(withJSONObject: ["main_goal": newValue])
     
     var request = URLRequest(url: url)
-    request.httpMethod = "PATCH"
+    request.httpMethod = "PUT"
     request.httpBody = jsonData
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     

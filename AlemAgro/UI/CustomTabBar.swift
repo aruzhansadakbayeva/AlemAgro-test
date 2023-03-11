@@ -10,8 +10,8 @@ import SwiftUI
 struct CustomTabBar: View {
     @Binding var currentTab: Tab
     
-    var backgroundColors: [Color] = [Color("purple"),Color("lightBlue"), Color("purple")]
-    var gradientCircle: [Color] = [Color("cyan"),Color("cyan").opacity(0.1), Color("cyan")]
+    var backgroundColors: [Color] = [Color("purple")]
+    var gradientCircle: [Color] = [Color("purple"),Color("purple"), Color("purple")]
     
     var body: some View {
         GeometryReader { geometry in
@@ -37,7 +37,7 @@ struct CustomTabBar: View {
                 Circle()
                     .fill(.ultraThinMaterial)
                     .frame(width: 80, height: 80)
-                    .shadow(color: .black.opacity(0.25), radius: 20, x: 0, y: 10)
+                .shadow(color: .black.opacity(0.25), radius: 20, x: 0, y: 10)
                     .offset(x: indicatorOffset(width: width), y: -17)
                     .overlay(
                         Circle()
@@ -51,7 +51,7 @@ struct CustomTabBar: View {
         }
         .frame(height: 24)
         .padding(.top, 30)
-        .background(.ultraThinMaterial)
+       // .background(.ultraThinMaterial)
         .background(LinearGradient(colors: backgroundColors, startPoint: .leading, endPoint: .trailing))
     }
     

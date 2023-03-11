@@ -10,19 +10,41 @@ import SwiftUI
 struct SurveyView: View {
     let data: CombinedData
     @State private var response: String = ""
-    @State var buttonPressed = false
+     @State var buttonPressed = false
   //  @State var isPressed = false
     @State private var text: String = ""
+    @State private var isClicked = false
+    @State private var isClicked2 = false
+    @State private var isClicked3 = false
+    @State private var isClicked4 = false
+    @State private var isClicked5 = false
+    @State private var isClicked6 = false
+    @State private var isClicked7 = false
+    @State private var isClicked8 = false
+    @State private var isClicked9 = false
+    @State private var isClicked10 = false
+    @State private var isClicked11 = false
+    @State private var isClicked12 = false
+    @State private var isClicked13 = false
+    @State private var isClicked14 = false
+    @State private var isClicked15 = false
     var body: some View {
         ScrollView{
             VStack(spacing: 10){
                 Text(response)
                 var id = data.id
+                Text("Выберите культуру:").font(.title3)
                 ScrollView(.horizontal){
                 Group{
-                    HStack{
+                    HStack(spacing: 10){
+                      
                             Button(action: {
                                 self.buttonPressed.toggle()
+                                self.isClicked.toggle()
+                                self.isClicked3 = false
+                                self.isClicked4 = false
+                                self.isClicked5 = false
+                                self.isClicked2 = false
                                 
                                 var key = "culture"
                                 
@@ -31,39 +53,67 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                   isClicked ?
                                     Image("зерновые")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    
+                                    :   Image("зерновые")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
                                             Circle().stroke(Color.white, lineWidth: 2) // Add a white stroke around the circle
                                         )
                                         .shadow(radius: 5) // Add a shadow to the button
+                                    
                                     Text("Зерновые").font(.system(size: 14))
+                               
                                 }
                             }
                             
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked2.toggle()
                                 var key = "culture"
-                                
+                                self.isClicked3 = false
+                                self.isClicked4 = false
+                                self.isClicked5 = false
+                                self.isClicked = false
                                 var newValue = "Масличные"
                                 updateAPIValue(id: id, key: key, newValue: newValue)
                             }
                             ) {
                                 VStack{
+                                    isClicked2 ?
                                     Image("масличные")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :        Image("масличные")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
                                             Circle().stroke(Color.white, lineWidth: 2) // Add a white stroke around the circle
                                         )
                                         .shadow(radius: 5) // Add a shadow to the button
+                                    
+                                    
                                     Text("Масличные").font(.system(size: 14))
                                 }
                             }
@@ -71,7 +121,11 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked3.toggle()
+                                self.isClicked2 = false
+                                self.isClicked4 = false
+                                self.isClicked5 = false
+                                self.isClicked = false
                                 var key = "culture"
                                 
                                 var newValue = "Кукуруза "
@@ -79,9 +133,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked3 ?
                                     Image("кукуруза")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :      Image("кукуруза")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -94,7 +158,11 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked4.toggle()
+                                self.isClicked3 = false
+                                self.isClicked2 = false
+                                self.isClicked5 = false
+                                self.isClicked = false
                                 var key = "culture"
                                 
                                 var newValue = "Овощи "
@@ -102,9 +170,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked4 ?
                                     Image("овощи")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    : Image("овощи")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -117,7 +195,11 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked5.toggle()
+                                self.isClicked3 = false
+                                self.isClicked4 = false
+                                self.isClicked2 = false
+                                self.isClicked = false
                                 var key = "culture"
                                 
                                 var newValue = "Другое"
@@ -125,9 +207,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked5 ?
                                     Image("другое")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :      Image("другое")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -137,40 +229,60 @@ struct SurveyView: View {
                                     Text("Другое").font(.system(size: 14))
                                 }
                             }
-                        }.padding()
-                        }
+                    }.padding()
+                }
                         
                     }
+                Text("Этапы осмотра полей по культуре:").font(.title3)
                 ScrollView(.horizontal){
                 Group{
                     HStack{
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked6.toggle()
+                                self.isClicked7 = false
+                                self.isClicked8 = false
+                                self.isClicked9 = false
+                                self.isClicked10 = false
                                 var key = "stages"
                                 
                                 var newValue = "Подготовка посева"
                                 updateAPIValue(id: id, key: key, newValue: newValue)
                             }
                             ) {
+                              
                                 VStack{
+                                    isClicked6 ?
                                     Image("подготовкапосева")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :   Image("подготовкапосева")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
                                             Circle().stroke(Color.white, lineWidth: 2) // Add a white stroke around the circle
                                         )
                                         .shadow(radius: 5) // Add a shadow to the button
-                                    Text("Подготовка посева").font(.system(size: 14))
+                                    Text("Под-ка посева").font(.system(size: 14))
                                 }
                             }
                             
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked7.toggle()
+                                self.isClicked6 = false
+                                self.isClicked8 = false
+                                self.isClicked9 = false
+                                self.isClicked10 = false
                                 var key = "stages"
                                 
                                 var newValue = "Посев"
@@ -178,9 +290,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked7 ?
                                     Image("посев")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :   Image("посев")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -194,7 +316,11 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked8.toggle()
+                                self.isClicked6 = false
+                                self.isClicked7 = false
+                                self.isClicked9 = false
+                                self.isClicked10 = false
                                 var key = "stages"
                                 
                                 var newValue = "Всходы "
@@ -202,9 +328,20 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked8 ?
                                     Image("всходы")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :
+                                    Image("всходы")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -217,7 +354,11 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked9.toggle()
+                                self.isClicked6 = false
+                                self.isClicked7 = false
+                                self.isClicked8 = false
+                                self.isClicked10 = false
                                 var key = "stages"
                                 
                                 var newValue = "Вегетация"
@@ -225,9 +366,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked9 ?
                                     Image("вегетация")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :   Image("вегетация")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -240,7 +391,11 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked10.toggle()
+                                self.isClicked6 = false
+                                self.isClicked7 = false
+                                self.isClicked8 = false
+                                self.isClicked9 = false
                                 var key = "stages"
                                 
                                 var newValue = "Уборка"
@@ -248,9 +403,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked10 ?
                                     Image("уборка")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :   Image("уборка")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -263,11 +428,13 @@ struct SurveyView: View {
                         }.padding()
                     }
                 }
+                Text("Обнаружение проблемы:").font(.title3)
                 ScrollView(.horizontal){
                     Group{
                         HStack{
                             Button(action: {
                                 self.buttonPressed.toggle()
+                                self.isClicked11.toggle()
                                 
                                 var key = "problem_detection"
                                 
@@ -276,9 +443,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked11 ?
                                     Image("сорность")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :   Image("сорность")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -292,7 +469,7 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked12.toggle()
                                 var key = "problem_detection"
                                 
                                 var newValue = "Вредители"
@@ -300,9 +477,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked12 ?
                                     Image("вредители")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :                                     Image("вредители")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -316,7 +503,7 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked13.toggle()
                                 var key = "problem_detection"
                                 
                                 var newValue = "Болезни"
@@ -324,9 +511,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked13 ?
                                     Image("болезни")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :  Image("болезни")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -339,7 +536,7 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked14.toggle()
                                 var key = "problem_detection"
                                 
                                 var newValue = "Качество всходов"
@@ -347,9 +544,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked14 ?
                                     Image("квсходов")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :                                     Image("квсходов")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(
@@ -362,7 +569,7 @@ struct SurveyView: View {
                             
                             Button(action: {
                                 self.buttonPressed.toggle()
-                                
+                                self.isClicked15.toggle()
                                 var key = "problem_detection"
                                 
                                 var newValue = "Другое"
@@ -370,9 +577,19 @@ struct SurveyView: View {
                             }
                             ) {
                                 VStack{
+                                    isClicked15 ?
                                     Image("другое2")
                                         .resizable()
-                                        .frame(width: 50, height: 50) // Set the size of the image
+                                        .frame(width: 110, height: 110) // Set the size of the image
+                                        .aspectRatio(contentMode: .fit) // Maintain aspect ratio
+                                        .clipShape(Circle()) // Clip the image to a circle shape
+                                        .overlay(
+                                            Circle().stroke(Color.green, lineWidth: 4) // Add a white stroke around the circle
+                                        )
+                                        .shadow(radius: 5) // Add a shadow to the button
+                                    :                                     Image("другое2")
+                                        .resizable()
+                                        .frame(width: 110, height: 110) // Set the size of the image
                                         .aspectRatio(contentMode: .fit) // Maintain aspect ratio
                                         .clipShape(Circle()) // Clip the image to a circle shape
                                         .overlay(

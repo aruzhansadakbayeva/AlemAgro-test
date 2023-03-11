@@ -1,8 +1,5 @@
-
 import SwiftUI
 import Combine
-
-
 
 struct ClientStView: View {
     @StateObject var viewModel = ContentViewModel()
@@ -46,7 +43,7 @@ struct ClientStView: View {
                              if !buttonPressed{
                                 
                                 
-                                Text( "Начать визит")
+                                Text("Начать визит")
                                     .foregroundColor(Color.white)
                                     .padding()
                                     .background(Color.green)
@@ -146,6 +143,45 @@ struct ClientStView: View {
         
         task.resume()
     }
+    
+    func updateAPIValue2(id: Int, key: String, newValue: Bool) {
+        guard let url = URL(string: "https://my-json-server.typicode.com/aruzhansadakbayeva/database/posts/\(id)") else {
+        return
+        }
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: ["isFlagged": newValue])
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.httpBody = jsonData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let decoder = JSONDecoder()
+
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                          print("Error: \(error.localizedDescription)")
+                          return
+                      }
+
+                      guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                          print("Error: invalid HTTP response")
+                          return
+                      }
+
+                      guard let data = data else {
+                          print("Error: missing response data")
+                          return
+                      }
+
+            if let responseString = String(data: data, encoding: .utf8) {
+                DispatchQueue.main.async {
+                    self.response = responseString
+                }
+            }
+        }
+        
+        task.resume()
+    }
 
 }
-

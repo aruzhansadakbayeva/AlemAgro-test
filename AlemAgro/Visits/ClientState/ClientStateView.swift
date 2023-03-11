@@ -15,7 +15,6 @@ struct ClientStateView: View {
     @State var filteredData: [CombinedData] = []
     @State var selectedID: Int? = nil
 
-
     var body: some View {
       
             VStack {
