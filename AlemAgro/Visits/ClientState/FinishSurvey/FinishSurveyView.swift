@@ -13,66 +13,95 @@ struct FinishSurveyView: View {
     let data: CombinedData
     @State private var response: String = ""
     @State var buttonPressed = false
+    @State var buttonPressed2 = false
+    @State var buttonPressed3 = false
+    @State var buttonPressed4 = false
+    @State var buttonPressed5 = false
+    @State var buttonPressed6 = false
+    @State var buttonPressed7 = false
+    @State var buttonPressed8 = false
+    @State var buttonPressed9 = false
+    @State var buttonPressed10 = false
     @State var isPressed = false
     @State private var text: String = ""
     var body: some View {
-        
-            VStack(spacing: 10){
+   
+   //     VStack(alignment: .leading, spacing: 20){
                 Text(response)
                 var id = data.id
+            List{
                 Group{
                     Button(action: {
                         self.buttonPressed.toggle()
                         
                         let key = "main_goal"
                         
-                       let newValue = "Установление/ поддержание контакта"
+                        let newValue = "Установление/ поддержание контакта"
                         updateAPIValue(id: id,key: key, newValue: newValue)
                     }
-                    ) {     Text("Установление/ поддержание контакта")
-                        
-                        
-                    }  .buttonStyle(CustomButtonStyle())
-                      
+                    ) {
+                        HStack{
+                            
+                            Text("Установление/ поддержание контакта")
+                            Spacer()
+                            Image(systemName: buttonPressed ? "checkmark.square.fill" : "square")
+                        }
+                    }
+                    
                     
                     
                     Button(action: {
-                        self.buttonPressed.toggle()
+                        self.buttonPressed2.toggle()
                         
-                       let key = "main_goal"
+                        let key = "main_goal"
                         
                         let newValue = "Определение потребностей"
                         updateAPIValue(id: id, key: key, newValue: newValue)
                     }
-                    ) {     Text("Определение потребностей")
+                    ) {
+                        HStack{
+                            
+                            Text("Определение потребностей")
+                            Spacer()
+                            Image(systemName: buttonPressed2 ? "checkmark.square.fill" : "square")
+                            
+                        }
                         
-                    } .buttonStyle(CustomButtonStyle())
+                    }
                     
                     
                     
                     Button(action: {
-                        self.buttonPressed.toggle()
+                        self.buttonPressed3.toggle()
                         
                         let key = "main_goal"
                         
                         let newValue = "Предложение КП"
                         updateAPIValue(id: id, key: key, newValue: newValue)
                     }
-                    ) {     Text("Предложение КП")
-                        
-                    } .buttonStyle(CustomButtonStyle())
+                    ) {
+                        HStack{
+                            Text("Предложение КП")
+                            Spacer()
+                            Image(systemName: buttonPressed3 ? "checkmark.square.fill" : "square")
+                        }
+                    }
                     
                     Button(action: {
-                        self.buttonPressed.toggle()
+                        self.buttonPressed4.toggle()
                         
                         let key = "main_goal"
                         
                         let newValue = "Заключение договора"
                         updateAPIValue(id: id, key: key, newValue: newValue)
                     }
-                    ) {     Text("Заключение договора")
-                        
-                    } .buttonStyle(CustomButtonStyle())
+                    ) {
+                        HStack{
+                            Text("Заключение договора")
+                            Spacer()
+                            Image(systemName: buttonPressed4 ? "checkmark.square.fill" : "square")
+                        }
+                    }
                     
                     /*    Button(action: {
                      self.buttonPressed.toggle()
@@ -87,96 +116,130 @@ struct FinishSurveyView: View {
                      
                      } .buttonStyle(CustomButtonStyle())
                      */
-                    NavigationLink(
-                        destination: SurveyView(data: data), label: {
+                   
+                 
+                    HStack{
+                        NavigationLink(
+                            destination: SurveyView(data: data)) {
+                                Text("Осмотр поля")
+                                Spacer()
+                              
+                            }
                             Button(action: {
-                                self.buttonPressed.toggle()
+                                self.buttonPressed5.toggle()
                                 let key = "main_goal"
                                 let newValue =  "Осмотр поля"
                                 updateAPIValue(id: id, key: key, newValue: newValue)
                             }
                             )
-                            {    NavigationLink(
-                                destination: SurveyView(data: data), label: {
-                                    Text("Осмотр поля")
-                                })
+            
+                            {
+                              
+                                    Image(systemName: buttonPressed5 ? "checkmark.square.fill" : "square")
+                                  
+                                }
                                 
                             }
                             
-                        })
-                    .buttonStyle(CustomButtonStyle())
-                         
-                       
+                            
+                    
+                    
+                    
                     
                     
                     
                     Button(action: {
-                        self.buttonPressed.toggle()
+                        self.buttonPressed6.toggle()
                         
-                       let key = "main_goal"
+                        let key = "main_goal"
                         
                         let newValue = "Оплата сбор/долгов"
                         updateAPIValue(id: id, key: key, newValue: newValue)
                     }
-                    ) {     Text("Оплата сбор/долгов")
-                    } .buttonStyle(CustomButtonStyle())
+                    ) {
+                        HStack{
+                            Text("Оплата сбор/долгов")
+                            Spacer()
+                            Image(systemName: buttonPressed6 ? "checkmark.square.fill" : "square")
+                            
+                        }
+                    }
                     
                     
                     
                     Button(action: {
-                        self.buttonPressed.toggle()
+                        self.buttonPressed7.toggle()
                         
-                       let key = "main_goal"
+                        let key = "main_goal"
                         
-                       let newValue = "Работа с документами"
+                        let newValue = "Работа с документами"
                         updateAPIValue(id: id, key: key, newValue: newValue)
                     }
                     ) {
-                        Text("Работа с документами")
-                    } .buttonStyle(CustomButtonStyle())
+                        HStack{
+                            Text("Работа с документами")
+                            Spacer()
+                            Image(systemName: buttonPressed7 ? "checkmark.square.fill" : "square")
+                        }
+                    }
                     
                     
                     Button(action: {
-                        self.buttonPressed.toggle()
+                        self.buttonPressed8.toggle()
                         
                         let key = "main_goal"
                         
                         let newValue = "Отработка рекламации"
                         updateAPIValue(id: id, key: key, newValue: newValue)
                     }
-                    ) {     Text("Отработка рекламации")
-                        
-                    } .buttonStyle(CustomButtonStyle())
+                    ) {
+                        HStack{
+                            Text("Отработка рекламации")
+                            Spacer()
+                            Image(systemName: buttonPressed8 ? "checkmark.square.fill" : "square")
+                        }
+                    }
                     
                     
                     Button(action: {
-                        self.buttonPressed.toggle()
+                        self.buttonPressed9.toggle()
                         
                         let key = "main_goal"
                         
-                       let newValue = "День рождения клиента"
+                        let newValue = "День рождения клиента"
                         updateAPIValue(id: id, key: key, newValue: newValue)
                     }
-                    ) {     Text("День рождения клиента")
+                    ) {
+                        HStack{
+                            Text("День рождения клиента")
+                            Spacer()
+                            Image(systemName: buttonPressed9 ? "checkmark.square.fill" : "square")
+                            
+                        }
                         
-                    } .buttonStyle(CustomButtonStyle())
+                    }
                     
                     Button(action: {
-                        self.buttonPressed.toggle()
+                        self.buttonPressed10.toggle()
                         
                         let key = "main_goal"
                         
                         let newValue = "\($text)"
                         updateAPIValue(id: id, key: key, newValue: newValue)
                     }
-                    ) {      TextField("Другое", text: $text)
-                            .multilineTextAlignment(.center)
-                          //  .textFieldStyle(.roundedBorder)
-                          .padding()
-                        
-                    } .buttonStyle(CustomButtonStyle())
-                }
-            }
+                    ) {
+                        HStack{
+                            TextField("Другое", text: $text)
+                                .multilineTextAlignment(.leading)
+                            //  .textFieldStyle(.roundedBorder)
+                            
+                            Image(systemName: buttonPressed10 ? "checkmark.square.fill" : "square")
+                        }
+                    }
+                }.listStyle(.sidebar)
+                    .foregroundColor(Color(.black))
+          //  }.padding()
+        }
             
             
         .navigationTitle("\(data.company) **На**: \((data.time).formatted(.dateTime.day().month()))")
@@ -228,10 +291,10 @@ struct FinishSurveyView: View {
 struct CustomButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(width: 350, height: 30)
+            .frame(maxWidth: .infinity)
             .foregroundColor(.white)
             .background(configuration.isPressed ? Color.green.opacity(0.8) : Color.orange)
          
-            .cornerRadius(10)
+            .cornerRadius(2)
     }
 }

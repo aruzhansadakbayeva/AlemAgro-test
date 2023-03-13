@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Combine
+
+
 struct ClientStateView: View {
     //@StateObject private var vm = ClientStateViewModel()
     @State private var selectedDate = Date()
@@ -17,16 +19,19 @@ struct ClientStateView: View {
 
     var body: some View {
       
-            VStack {
-                DatePicker(
-                    "",
-                    selection: $selectdDate,
-                    displayedComponents: [.date]
-                )
-                .padding()
-                
-                VStack(alignment: .leading){
+        DatePicker(
+            "",
+            selection: $selectdDate,
+            displayedComponents: [.date]
+        )   .labelsHidden()
+            .padding()
+            .animation(.spring())
+    
+                VStack(alignment: .center){
+ 
                     List{
+       
+                       
                         ForEach(filteredUsers(), id: \.id) { data in
 
                   
@@ -51,11 +56,11 @@ struct ClientStateView: View {
                             }
                             
                         }
-                   }.listStyle(.plain)
+                   }.listStyle(.sidebar)
               
 
                   //  ClientStView(data: data) .listRowSeparator(.hidden)}
-                } /*.frame(maxWidth: .infinity, alignment: .leading).padding().background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 10, style: .continuous)).padding(.horizontal, 4)
+                 /*.frame(maxWidth: .infinity, alignment: .leading).padding().background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 10, style: .continuous)).padding(.horizontal, 4)
                 
                 */
                 if let combinedData = viewModel.combinedData {

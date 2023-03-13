@@ -14,9 +14,9 @@ struct AccountView: View {
             VStack(alignment: .leading, spacing: 16){
                 Text("First Name: \(sessionService.userDetails?.firstName ?? "N/A")")
                 Text("Last Name: \(sessionService.userDetails?.lastName ?? "N/A")")
-                Text("Occupation: \(sessionService.userDetails?.occupation ?? "N/A")")
+                
             }
-            ButtonView(title:"Logout"){
+            ButtonView(title:"Выйти"){
                 sessionService.logout()
             }
         }.padding(.horizontal, 16)
