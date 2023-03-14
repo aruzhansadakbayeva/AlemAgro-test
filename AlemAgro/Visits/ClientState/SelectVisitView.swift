@@ -49,21 +49,18 @@ class PostmanViewModel: ObservableObject {
     }
 }
 
-struct TestView2: View {
+struct SelectVisitView: View {
     @StateObject var viewModel = PostmanViewModel()
-    
+
     var body: some View {
-        VStack {
-            Button("Fetch Data") {
-                viewModel.fetchData()
-            }
-    
-            if let response = viewModel.response {
-                ForEach(response, id: \.id) { item in
-                    Text("ID: \(item.id)")
-                    Text("Name: \(item.name)")
-                }
-            }
-        }
-    }
+           List(viewModel.response, id: \.id) { item in
+               VStack(alignment: .leading) {
+                  
+                   Text("\(item.name)")
+               }
+           }
+           .onAppear {
+               viewModel.fetchData()
+           }
+       }
 }

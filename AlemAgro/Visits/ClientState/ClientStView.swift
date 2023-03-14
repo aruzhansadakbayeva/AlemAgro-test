@@ -75,7 +75,7 @@ struct ClientStView: View {
                                     }}
                                 if isFinished {
                                     NavigationLink(
-                                        destination: TestView2(),
+                                        destination: SelectVisitView(),
                                         label: {
                                             Text("Продолжить").foregroundColor(Color.white)
                                                 .padding()
