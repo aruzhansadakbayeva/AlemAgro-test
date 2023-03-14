@@ -46,7 +46,7 @@ struct AlemAgroApp: App {
                             ClientView()
                                 .tag(Tab.location)
                             
-                            ClientStateView()
+                            TestView2()
                                 .tag(Tab.category)
                             
                             //Text("Profile")

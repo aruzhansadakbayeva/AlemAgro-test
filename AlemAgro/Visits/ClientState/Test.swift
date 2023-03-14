@@ -1,55 +1,69 @@
-import Foundation
+//
+//  Test3.swift
+//  AlemAgro
+//
+//  Created by Aruzhan  on 14.03.2023.
+//
+
+
 import SwiftUI
-struct Post: Codable {
-    let id: Int
-    var title: String
-    var body: String
+
+struct PostmanResponse: Decodable{
+    var id: Int
+    var name: String
+
 }
 
-class APIManager {
-    func updatePost(post: Post, completion: @escaping (Bool) -> Void) {
-        guard let url = URL(string: "https://jsonplaceholder.typicode.com/posts/\(post.id)") else {
-            fatalError("Invalid URL")
+
+class PostmanViewModel: ObservableObject {
+    @Published var response: [PostmanResponse] = []
+    
+    func fetchData() {
+        let urlString = "http://10.200.100.17/api/manager/workspace"
+        guard let url = URL(string: urlString) else {
+            fatalError("Invalid URL: \(urlString)")
         }
-
+                
+        let parameters = ["type": "meetingSurvey", "action": "getHandBookWorkDone"]
         var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
 
-        let updatedData = try! JSONEncoder().encode(post)
-        request.httpBody = updatedData
-
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
-                completion(false)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-
-            let response = try! JSONSerialization.jsonObject(with: data, options: [])
-            print(response)
-
-            completion(true)
+                    
+            do {
+                let decodedResponse = try JSONDecoder().decode([PostmanResponse].self, from: data)
+                DispatchQueue.main.async {
+                    self.response = decodedResponse
+                }
+            } catch let error {
+                print("Error decoding response: \(error)")
+            }
+            print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
 }
-struct EditPostView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @State var post: Post
 
+struct TestView2: View {
+    @StateObject var viewModel = PostmanViewModel()
+    
     var body: some View {
         VStack {
-            TextField("Title", text: $post.title )
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            TextEditor(text: $post.body)
-                .border(Color.gray, width: 1)
-            Button("Save") {
-                APIManager().updatePost(post: post) { success in
-                    if success {
-                        presentationMode.wrappedValue.dismiss()
-                    }
+            Button("Fetch Data") {
+                viewModel.fetchData()
+            }
+    
+            if let response = viewModel.response {
+                ForEach(response, id: \.id) { item in
+                    Text("ID: \(item.id)")
+                    Text("Name: \(item.name)")
                 }
             }
         }
-        .padding()
     }
 }
