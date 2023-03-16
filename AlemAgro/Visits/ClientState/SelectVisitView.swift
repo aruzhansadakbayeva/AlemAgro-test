@@ -8,10 +8,15 @@
 
 import SwiftUI
 
-struct PostmanResponse: Decodable{
+struct PostmanResponse: Decodable, Equatable, Hashable{
     var id: Int
     var name: String
-
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    static func ==(lhs: PostmanResponse, rhs: PostmanResponse) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name
+    }
 }
 
 
@@ -51,16 +56,36 @@ class PostmanViewModel: ObservableObject {
 
 struct SelectVisitView: View {
     @StateObject var viewModel = PostmanViewModel()
+    @State var selectedItems = Set<PostmanResponse>()
 
     var body: some View {
-           List(viewModel.response, id: \.id) { item in
-               VStack(alignment: .leading) {
-                  
-                   Text("\(item.name)")
-               }
-           }
-           .onAppear {
-               viewModel.fetchData()
-           }
-       }
+        List(viewModel.response, id: \.id, selection: $selectedItems) { item in
+            HStack {
+                Text("\(item.name)")
+                Spacer()
+                if selectedItems.contains(item) {
+                    Image(systemName:"checkmark.square.fill")
+                        .foregroundColor(.blue)
+             
+                }
+                if !selectedItems.contains(item) {
+                    Image(systemName:"square")
+                        .foregroundColor(.blue)
+             
+                }
+         
+            
+            }
+            .onTapGesture {
+                if selectedItems.contains(item) {
+                    selectedItems.remove(item)
+                } else {
+                    selectedItems.insert(item)
+                }
+            }
+        }
+        .onAppear {
+            viewModel.fetchData()
+        }
+    }
 }

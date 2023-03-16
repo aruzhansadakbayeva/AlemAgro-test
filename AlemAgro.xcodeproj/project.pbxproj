@@ -52,11 +52,13 @@
 		CD556A3829B1BAED00A8E722 /* ClientStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3729B1BAED00A8E722 /* ClientStateViewModel.swift */; };
 		CD556A3A29B1BD0600A8E722 /* ClientStView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3929B1BD0600A8E722 /* ClientStView.swift */; };
 		CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */; };
+		CD7C171229C2EA0700F0803E /* ClientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7C171129C2EA0700F0803E /* ClientsList.swift */; };
 		CDA00DCF29BAF97100011CE7 /* SelectVisitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA00DCE29BAF97100011CE7 /* SelectVisitView.swift */; };
 		CDB683C029A71CC8003BED40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDB683BF29A71CC8003BED40 /* GoogleService-Info.plist */; };
 		CDD1A073299E1636003E4C43 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A072299E1636003E4C43 /* FirebaseFirestore */; };
 		CDD1A075299E1636003E4C43 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A074299E1636003E4C43 /* FirebaseFirestoreSwift */; };
 		CDD1A07F299F695B003E4C43 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A07E299F695B003E4C43 /* SDWebImageSwiftUI */; };
+		CDD68CE129C082B30056F76D /* VisitsClientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD68CE029C082B30056F76D /* VisitsClientsList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,8 +107,10 @@
 		CD556A3729B1BAED00A8E722 /* ClientStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStateViewModel.swift; sourceTree = "<group>"; };
 		CD556A3929B1BD0600A8E722 /* ClientStView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStView.swift; sourceTree = "<group>"; };
 		CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
+		CD7C171129C2EA0700F0803E /* ClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsList.swift; sourceTree = "<group>"; };
 		CDA00DCE29BAF97100011CE7 /* SelectVisitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectVisitView.swift; sourceTree = "<group>"; };
 		CDB683BF29A71CC8003BED40 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CDD68CE029C082B30056F76D /* VisitsClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsClientsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,6 +426,8 @@
 				CD556A3729B1BAED00A8E722 /* ClientStateViewModel.swift */,
 				CD556A3929B1BD0600A8E722 /* ClientStView.swift */,
 				CDA00DCE29BAF97100011CE7 /* SelectVisitView.swift */,
+				CDD68CE029C082B30056F76D /* VisitsClientsList.swift */,
+				CD7C171129C2EA0700F0803E /* ClientsList.swift */,
 			);
 			path = ClientState;
 			sourceTree = "<group>";
@@ -521,6 +527,7 @@
 				CD40908829B7067800269046 /* FinishSurveyView.swift in Sources */,
 				CD4A3FF629A724ED0061744A /* InputPasswordView.swift in Sources */,
 				33D8597E28ABDDCB00C842CF /* ContentView.swift in Sources */,
+				CDD68CE129C082B30056F76D /* VisitsClientsList.swift in Sources */,
 				CD4A3FE829A724DD0061744A /* LoginCredentials.swift in Sources */,
 				CD4A3FFB29A725950061744A /* AccountView.swift in Sources */,
 				CD4A3FE929A724DD0061744A /* LoginView.swift in Sources */,
@@ -537,6 +544,7 @@
 				CD4A3FDD29A724D10061744A /* ForgotPasswordService.swift in Sources */,
 				CD556A3629B1BAC000A8E722 /* ClientStateModel.swift in Sources */,
 				CD4A400829A741FC0061744A /* Client.swift in Sources */,
+				CD7C171229C2EA0700F0803E /* ClientsList.swift in Sources */,
 				CD4A3FEA29A724DD0061744A /* LoginService.swift in Sources */,
 				CD0D0F4329AC5D2F00A6EDFC /* UsersViewModel.swift in Sources */,
 				CD4A3FF429A724ED0061744A /* CloseModifier.swift in Sources */,
