@@ -11,7 +11,8 @@ import SwiftUI
 struct HomeView: View {
     @State var animate: Bool = false
     @State private var selection: String? = nil
-    
+    @StateObject var loginViewModel = LoginViewModel()
+    @StateObject var appState = AppState()
    
     var body: some View {
         NavigationView{
@@ -35,9 +36,27 @@ struct HomeView: View {
                 }
          //       .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 
-            }     
+            }//.navigationBarTitle("Главная", displayMode: .inline)
+                
       
             
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text("Главная")
+                                .foregroundColor(Color.white).fontWeight(.bold)
+                        }
+                        
+                        
+                    }
+                    .navigationBarTitle("Главная", displayMode: .inline)
+
+             
+
+
+                         .toolbarBackground(Color("purple"), for: .navigationBar)
+                         .toolbarBackground(.visible, for: .navigationBar)
+                    
+                 
         }
  
     }

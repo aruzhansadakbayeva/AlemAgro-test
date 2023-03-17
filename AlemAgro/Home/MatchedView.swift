@@ -20,7 +20,7 @@ struct MatchedView: View {
                     Text("Профиль") .fontWeight(.bold)
                     Text("Профиль пользователя").font(.system(size: 15)).font(.footnote)
                 }.frame(maxWidth: .infinity, alignment: .topLeading)
-                NavigationLink(destination: ContentView()){
+                NavigationLink(destination: ProfileView()){
                 label: do {
                     Image(systemName: "chevron.right").font(.title2)
                 }

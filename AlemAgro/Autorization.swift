@@ -44,6 +44,7 @@ class LoginViewModel: ObservableObject {
         self.token = ""
         UserDefaults.standard.removeObject(forKey: "token") // удаление токена из UserDefaults
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
+
     }
 
 }
@@ -54,29 +55,47 @@ func saveTokenToUserDefaults(token: String) {
 }
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
-    @EnvironmentObject var appState: AppState // добавлено
+    @EnvironmentObject var appState: AppState
+    
     var body: some View {
         VStack {
-            TextField("Email", text: $viewModel.email)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+            Spacer()
             
-            SecureField("Password", text: $viewModel.password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+            Text("Вход")
+                .font(.largeTitle)
+                .bold()
+                .foregroundColor(Color("purple"))
+            
+            VStack(spacing: 16) {
+                TextField("Email", text: $viewModel.email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                SecureField("Пароль", text: $viewModel.password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            .padding(.horizontal, 16)
             
             Button(action: {
                 viewModel.loginUser()
-                appState.isLoggedIn = true // добавлено
+                appState.isLoggedIn = true
             }, label: {
                 Text("Войти")
-                    .padding()
+                    .fontWeight(.semibold)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity)
+                    .background(Color("purple"))
                     .foregroundColor(.white)
-                    .background(Color.blue)
                     .cornerRadius(10)
             })
-            .padding()
+            .padding(.top, 32)
+            .padding(.horizontal, 16)
+            
+            Spacer()
         }
+        .padding(.bottom, UIScreen.main.bounds.height * 0.07) // <- изменение тут
+        .background(Color.white)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
