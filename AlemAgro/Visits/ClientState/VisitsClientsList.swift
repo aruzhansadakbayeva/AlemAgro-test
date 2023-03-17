@@ -72,6 +72,7 @@ struct VisitListView: View {
     @State private var selectedDate = Date()
     @StateObject var viewModel = VisitViewModel()
     @State private var filteredVisits: [Visit] = []
+    @State private var title = "Главная"
 
         var body: some View {
             NavigationView {
@@ -122,11 +123,13 @@ struct VisitListView: View {
                                 .padding(.vertical, 4)
                             }
                         }
-                    }
+                    }   
                 }
-                .navigationTitle("Встречи")
-                .navigationBarTitleDisplayMode(.large)
-
+              
+              //  .navigationTitle("Встречи")
+              //  .navigationBarTitleDisplayMode(.large)
+                
+           
             .onAppear {
                 viewModel.fetchData()
             }

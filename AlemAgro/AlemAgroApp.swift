@@ -50,7 +50,7 @@ struct AlemAgroApp: App {
                         TabView(selection: $appState.selectedTab) {
                             
                             HomeView()
-                            
+                              
                                 .tabItem {
                                     Image(systemName: "house")
                                     Text("Главная")
@@ -73,9 +73,9 @@ struct AlemAgroApp: App {
                             
                         }
                     }
+                 
         
-      
-
+                    
             
                     .toolbar {
                         ToolbarItem(placement: .principal) {
@@ -99,6 +99,8 @@ struct AlemAgroApp: App {
 
                          .toolbarBackground(Color("purple"), for: .navigationBar)
                          .toolbarBackground(.visible, for: .navigationBar)
+                    
+                 
                        
                         /* .navigationTitle(getTitle(for: appState.selectedTab))
                          .navigationBarTitleDisplayMode(.inline)
@@ -107,15 +109,18 @@ struct AlemAgroApp: App {
                    
                          
                   }
+                
+                        
                   .environmentObject(appState)
              
-                 
+            
             } else {
                 LoginView()
                     .environmentObject(loginViewModel)
                     .environmentObject(appState)
             }
         }
+        
     }
     
     func getTitle(for tab: Int) -> String {
