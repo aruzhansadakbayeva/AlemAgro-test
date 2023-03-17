@@ -6,12 +6,35 @@
 //
 import Foundation
 import SwiftUI
-
 class AppState: ObservableObject {
     @Published var selectedTab = 0
-    @Published var isLoggedIn = false
-    @Published var token = ""
+    
+    @Published var isLoggedIn: Bool = false {
+        didSet {
+            UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
+        }
+    }
+    
+    @Published var token = "" {
+        didSet {
+            UserDefaults.standard.set(token, forKey: "token")
+        }
+    }
+
+    init() {
+        loadIsLoggedInFromUserDefaults()
+        loadTokenFromUserDefaults()
+    }
+
+    private func loadIsLoggedInFromUserDefaults() {
+        isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
+    }
+    
+    private func loadTokenFromUserDefaults() {
+        token = UserDefaults.standard.string(forKey: "token") ?? ""
+    }
 }
+
 
 @main
 struct AlemAgroApp: App {
@@ -20,6 +43,7 @@ struct AlemAgroApp: App {
 
     var body: some Scene {
         WindowGroup {
+            
             if appState.isLoggedIn {
                 NavigationView {
                     VStack(spacing: 0) {
@@ -46,7 +70,12 @@ struct AlemAgroApp: App {
                                 .tag(2)
 
                         }
-                    }
+                    }    .navigationBarItems(trailing:
+                                                Button("Выйти") {
+                                                    loginViewModel.logout()
+                                                    appState.isLoggedIn = false
+                                                }
+                                            )
                 }
                 .environmentObject(appState)
             } else {
@@ -56,4 +85,5 @@ struct AlemAgroApp: App {
             }
         }
     }
+
 }
