@@ -4,64 +4,56 @@
 //
 //  Created by Willie Yam on 2022-08-16.
 //
-
+import Foundation
 import SwiftUI
-import Firebase
-import FirebaseCore
-import UIKit
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
 
-    return true
-  }
+class AppState: ObservableObject {
+    @Published var selectedTab = 0
+    @Published var isLoggedIn = false
+    @Published var token = ""
 }
 
 @main
 struct AlemAgroApp: App {
-    @StateObject var sessionService = SessionServiceImpl()
-    @State var currentTab: Tab = .home
-
-    init() {
-        FirebaseApp.configure()
-        UITabBar.appearance().isHidden = true
-      
-    }
-
+    @StateObject var loginViewModel = LoginViewModel()
+    @StateObject var appState = AppState()
 
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                switch sessionService.state {
-                case .loggedIn:
+            if appState.isLoggedIn {
+                NavigationView {
                     VStack(spacing: 0) {
-                        
-                        TabView(selection: $currentTab) {
-                            
+                        TabView(selection: $appState.selectedTab) {
                             HomeView()
-                            
-                                .tag(Tab.home)
-                            
-                            ClientView()
-                                .tag(Tab.location)
-                            
-                        VisitListView()
-                                .tag(Tab.category)
-                            
-                            //Text("Profile")
-                                //.tag(Tab.profile)
-                            AccountView().environmentObject(sessionService).tag(Tab.profile)
-                            
+                                .tabItem {
+                                    Image(systemName: "house")
+                                    Text("Главная")
+                                }
+                                .tag(0)
+
+                            ContentView()
+                                .tabItem {
+                                    Image(systemName: "folder.fill")
+                                    Text("Проекты")
+                                }
+                                .tag(1)
+
+                           ContentView()
+                                .tabItem {
+                                    Image(systemName: "person.fill")
+                                    Text("Профиль")
+                                }
+                                .tag(2)
+
                         }
-      
-                        CustomTabBar(currentTab: $currentTab)
                     }
-                case .loggedOut:
-                    LoginView()
                 }
-                    
-                }
+                .environmentObject(appState)
+            } else {
+                LoginView()
+                    .environmentObject(loginViewModel)
+                    .environmentObject(appState)
+            }
         }
     }
 }

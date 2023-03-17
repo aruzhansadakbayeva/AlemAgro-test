@@ -18,6 +18,7 @@ struct Visit: Identifiable, Decodable{
 struct Clientt: Decodable  {
 
     let visitId: Int
+    let statusVisit: Bool
     let clientId: Int
     let clientName: String
     let dateVisit: String
@@ -123,7 +124,7 @@ struct VisitListView: View {
                         }
                     }
                 }
-                .navigationTitle("Planned Visits")
+                .navigationTitle("Встречи")
                 .navigationBarTitleDisplayMode(.large)
 
             .onAppear {

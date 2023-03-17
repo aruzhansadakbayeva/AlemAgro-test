@@ -22,20 +22,6 @@
 		CD0D0F4329AC5D2F00A6EDFC /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0D0F4229AC5D2F00A6EDFC /* UsersViewModel.swift */; };
 		CD0D0F4529AC5FA200A6EDFC /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0D0F4429AC5FA200A6EDFC /* UserView.swift */; };
 		CD40908829B7067800269046 /* FinishSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40908729B7067800269046 /* FinishSurveyView.swift */; };
-		CD4A3FC529A724B60061744A /* SessionUserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FC229A724B60061744A /* SessionUserDetails.swift */; };
-		CD4A3FC629A724B60061744A /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FC429A724B60061744A /* SessionService.swift */; };
-		CD4A3FDB29A724D10061744A /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FD629A724D10061744A /* ForgotPasswordViewModel.swift */; };
-		CD4A3FDC29A724D10061744A /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FD829A724D10061744A /* ForgotPasswordView.swift */; };
-		CD4A3FDD29A724D10061744A /* ForgotPasswordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FDA29A724D10061744A /* ForgotPasswordService.swift */; };
-		CD4A3FE729A724DD0061744A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FE029A724DD0061744A /* LoginViewModel.swift */; };
-		CD4A3FE829A724DD0061744A /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FE229A724DD0061744A /* LoginCredentials.swift */; };
-		CD4A3FE929A724DD0061744A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FE429A724DD0061744A /* LoginView.swift */; };
-		CD4A3FEA29A724DD0061744A /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FE629A724DD0061744A /* LoginService.swift */; };
-		CD4A3FF329A724ED0061744A /* PreviewLayoutComponentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FED29A724EC0061744A /* PreviewLayoutComponentModifier.swift */; };
-		CD4A3FF429A724ED0061744A /* CloseModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FEE29A724EC0061744A /* CloseModifier.swift */; };
-		CD4A3FF529A724ED0061744A /* InputTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FF029A724EC0061744A /* InputTextFieldView.swift */; };
-		CD4A3FF629A724ED0061744A /* InputPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FF129A724EC0061744A /* InputPasswordView.swift */; };
-		CD4A3FF729A724ED0061744A /* ButtonComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FF229A724EC0061744A /* ButtonComponentView.swift */; };
 		CD4A3FFB29A725950061744A /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FFA29A725950061744A /* AccountView.swift */; };
 		CD4A3FFE29A727A40061744A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CD4A3FFD29A727A40061744A /* FirebaseAuth */; };
 		CD4A400029A727BE0061744A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = CD4A3FFF29A727BE0061744A /* FirebaseDatabase */; };
@@ -53,6 +39,7 @@
 		CD556A3A29B1BD0600A8E722 /* ClientStView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3929B1BD0600A8E722 /* ClientStView.swift */; };
 		CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */; };
 		CD7C171229C2EA0700F0803E /* ClientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7C171129C2EA0700F0803E /* ClientsList.swift */; };
+		CD7C171429C32ECB00F0803E /* Autorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7C171329C32ECB00F0803E /* Autorization.swift */; };
 		CDA00DCF29BAF97100011CE7 /* SelectVisitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA00DCE29BAF97100011CE7 /* SelectVisitView.swift */; };
 		CDB683C029A71CC8003BED40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDB683BF29A71CC8003BED40 /* GoogleService-Info.plist */; };
 		CDD1A073299E1636003E4C43 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A072299E1636003E4C43 /* FirebaseFirestore */; };
@@ -79,20 +66,6 @@
 		CD0D0F4429AC5FA200A6EDFC /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		CD0F872829A157BF002D6056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CD40908729B7067800269046 /* FinishSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishSurveyView.swift; sourceTree = "<group>"; };
-		CD4A3FC229A724B60061744A /* SessionUserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionUserDetails.swift; sourceTree = "<group>"; };
-		CD4A3FC429A724B60061744A /* SessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
-		CD4A3FD629A724D10061744A /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
-		CD4A3FD829A724D10061744A /* ForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
-		CD4A3FDA29A724D10061744A /* ForgotPasswordService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordService.swift; sourceTree = "<group>"; };
-		CD4A3FE029A724DD0061744A /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		CD4A3FE229A724DD0061744A /* LoginCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
-		CD4A3FE429A724DD0061744A /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		CD4A3FE629A724DD0061744A /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
-		CD4A3FED29A724EC0061744A /* PreviewLayoutComponentModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewLayoutComponentModifier.swift; sourceTree = "<group>"; };
-		CD4A3FEE29A724EC0061744A /* CloseModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseModifier.swift; sourceTree = "<group>"; };
-		CD4A3FF029A724EC0061744A /* InputTextFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputTextFieldView.swift; sourceTree = "<group>"; };
-		CD4A3FF129A724EC0061744A /* InputPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputPasswordView.swift; sourceTree = "<group>"; };
-		CD4A3FF229A724EC0061744A /* ButtonComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonComponentView.swift; sourceTree = "<group>"; };
 		CD4A3FFA29A725950061744A /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		CD4A400129A7413C0061744A /* clientInfoData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = clientInfoData.json; sourceTree = "<group>"; };
 		CD4A400729A741FC0061744A /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
@@ -108,6 +81,7 @@
 		CD556A3929B1BD0600A8E722 /* ClientStView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStView.swift; sourceTree = "<group>"; };
 		CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		CD7C171129C2EA0700F0803E /* ClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsList.swift; sourceTree = "<group>"; };
+		CD7C171329C32ECB00F0803E /* Autorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Autorization.swift; sourceTree = "<group>"; };
 		CDA00DCE29BAF97100011CE7 /* SelectVisitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectVisitView.swift; sourceTree = "<group>"; };
 		CDB683BF29A71CC8003BED40 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CDD68CE029C082B30056F76D /* VisitsClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsClientsList.swift; sourceTree = "<group>"; };
@@ -133,10 +107,6 @@
 			isa = PBXGroup;
 			children = (
 				CD4A3FF829A725950061744A /* Account */,
-				CD4A3FEB29A724EC0061744A /* Base */,
-				CD4A3FDE29A724DD0061744A /* Login */,
-				CD4A3FD429A724D10061744A /* ForgotPassword */,
-				CD4A3FC029A724B60061744A /* Session */,
 				33D8597A28ABDDCB00C842CF /* AlemAgro */,
 				33D8597928ABDDCB00C842CF /* Products */,
 				CD4A3FFC29A727A40061744A /* Frameworks */,
@@ -166,6 +136,7 @@
 				33D8597F28ABDDCC00C842CF /* Assets.xcassets */,
 				33D8598128ABDDCC00C842CF /* Preview Content */,
 				33D859A128AC2DF800C842CF /* utils.swift */,
+				CD7C171329C32ECB00F0803E /* Autorization.swift */,
 			);
 			path = AlemAgro;
 			sourceTree = "<group>";
@@ -224,136 +195,6 @@
 				CD4FAE6829B98E0000E90679 /* SurveyView.swift */,
 			);
 			path = FinishSurvey;
-			sourceTree = "<group>";
-		};
-		CD4A3FC029A724B60061744A /* Session */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FC129A724B60061744A /* Model */,
-				CD4A3FC329A724B60061744A /* Service */,
-			);
-			path = Session;
-			sourceTree = "<group>";
-		};
-		CD4A3FC129A724B60061744A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FC229A724B60061744A /* SessionUserDetails.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		CD4A3FC329A724B60061744A /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FC429A724B60061744A /* SessionService.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
-		CD4A3FD429A724D10061744A /* ForgotPassword */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FD529A724D10061744A /* ViewModel */,
-				CD4A3FD729A724D10061744A /* View */,
-				CD4A3FD929A724D10061744A /* Service */,
-			);
-			path = ForgotPassword;
-			sourceTree = "<group>";
-		};
-		CD4A3FD529A724D10061744A /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FD629A724D10061744A /* ForgotPasswordViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		CD4A3FD729A724D10061744A /* View */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FD829A724D10061744A /* ForgotPasswordView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		CD4A3FD929A724D10061744A /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FDA29A724D10061744A /* ForgotPasswordService.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
-		CD4A3FDE29A724DD0061744A /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FDF29A724DD0061744A /* ViewModel */,
-				CD4A3FE129A724DD0061744A /* Model */,
-				CD4A3FE329A724DD0061744A /* View */,
-				CD4A3FE529A724DD0061744A /* Service */,
-			);
-			path = Login;
-			sourceTree = "<group>";
-		};
-		CD4A3FDF29A724DD0061744A /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FE029A724DD0061744A /* LoginViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		CD4A3FE129A724DD0061744A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FE229A724DD0061744A /* LoginCredentials.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		CD4A3FE329A724DD0061744A /* View */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FE429A724DD0061744A /* LoginView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		CD4A3FE529A724DD0061744A /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FE629A724DD0061744A /* LoginService.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
-		CD4A3FEB29A724EC0061744A /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FEC29A724EC0061744A /* Modifier */,
-				CD4A3FEF29A724EC0061744A /* Views */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		CD4A3FEC29A724EC0061744A /* Modifier */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FED29A724EC0061744A /* PreviewLayoutComponentModifier.swift */,
-				CD4A3FEE29A724EC0061744A /* CloseModifier.swift */,
-			);
-			path = Modifier;
-			sourceTree = "<group>";
-		};
-		CD4A3FEF29A724EC0061744A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A3FF029A724EC0061744A /* InputTextFieldView.swift */,
-				CD4A3FF129A724EC0061744A /* InputPasswordView.swift */,
-				CD4A3FF229A724EC0061744A /* ButtonComponentView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		CD4A3FF829A725950061744A /* Account */ = {
@@ -516,48 +357,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				33D859A228AC2DF800C842CF /* utils.swift in Sources */,
-				CD4A3FF529A724ED0061744A /* InputTextFieldView.swift in Sources */,
 				CD0D0F3F29AC5BCF00A6EDFC /* VisitsView.swift in Sources */,
 				33D859A828AD74F000C842CF /* CustomTabBar.swift in Sources */,
 				3314726D28AD8298000AFD83 /* HomeView.swift in Sources */,
-				CD4A3FF729A724ED0061744A /* ButtonComponentView.swift in Sources */,
 				CD0D0F4129AC5C8600A6EDFC /* UserModel.swift in Sources */,
 				33D859A628AD6ABB00C842CF /* TabData.swift in Sources */,
 				CD4A401229A744720061744A /* ClientRow.swift in Sources */,
 				CD40908829B7067800269046 /* FinishSurveyView.swift in Sources */,
-				CD4A3FF629A724ED0061744A /* InputPasswordView.swift in Sources */,
 				33D8597E28ABDDCB00C842CF /* ContentView.swift in Sources */,
 				CDD68CE129C082B30056F76D /* VisitsClientsList.swift in Sources */,
-				CD4A3FE829A724DD0061744A /* LoginCredentials.swift in Sources */,
 				CD4A3FFB29A725950061744A /* AccountView.swift in Sources */,
-				CD4A3FE929A724DD0061744A /* LoginView.swift in Sources */,
 				3314726F28AEAF4F000AFD83 /* CustomSearchBar.swift in Sources */,
 				CD0D0F4529AC5FA200A6EDFC /* UserView.swift in Sources */,
 				CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */,
-				CD4A3FDB29A724D10061744A /* ForgotPasswordViewModel.swift in Sources */,
 				CD556A3429B1BAB500A8E722 /* ClientStateView.swift in Sources */,
 				CD4A400A29A742070061744A /* ModelData.swift in Sources */,
-				CD4A3FC629A724B60061744A /* SessionService.swift in Sources */,
 				33D8599728AC1E4D00C842CF /* CircleBackground.swift in Sources */,
 				CD4A401529A744720061744A /* ClientDetail.swift in Sources */,
-				CD4A3FE729A724DD0061744A /* LoginViewModel.swift in Sources */,
-				CD4A3FDD29A724D10061744A /* ForgotPasswordService.swift in Sources */,
 				CD556A3629B1BAC000A8E722 /* ClientStateModel.swift in Sources */,
 				CD4A400829A741FC0061744A /* Client.swift in Sources */,
 				CD7C171229C2EA0700F0803E /* ClientsList.swift in Sources */,
-				CD4A3FEA29A724DD0061744A /* LoginService.swift in Sources */,
 				CD0D0F4329AC5D2F00A6EDFC /* UsersViewModel.swift in Sources */,
-				CD4A3FF429A724ED0061744A /* CloseModifier.swift in Sources */,
 				CD4A401129A744720061744A /* ClientList.swift in Sources */,
 				CDA00DCF29BAF97100011CE7 /* SelectVisitView.swift in Sources */,
-				CD4A3FC529A724B60061744A /* SessionUserDetails.swift in Sources */,
 				CD556A3A29B1BD0600A8E722 /* ClientStView.swift in Sources */,
 				CD556A3829B1BAED00A8E722 /* ClientStateViewModel.swift in Sources */,
 				33D8597C28ABDDCB00C842CF /* AlemAgroApp.swift in Sources */,
-				CD4A3FF329A724ED0061744A /* PreviewLayoutComponentModifier.swift in Sources */,
 				CD4FAE6929B98E0000E90679 /* SurveyView.swift in Sources */,
+				CD7C171429C32ECB00F0803E /* Autorization.swift in Sources */,
 				CD4A401429A744720061744A /* ClientView.swift in Sources */,
-				CD4A3FDC29A724D10061744A /* ForgotPasswordView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

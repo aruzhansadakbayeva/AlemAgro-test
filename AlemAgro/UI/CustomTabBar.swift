@@ -28,8 +28,7 @@ struct CustomTabBar: View {
                             .renderingMode(.template)
                             .frame(maxWidth: .infinity)
                             .foregroundColor(.white)
-                            .offset(y: currentTab == tab ? -17 : 0)
-                    }
+                        .offset(y: currentTab == tab ? -20 : 0)}
                 }
             }
             .frame(maxWidth: .infinity)
