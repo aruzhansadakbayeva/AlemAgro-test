@@ -6,6 +6,8 @@ class LoginViewModel: ObservableObject {
     @Published var password = ""
     @Published var isLoggedIn = false
     @Published var token = ""
+    @Published var showAlert = false
+    @Published var alertMessage = ""
 
     func loginUser() {
         let url = URL(string: "http://10.200.100.17/api/auth/login")!
@@ -15,29 +17,43 @@ class LoginViewModel: ObservableObject {
 
         let parameters = ["email": email, "password": password]
         request.httpBody = try! JSONSerialization.data(withJSONObject: parameters)
+        guard !email.isEmpty, !password.isEmpty else {
+            alertMessage = "Email и пароль не могут быть пустыми"
+            showAlert = true
+            return
+        }
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data else {
+            guard let data = data,
+        let response = response as? HTTPURLResponse else {
                 print("Error: No data returned from server")
                 return
             }
-
-            let decoder = JSONDecoder()
-            do {
-                let response = try decoder.decode(LoginResponse.self, from: data)
-                print("Authorization Successful")
-                print("Token: \(response.token)")
-                DispatchQueue.main.async {
-                    self.token = response.token
-                    self.isLoggedIn = true
-                    saveTokenToUserDefaults(token: response.token)
+           
+            switch response.statusCode {
+            case 200:
+                let decoder = JSONDecoder()
+                do {
+                    let response = try decoder.decode(LoginResponse.self, from: data)
+                    print("Authorization Successful")
+                    print("Token: \(response.token)")
+                    DispatchQueue.main.async {
+                        self.token = response.token
+                        self.isLoggedIn = true
+                        saveTokenToUserDefaults(token: response.token)
+                    }
+                } catch let error {
+                    print("Error decoding response: \(error.localizedDescription)")
                 }
-            } catch let error {
-                print("Error decoding response: \(error.localizedDescription)")
+            case 401:
+                print("Error: Unauthorized")
+            default:
+                print("Error: HTTP response code \(response.statusCode)")
             }
         }
         task.resume()
     }
+
 
     func logout() {
         self.isLoggedIn = false
@@ -75,9 +91,13 @@ struct LoginView: View {
             }
             .padding(.horizontal, 16)
             
+       
             Button(action: {
-                viewModel.loginUser()
-                appState.isLoggedIn = true
+                if viewModel.email.isEmpty || viewModel.password.isEmpty {
+                    print("Ошибка: заполните все поля")
+                } else {
+                    viewModel.loginUser()
+                }
             }, label: {
                 Text("Войти")
                     .fontWeight(.semibold)
@@ -96,9 +116,16 @@ struct LoginView: View {
         .padding(.bottom, UIScreen.main.bounds.height * 0.07) // <- изменение тут
         .background(Color.white)
         .edgesIgnoringSafeArea(.all)
+        .alert(isPresented: $viewModel.showAlert) {
+            Alert(title: Text("Ошибка"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+        }
+        .onReceive(viewModel.$isLoggedIn) { isLoggedIn in
+            if isLoggedIn {
+                appState.isLoggedIn = true
+            }
+        }
     }
 }
-
 
 
 struct LoginResponse: Codable {
