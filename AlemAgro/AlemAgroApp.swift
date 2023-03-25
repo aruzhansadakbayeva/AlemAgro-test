@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import WebKit
 class AppState: ObservableObject {
     @Published var selectedTab = 0
     
@@ -48,19 +49,21 @@ struct AlemAgroApp: App {
                                    }
                                    .tag(0)
                                
-                               ContentView()
+                               WebView(url: URL(string: "http://my.alemagro.com/map")!)
                                    .tabItem {
                                        Image(systemName: "folder.fill")
                                        Text("Проекты")
                                    }
                                    .tag(1)
+                              
                                
-                               ProfileView()
+                             ContentView()
                                    .tabItem {
                                        Image(systemName: "person.fill")
                                        Text("Профиль")
                                    }
                                    .tag(2)
+                                 //  .environmentObject(loginViewModel)
                            }
                        
                    
@@ -69,8 +72,25 @@ struct AlemAgroApp: App {
             } else {
                 LoginView()
                     .environmentObject(loginViewModel)
-                    .environmentObject(appState)
+                    .environmentObject(appState)     
             }
         }
     }
+
 }
+
+
+struct WebView: UIViewRepresentable {
+    let url: URL
+
+    func makeUIView(context: Context) -> WKWebView {
+        return WKWebView()
+    }
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        uiView.load(request)
+    }
+    
+}
+

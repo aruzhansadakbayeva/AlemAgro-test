@@ -64,17 +64,22 @@ struct SelectVisitView: View {
                 Text("\(item.name)")
                 Spacer()
                 if selectedItems.contains(item) {
+                    if (item.name == "Осмотр поля") {
+                        NavigationLink(destination: FieldView()) {
+                            EmptyView()
+                        }
+                    } else if (item.name == "Заключение Договора") {
+                        NavigationLink(destination: ContentView()) {
+                            EmptyView()
+                        }
+                    }
                     Image(systemName:"checkmark.square.fill")
                         .foregroundColor(.blue)
-             
                 }
                 if !selectedItems.contains(item) {
                     Image(systemName:"square")
                         .foregroundColor(.blue)
-             
                 }
-         
-            
             }
             .onTapGesture {
                 if selectedItems.contains(item) {
@@ -89,3 +94,4 @@ struct SelectVisitView: View {
         }
     }
 }
+

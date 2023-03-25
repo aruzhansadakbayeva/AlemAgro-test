@@ -8,7 +8,8 @@ class LoginViewModel: ObservableObject {
     @Published var token = ""
     @Published var showAlert = false
     @Published var alertMessage = ""
-
+    @Published var currentUser: Userr?
+      
     func loginUser() {
         let url = URL(string: "http://10.200.100.17/api/auth/login")!
         var request = URLRequest(url: url)
@@ -41,6 +42,7 @@ class LoginViewModel: ObservableObject {
                         self.token = response.token
                         self.isLoggedIn = true
                         saveTokenToUserDefaults(token: response.token)
+                        self.currentUser = response.user
                     }
                 } catch let error {
                     print("Error decoding response: \(error.localizedDescription)")
@@ -91,7 +93,6 @@ struct LoginView: View {
             }
             .padding(.horizontal, 16)
             
-       
             Button(action: {
                 if viewModel.email.isEmpty || viewModel.password.isEmpty {
                     print("Ошибка: заполните все поля")
@@ -110,6 +111,7 @@ struct LoginView: View {
             })
             .padding(.top, 32)
             .padding(.horizontal, 16)
+   
             
             Spacer()
         }
@@ -121,11 +123,13 @@ struct LoginView: View {
         }
         .onReceive(viewModel.$isLoggedIn) { isLoggedIn in
             if isLoggedIn {
+              
                 appState.isLoggedIn = true
             }
         }
     }
 }
+
 
 
 struct LoginResponse: Codable {

@@ -71,87 +71,201 @@ class VisitViewModel: ObservableObject {
 struct VisitListView: View {
     @State private var selectedDate = Date()
     @StateObject var viewModel = VisitViewModel()
-    @State private var filteredVisits: [Visit] = []
-    @State private var title = "Главная"
+    @State private var title = "Встречи"
+    var sortedVisits: [Visit] {
+        viewModel.response.sorted(by: { $0.dateToVisit > $1.dateToVisit })
+    }
+
 
         var body: some View {
-            NavigationView {
-                VStack {
-                    List(viewModel.response, id: \.id) { visit in
-                        VStack(alignment: .leading) {
-                            Text("Дата:")
-                                .font(.headline)
-                                .foregroundColor(.gray)
-                            Text("\(visit.dateToVisit)")
-                                .font(.headline)
-                                .padding(.bottom)
-                            Text("Статус:")
-                                .font(.headline)
-                                .foregroundColor(.gray)
-                            Text("\(visit.statusVisit)")
-                                .font(.headline)
-                                .padding(.bottom)
-                        }
-                        
-                        // Show NavigationLink for each client
+       
+                List(sortedVisits) { visit in
+                    if !visit.clients.isEmpty {
                         ForEach(visit.clients, id: \.clientId) { client in
-                            if !visit.clients.isEmpty {
-                                NavigationLink(destination: ClientsList(client: client)){
-                                    VStack(alignment: .leading) {
-                                        Text("Клиент:")
-                                            .font(.headline)
-                                            .foregroundColor(.gray)
-                                        Text("\(client.clientName)")
-                                            .font(.headline)
-                                            .padding(.bottom)
-                                        Text("ИИН:")
-                                            .font(.headline)
-                                            .foregroundColor(.gray)
-                                        Text("\(client.clientIin)")
-                                            .font(.headline)
-                                            .padding(.bottom)
-                                        Text("Цель визита:")
-                                            .font(.headline)
-                                            .foregroundColor(.gray)
-                                        Text("\(client.meetingTypeName ?? "")")
-                                            .font(.headline)
+                            
+                            
+                            NavigationLink(destination:   WebView(url: URL(string: "http://my.alemagro.com/map")!)) 
+                                            
+                                          //  ClientDetailView(client: client))
+                            
+                            {
+                                VStack(alignment: .leading) {
+                                    HStack(alignment: .lastTextBaseline) {
+                                        VStack(alignment: .leading, spacing: 10) {
+                                            Text(client.clientName)
+                                            Text(client.dateVisit)
+                                                .foregroundColor(Color.gray)
+                                                .font(.subheadline).fontWeight(.bold)
+                                        }
+                                        Spacer()
+                                        Text(visit.statusVisit)
+                                            .font(.subheadline)
+                                            .padding()
                                     }
                                 }
                                 .padding()
-                                .background(Color.gray.opacity(0.1))
+                                .background(Color.white)
                                 .cornerRadius(8)
-                                .padding(.vertical, 4)
+                                .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
                             }
                         }
-                    }   
+                    }
                 }
-              
-              //  .navigationTitle("Встречи")
-              //  .navigationBarTitleDisplayMode(.large)
-                
-           
+                .listStyle(PlainListStyle())
+                .navigationTitle(title)
+            
             .onAppear {
                 viewModel.fetchData()
             }
         }
     }
 
-/*
-    private func filterVisits() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let selectedDateFormatter = DateFormatter()
-        selectedDateFormatter.dateFormat = "yyyy-MM-dd"
-        let selectedDateStr = selectedDateFormatter.string(from: selectedDate)
-        let selectedDate = selectedDateFormatter.date(from: selectedDateStr)!
-        self.filteredVisits = viewModel.response.filter {
-            if let date = dateFormatter.date(from: $0.dateToVisit) {
-                return Calendar.current.isDate(date, inSameDayAs: selectedDate)
-            } else {
-                return false
+struct ClientDetailView: View {
+    let client: Clientt
+    @State private var statusVisit: Bool = false // Add a state variable to hold the statusVisit value
+    @State private var visitId: Int = 0 // Add a state variable to hold the visitId
+    @State var buttonPressed = false
+    @State var isFinished = false
+    var body: some View {
+        VStack(alignment: .leading){
+            Text("\(client.clientName)").fontWeight(.bold)
+            Text("Дата встречи: \(client.dateVisit)")
+            Text("ИИН: \(client.clientIin)")
+            Text("Цель визита: \(client.meetingTypeName ?? "")")
+            Button(action: {
+                statusVisit = true // Set the statusVisit to true when the button is tapped
+                sendVisitIdToAPI() // Call the function to send the visitId to the API
+                self.buttonPressed.toggle()
+            }) {
+                if !buttonPressed {
+                        HStack {
+                            Image(systemName: "play.circle")
+                            Text("Начать визит")
+                        }
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(30)
+                }
+                    if buttonPressed{
+                        Button(action: {
+                            self.isFinished.toggle()
+                            statusVisit = false
+                            sendVisitIdToAPI2() }){
+                                if !isFinished{
+                                    HStack {
+                                              Image(systemName: "stop.circle")
+                                              Text("Завершить визит")
+                                          }
+                                          .foregroundColor(.white)
+                                          .padding()
+                                          .background(Color.red)
+                                          .cornerRadius(30)
+                                }}
+                                if isFinished{
+                                    
+                                    NavigationLink(
+                                        destination: SelectVisitView(),
+                                        label: {
+                                            Text("Продолжить").foregroundColor(Color.white)
+                                                .foregroundColor(.white)
+                                                .padding()
+                                                .background(Color.red)
+                                                .cornerRadius(30)
+                                        })
+                                
+                            }
+                        
+                    }
+                
             }
-        }
-        print(filteredVisits)
+                //   .padding(.top, 20)
+            }
+        /*   .padding()
+            .background(Color.white)
+            .cornerRadius(8)
+            .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
+         */
+        
     }
-    */
+    func sendVisitIdToAPI() {
+        let urlString = "http://10.200.100.17/api/manager/workspace"
+        guard let url = URL(string: urlString) else {
+            fatalError("Invalid URL: \(urlString)")
+        }
+        
+        let parameters = ["type": "plannedMeetingMob", "action": "setStartVisit", "visitId": visitId] as [String : Any]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            print(String(data: data, encoding: .utf8)!)
+        }.resume()
+    }
+    
+    init(client: Clientt) {
+        self.client = client
+        self.visitId = client.visitId // Assign the visitId from the client to the state variable
+    }
+    
+    func sendVisitIdToAPI2() {
+        let urlString = "http://10.200.100.17/api/manager/workspace"
+        guard let url = URL(string: urlString) else {
+            fatalError("Invalid URL: \(urlString)")
+        }
+        
+        let parameters = ["type": "plannedMeetingMob", "action": "setFinishVisit", "visitId": visitId] as [String : Any]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            print(String(data: data, encoding: .utf8)!)
+        }.resume()
+    }
+    
+
 }
+
+
+
+    
+    //     List(viewModel.response.sorted { $0.dateToVisit > $1.dateToVisit }, id: \.id) { visit in
+    
+    //  .navigationTitle("Встречи")
+    //  .navigationBarTitleDisplayMode(.large)
+    
+        
+        /*
+         private func filterVisits() {
+         let dateFormatter = DateFormatter()
+         dateFormatter.dateFormat = "yyyy-MM-dd"
+         let selectedDateFormatter = DateFormatter()
+         selectedDateFormatter.dateFormat = "yyyy-MM-dd"
+         let selectedDateStr = selectedDateFormatter.string(from: selectedDate)
+         let selectedDate = selectedDateFormatter.date(from: selectedDateStr)!
+         self.filteredVisits = viewModel.response.filter {
+         if let date = dateFormatter.date(from: $0.dateToVisit) {
+         return Calendar.current.isDate(date, inSameDayAs: selectedDate)
+         } else {
+         return false
+         }
+         }
+         print(filteredVisits)
+         }
+         */
+    
+

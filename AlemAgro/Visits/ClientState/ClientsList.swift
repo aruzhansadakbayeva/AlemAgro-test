@@ -11,14 +11,16 @@ struct ClientsList: View {
     let client: Clientt
 
     var body: some View {
-        VStack(alignment: .leading){
-            Text("**Компания**: \(client.clientName)")
-            Text("**Дата**: \(client.dateVisit)")
-            Text("**ИИН/Бин**: \(client.clientIin)")
-            
-            Text("**Адрес**: \(client.clientAddress ?? "")")
-            Text("**Тип встречи**: \(client.meetingTypeName ?? "")")
-        }}
+  
+            VStack(alignment: .leading){
+                Text("**Компания**: \(client.clientName)")
+                Text("**Дата**: \(client.dateVisit)")
+                Text("**ИИН/Бин**: \(client.clientIin)")
+                
+                Text("**Адрес**: \(client.clientAddress ?? "")")
+                Text("**Тип встречи**: \(client.meetingTypeName ?? "")")
+            }
+    }
     }
     
     
