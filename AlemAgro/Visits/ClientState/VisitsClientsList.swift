@@ -36,7 +36,7 @@ struct Clientt: Decodable  {
 
 class VisitViewModel: ObservableObject {
     @Published var response: [Visit] = []
-    
+
     func fetchData() {
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {
@@ -65,6 +65,7 @@ class VisitViewModel: ObservableObject {
             }
             print(String(data: data, encoding: .utf8)!)
         }.resume()
+
     }
 }
 
@@ -83,9 +84,14 @@ struct VisitListView: View {
                     if !visit.clients.isEmpty {
                         ForEach(visit.clients, id: \.clientId) { client in
                             
-                            
-                            NavigationLink(destination:   WebView(url: URL(string: "http://my.alemagro.com/map")!)) 
-                                            
+                            NavigationLink(destination: WebView(url: {
+                                var components = URLComponents(string: "http://my.alemagro.com/meeting-details-mobile")!
+                                components.queryItems = [
+                                    URLQueryItem(name: "meetingId", value: "\(client.visitId)"),
+                                    URLQueryItem(name: "userId", value: "\(client.clientId)")
+                                ]
+                                return components.url!
+                            }()) )
                                           //  ClientDetailView(client: client))
                             
                             {
@@ -179,14 +185,9 @@ struct ClientDetailView: View {
                     }
                 
             }
-                //   .padding(.top, 20)
+               
             }
-        /*   .padding()
-            .background(Color.white)
-            .cornerRadius(8)
-            .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
-         */
-        
+   
     }
     func sendVisitIdToAPI() {
         let urlString = "http://10.200.100.17/api/manager/workspace"
@@ -240,32 +241,4 @@ struct ClientDetailView: View {
 
 }
 
-
-
-    
-    //     List(viewModel.response.sorted { $0.dateToVisit > $1.dateToVisit }, id: \.id) { visit in
-    
-    //  .navigationTitle("Встречи")
-    //  .navigationBarTitleDisplayMode(.large)
-    
-        
-        /*
-         private func filterVisits() {
-         let dateFormatter = DateFormatter()
-         dateFormatter.dateFormat = "yyyy-MM-dd"
-         let selectedDateFormatter = DateFormatter()
-         selectedDateFormatter.dateFormat = "yyyy-MM-dd"
-         let selectedDateStr = selectedDateFormatter.string(from: selectedDate)
-         let selectedDate = selectedDateFormatter.date(from: selectedDateStr)!
-         self.filteredVisits = viewModel.response.filter {
-         if let date = dateFormatter.date(from: $0.dateToVisit) {
-         return Calendar.current.isDate(date, inSameDayAs: selectedDate)
-         } else {
-         return false
-         }
-         }
-         print(filteredVisits)
-         }
-         */
-    
 
