@@ -18,10 +18,9 @@ struct PostmanResponse: Decodable, Equatable, Hashable{
         return lhs.id == rhs.id && lhs.name == rhs.name
     }
 }
-
-
 class PostmanViewModel: ObservableObject {
     @Published var response: [PostmanResponse] = []
+    var nextView: AnyView?
     
     func fetchData() {
         let urlString = "http://10.200.100.17/api/manager/workspace"
@@ -52,27 +51,31 @@ class PostmanViewModel: ObservableObject {
             print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
+    
+    func getNextView(for item: PostmanResponse) -> AnyView {
+          switch item.name {
+          case "Осмотр поля":
+              return AnyView(FieldView())
+          case "Заключение Договора":
+              return AnyView(Difficulties())
+          default:
+              return AnyView(Recommendations())
+          }
+      }
 }
-
 struct SelectVisitView: View {
     @StateObject var viewModel = PostmanViewModel()
     @State var selectedItems = Set<PostmanResponse>()
-
+    var isNextButtonEnabled: Bool {
+        return !selectedItems.isEmpty
+    }
+    
     var body: some View {
         List(viewModel.response, id: \.id, selection: $selectedItems) { item in
             HStack {
                 Text("\(item.name)")
                 Spacer()
                 if selectedItems.contains(item) {
-                    if (item.name == "Осмотр поля") {
-                        NavigationLink(destination: FieldView()) {
-                            EmptyView()
-                        }
-                    } else if (item.name == "Заключение Договора") {
-                        NavigationLink(destination: ContentView()) {
-                            EmptyView()
-                        }
-                    }
                     Image(systemName:"checkmark.square.fill")
                         .foregroundColor(.blue)
                 }
@@ -87,11 +90,20 @@ struct SelectVisitView: View {
                 } else {
                     selectedItems.insert(item)
                 }
+                
+                viewModel.nextView = viewModel.getNextView(for: item)
             }
+            .navigationBarTitle("Проделанная работа")
+            .navigationBarItems(trailing:
+                NavigationLink(destination: viewModel.nextView ?? AnyView(Recommendations())) {
+                    Text("Далее")
+                }
+                .disabled(!isNextButtonEnabled)
+            )
+
         }
         .onAppear {
             viewModel.fetchData()
         }
     }
 }
-

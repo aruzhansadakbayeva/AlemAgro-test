@@ -84,15 +84,15 @@ struct VisitListView: View {
                     if !visit.clients.isEmpty {
                         ForEach(visit.clients, id: \.clientId) { client in
                             
-                            NavigationLink(destination: WebView(url: {
+                       /*     NavigationLink(destination: WebView(url: {
                                 var components = URLComponents(string: "http://my.alemagro.com/meeting-details-mobile")!
                                 components.queryItems = [
                                     URLQueryItem(name: "meetingId", value: "\(client.visitId)"),
                                     URLQueryItem(name: "userId", value: "\(client.clientId)")
                                 ]
                                 return components.url!
-                            }()) )
-                                          //  ClientDetailView(client: client))
+                            }()) ) */
+                            NavigationLink(destination: ClientDetailView(client: client))
                             
                             {
                                 VStack(alignment: .leading) {
@@ -132,61 +132,71 @@ struct ClientDetailView: View {
     @State private var visitId: Int = 0 // Add a state variable to hold the visitId
     @State var buttonPressed = false
     @State var isFinished = false
+
     var body: some View {
-        VStack(alignment: .leading){
-            Text("\(client.clientName)").fontWeight(.bold)
-            Text("Дата встречи: \(client.dateVisit)")
-            Text("ИИН: \(client.clientIin)")
-            Text("Цель визита: \(client.meetingTypeName ?? "")")
-            Button(action: {
-                statusVisit = true // Set the statusVisit to true when the button is tapped
-                sendVisitIdToAPI() // Call the function to send the visitId to the API
-                self.buttonPressed.toggle()
-            }) {
-                if !buttonPressed {
-                        HStack {
-                            Image(systemName: "play.circle")
-                            Text("Начать визит")
-                        }
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(30)
-                }
-                    if buttonPressed{
-                        Button(action: {
-                            self.isFinished.toggle()
-                            statusVisit = false
-                            sendVisitIdToAPI2() }){
-                                if !isFinished{
-                                    HStack {
-                                              Image(systemName: "stop.circle")
-                                              Text("Завершить визит")
-                                          }
-                                          .foregroundColor(.white)
-                                          .padding()
-                                          .background(Color.red)
-                                          .cornerRadius(30)
-                                }}
-                                if isFinished{
-                                    
-                                    NavigationLink(
-                                        destination: SelectVisitView(),
-                                        label: {
-                                            Text("Продолжить").foregroundColor(Color.white)
-                                                .foregroundColor(.white)
-                                                .padding()
-                                                .background(Color.red)
-                                                .cornerRadius(30)
-                                        })
-                                
-                            }
-                        
-                    }
+        List{
+            VStack(alignment: .leading){
+                Text("\(client.clientName)").fontWeight(.bold)
+                Text("Дата встречи: \(client.dateVisit)")
+                Text("ИИН: \(client.clientIin)")
+                Text("Цель визита: \(client.meetingTypeName ?? "")")
                 
             }
+        
+
                
-            }
+            }.navigationBarItems(
+                                    trailing:
+                                        Button(action: {
+                                            statusVisit = true // Set the statusVisit to true when the button is tapped
+                                            sendVisitIdToAPI() // Call the function to send the visitId to the API
+                                            self.buttonPressed.toggle()
+                                        }) {
+                                            if !buttonPressed {
+                                                HStack {
+                                                    Image(systemName: "play.circle").padding(5)
+                                                    Text("Начать визит").font(.subheadline).fontWeight(.bold).padding(5)
+                                                }
+                                                .foregroundColor(.white)
+                                           
+                                                .background(Color.blue)
+                                           
+                                                .cornerRadius(7)
+                                            }
+                                            if buttonPressed {
+                                                Button(action: {
+                                                    self.isFinished.toggle()
+                                                    statusVisit = false
+                                                    sendVisitIdToAPI2()
+                                                }) {
+                                                    if !isFinished {
+                                                        HStack {
+                                                            Image(systemName: "stop.circle").padding(5)
+                                                            Text("Завершить визит").fontWeight(.bold).font(.subheadline).padding(5)
+                                                        }
+                                                        .foregroundColor(.white)
+                                                  
+                                                        .background(Color.red)
+                                                        .cornerRadius(7)
+                                                    }
+                                                }
+                                                if isFinished{
+                                                    
+                                                    NavigationLink(
+                                                        destination: SelectVisitView(),
+                                                        label: {
+                                                            Text("Продолжить").fontWeight(.bold).foregroundColor(Color.white)
+                                                                .foregroundColor(.white)
+                                                                .font(.subheadline).padding(5)
+                                                                .background(Color.green)
+                                                                .cornerRadius(7)
+                                                        })
+                                                    
+                                                }
+                                            }
+                                        }
+                                )
+
    
     }
     func sendVisitIdToAPI() {
