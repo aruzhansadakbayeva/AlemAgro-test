@@ -87,8 +87,12 @@ struct FieldView: View {
                                     .onTapGesture {
                                         if viewModel.selectedItems.contains(item) {
                                             viewModel.selectedItems.remove(item)
+                                           SelectedItemsManager.selectedItems2.remove(item) // удаляем элемент из SelectedItemsManager
+                                            print("Удален элемент: \(item.name)")
                                         } else {
                                             viewModel.selectedItems.insert(item)
+                                            SelectedItemsManager.selectedItems2.insert(item) // добавляем элемент в SelectedItemsManager
+                                            print("Добавлен элемент: \(item.name)")
                                         }
                                         print("Selected items: \(viewModel.selectedItems)")
                                     }

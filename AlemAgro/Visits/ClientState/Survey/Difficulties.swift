@@ -21,7 +21,7 @@ struct PostmanResponse3: Decodable, Equatable, Hashable{
 
 class PostmanViewModel3: ObservableObject {
     @Published var response: [PostmanResponse3] = []
-    
+    @Published var otherValue: String = ""
     func fetchData() {
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {
@@ -64,6 +64,11 @@ struct Difficulties: View {
             List(viewModel.response, id: \.id, selection: $selectedItems) { item in
                 HStack {
                     Text("\(item.name)")
+                    if item.name == "Другое" {
+                        TextField("Введите значение", text: $viewModel.otherValue)
+                            .padding(.horizontal, 10)
+                            .frame(height: 50)
+                    }
                     Spacer()
                     if selectedItems.contains(item) {
                     
@@ -80,9 +85,14 @@ struct Difficulties: View {
                 .onTapGesture {
                     if selectedItems.contains(item) {
                         selectedItems.remove(item)
+                        SelectedItemsManager.selectedItems3.remove(item) // удаляем элемент из SelectedItemsManager
+                        print("Удален элемент: \(item.name)")
                     } else {
                         selectedItems.insert(item)
+                        SelectedItemsManager.selectedItems3.insert(item) // добавляем элемент в SelectedItemsManager
+                        print("Добавлен элемент: \(item.name)")
                     }
+                   
                 }
         
             }

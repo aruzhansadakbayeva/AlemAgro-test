@@ -38,6 +38,8 @@
 		CD556A3829B1BAED00A8E722 /* ClientStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3729B1BAED00A8E722 /* ClientStateViewModel.swift */; };
 		CD556A3A29B1BD0600A8E722 /* ClientStView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD556A3929B1BD0600A8E722 /* ClientStView.swift */; };
 		CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */; };
+		CD6B906E29D2E4CC00DE6443 /* SIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B906D29D2E4CC00DE6443 /* SIManager.swift */; };
+		CD6B907029D2EE6700DE6443 /* FixedSurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B906F29D2EE6700DE6443 /* FixedSurvey.swift */; };
 		CD7C171229C2EA0700F0803E /* ClientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7C171129C2EA0700F0803E /* ClientsList.swift */; };
 		CD7C171429C32ECB00F0803E /* Autorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7C171329C32ECB00F0803E /* Autorization.swift */; };
 		CD9CC0E329C860420076F9CA /* FieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CC0E229C860420076F9CA /* FieldView.swift */; };
@@ -85,6 +87,8 @@
 		CD556A3729B1BAED00A8E722 /* ClientStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStateViewModel.swift; sourceTree = "<group>"; };
 		CD556A3929B1BD0600A8E722 /* ClientStView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStView.swift; sourceTree = "<group>"; };
 		CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
+		CD6B906D29D2E4CC00DE6443 /* SIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIManager.swift; sourceTree = "<group>"; };
+		CD6B906F29D2EE6700DE6443 /* FixedSurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedSurvey.swift; sourceTree = "<group>"; };
 		CD7C171129C2EA0700F0803E /* ClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsList.swift; sourceTree = "<group>"; };
 		CD7C171329C32ECB00F0803E /* Autorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Autorization.swift; sourceTree = "<group>"; };
 		CD9CC0E229C860420076F9CA /* FieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldView.swift; sourceTree = "<group>"; };
@@ -292,6 +296,8 @@
 				CD7C171129C2EA0700F0803E /* ClientsList.swift */,
 				CDD68CE029C082B30056F76D /* VisitsClientsList.swift */,
 				CD9CC0E229C860420076F9CA /* FieldView.swift */,
+				CD6B906D29D2E4CC00DE6443 /* SIManager.swift */,
+				CD6B906F29D2EE6700DE6443 /* FixedSurvey.swift */,
 			);
 			path = Survey;
 			sourceTree = "<group>";
@@ -383,9 +389,11 @@
 				33D859A228AC2DF800C842CF /* utils.swift in Sources */,
 				CD0D0F3F29AC5BCF00A6EDFC /* VisitsView.swift in Sources */,
 				33D859A828AD74F000C842CF /* CustomTabBar.swift in Sources */,
+				CD6B906E29D2E4CC00DE6443 /* SIManager.swift in Sources */,
 				CD9CC0F229D1A11D0076F9CA /* Recommendations.swift in Sources */,
 				3314726D28AD8298000AFD83 /* HomeView.swift in Sources */,
 				CD0D0F4129AC5C8600A6EDFC /* UserModel.swift in Sources */,
+				CD6B907029D2EE6700DE6443 /* FixedSurvey.swift in Sources */,
 				CD9CC0F029D19F4D0076F9CA /* Difficulties.swift in Sources */,
 				33D859A628AD6ABB00C842CF /* TabData.swift in Sources */,
 				CD4A401229A744720061744A /* ClientRow.swift in Sources */,

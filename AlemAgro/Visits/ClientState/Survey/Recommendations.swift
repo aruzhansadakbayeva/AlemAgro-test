@@ -21,7 +21,7 @@ struct PostmanResponse4: Decodable, Equatable, Hashable{
 
 class PostmanViewModel4: ObservableObject {
     @Published var response: [PostmanResponse4] = []
-    
+    @Published var otherValue: String = ""
     func fetchData() {
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {
@@ -52,39 +52,137 @@ class PostmanViewModel4: ObservableObject {
         }.resume()
     }
 }
-
 struct Recommendations: View {
     @StateObject var viewModel = PostmanViewModel4()
     @State var selectedItems = Set<PostmanResponse4>()
-   
+    @State var showCustomOption = false
+    let optionsDict: [Int: [String]] = [
+        1: ["Да", "Другое"],
+        2: ["Продажа на этом визите", "Продажа была ранее", "Продажи не было"],
+        3: ["Да", "Другое"],
+        4: ["Да", "Другое"]
+    ]
+
     var body: some View {
- 
-        List(viewModel.response, id: \.id, selection: $selectedItems) { item in
-            HStack {
-                Text("\(item.name)")
-                Spacer()
-                if selectedItems.contains(item) {
-               
-                    Image(systemName:"checkmark.square.fill")
-                        .foregroundColor(.blue)
-                }
-                if !selectedItems.contains(item) {
-                    Image(systemName:"square")
-                        .foregroundColor(.blue)
+        VStack {
+            List(viewModel.response, id: \.id, selection: $selectedItems) { item in
+                VStack {
+                    HStack {
+                        Text("\(item.name)")
+                        Spacer()
+                    }
+                    Picker(selection: Binding(
+                        get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
+                        set: {
+                            SelectedItemsManager.selectedOptions[item] = $0
+                            if $0 == "Другое" {
+                                showCustomOption = true
+                            } else {
+                                showCustomOption = false
+                            }
+                        }
+                    ), label: Text("")) {
+                        ForEach(optionsDict[item.id] ?? [], id: \.self) { option in
+                            Text(option)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+
+                    if showCustomOption && SelectedItemsManager.selectedOptions[item] == "Другое" {
+                        TextField("Введите свой ответ", text: Binding(
+                            get: {  SelectedItemsManager.selectedOptions[item] ?? "" },
+                            set: {  SelectedItemsManager.selectedOptions[item] = $0 }
+                        ))
+                        .padding()
+                    }
+
                 }
             }
-            .onTapGesture {
-                if selectedItems.contains(item) {
-                    selectedItems.remove(item)
-                } else {
-                    selectedItems.insert(item)
-                }
+            .navigationBarItems(trailing:
+            NavigationLink(
+                destination:
+                    SelectedItemsView(),
+                label: {
+                    Text("Завершить").fontWeight(.bold).foregroundColor(Color.white)
+                        .foregroundColor(.white)
+                        .font(.subheadline).padding(5)
+                        .background(Color.green)
+                        .cornerRadius(7)
+                } )
+            .padding()
+                                )
+            .onAppear {
+                viewModel.fetchData()
             }
-        }
-        .onAppear {
-            viewModel.fetchData()
+     
         }
     }
 }
 
+/*
 
+struct Recommendations: View {
+    @StateObject var viewModel = PostmanViewModel4()
+    @State var selectedItems = Set<PostmanResponse4>()
+    @State var selectedOptions: [PostmanResponse4: String] = [:]
+    @State var showCustomOption = false
+    
+    // Словарь опций для каждого элемента списка
+    let optionsDict: [Int: [String]] = [
+        1: ["Да", "Другое"],
+        2: ["Продажа на этом визите", "Продажа была ранее", "Продажи не было"],
+        3: ["Да", "Другое"],
+        4: ["Да", "Другое"]
+    ]
+
+    
+    var body: some View {
+        VStack {
+            List(viewModel.response, id: \.id, selection: $selectedItems) { item in
+                VStack {
+                    HStack {
+                        Text("\(item.name)")
+                        Spacer()
+                    }
+                    Picker(selection: Binding(
+                        get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
+                        set: {   SelectedItemsManager.selectedOptions[item] = $0 }
+                    ), label: Text("")) {
+                        ForEach(optionsDict[item.id] ?? [], id: \.self) { option in
+                            Text(option)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+                    
+                    if  SelectedItemsManager.selectedOptions[item] == "Другое" {
+                        TextField("Введите свой ответ", text: Binding(
+                            get: { selectedOptions[item] ?? "" },
+                            set: {  SelectedItemsManager.selectedOptions[item] = $0 }
+                        ))
+                        .padding()
+                    }
+                }
+            }
+            .navigationBarItems(trailing:
+            NavigationLink(
+                destination: 
+                    SelectedItemsView(),
+                label: {
+                    Text("Завершить").fontWeight(.bold).foregroundColor(Color.white)
+                        .foregroundColor(.white)
+                        .font(.subheadline).padding(5)
+                        .background(Color.green)
+                        .cornerRadius(7)
+                } )
+            .padding()
+                                )
+            .onAppear {
+                viewModel.fetchData()
+            }
+     
+        }
+    }
+}
+*/
