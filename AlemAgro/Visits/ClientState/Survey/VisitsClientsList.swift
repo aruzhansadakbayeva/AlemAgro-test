@@ -69,6 +69,15 @@ class VisitViewModel: ObservableObject {
     }
 }
 
+
+/*     NavigationLink(destination: WebView(url: {
+    var components = URLComponents(string: "http://my.alemagro.com/meeting-details-mobile")!
+    components.queryItems = [
+        URLQueryItem(name: "meetingId", value: "\(client.visitId)"),
+        URLQueryItem(name: "userId", value: "\(client.clientId)")
+    ]
+    return components.url!
+}()) ) */
 struct VisitListView: View {
     @State private var selectedDate = Date()
     @StateObject var viewModel = VisitViewModel()
@@ -76,38 +85,28 @@ struct VisitListView: View {
     var sortedVisits: [Visit] {
         viewModel.response.sorted(by: { $0.dateToVisit > $1.dateToVisit })
     }
-
-
-        var body: some View {
-       
-                List(sortedVisits) { visit in
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 10) {
+                ForEach(sortedVisits) { visit in
                     if !visit.clients.isEmpty {
                         ForEach(visit.clients, id: \.clientId) { client in
-                            
-                       /*     NavigationLink(destination: WebView(url: {
-                                var components = URLComponents(string: "http://my.alemagro.com/meeting-details-mobile")!
-                                components.queryItems = [
-                                    URLQueryItem(name: "meetingId", value: "\(client.visitId)"),
-                                    URLQueryItem(name: "userId", value: "\(client.clientId)")
-                                ]
-                                return components.url!
-                            }()) ) */
-                            NavigationLink(destination: ClientDetailView(client: client))
-                            
-                            {
-                                VStack(alignment: .leading) {
-                                    HStack(alignment: .lastTextBaseline) {
-                                        VStack(alignment: .leading, spacing: 10) {
-                                            Text(client.clientName)
-                                            Text(client.dateVisit)
-                                                .foregroundColor(Color.gray)
-                                                .font(.subheadline).fontWeight(.bold)
-                                        }
+                            NavigationLink(destination: ClientDetailView(client: client)) {
+                                VStack(alignment: .leading, spacing: 10) {
+                                    HStack {
+                                        Text(client.clientName)
+                                            .font(.headline)
+                                            .foregroundColor(.black)
+                                            .fixedSize(horizontal: false, vertical: true)
                                         Spacer()
                                         Text(visit.statusVisit)
                                             .font(.subheadline)
-                                            .padding()
+                                          //  .foregroundColor(.black)
                                     }
+                                    Text(client.dateVisit)
+                                        .font(.subheadline)
+                                        .foregroundColor(.black)
                                 }
                                 .padding()
                                 .background(Color.white)
@@ -117,17 +116,20 @@ struct VisitListView: View {
                         }
                     }
                 }
-                .listStyle(PlainListStyle())
-                .navigationTitle(title)
-            
-            .onAppear {
-                viewModel.fetchData()
             }
+            .padding(.horizontal)
+        }
+        .navigationBarTitle(title)
+        .onAppear {
+            viewModel.fetchData()
         }
     }
+}
+
 
 struct ClientDetailView: View {
     let client: Clientt
+
     @State private var statusVisit: Bool = false // Add a state variable to hold the statusVisit value
     @State private var visitId: Int = 0 // Add a state variable to hold the visitId
     @State var buttonPressed = false
@@ -137,9 +139,10 @@ struct ClientDetailView: View {
         List{
             VStack(alignment: .leading){
                 Text("\(client.clientName)").fontWeight(.bold)
-                Text("Дата встречи: \(client.dateVisit)")
-                Text("ИИН: \(client.clientIin)")
-                Text("Цель визита: \(client.meetingTypeName ?? "")")
+                Text("**Дата встречи**: \(client.dateVisit)")
+                Text("**ИИН**: \(String(client.clientIin))")
+
+                Text("**Цель визита**: \(client.meetingTypeName ?? "")")
                 
             }
         

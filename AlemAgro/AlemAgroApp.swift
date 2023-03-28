@@ -1,9 +1,11 @@
 import Foundation
 import SwiftUI
 import WebKit
+
+
 class AppState: ObservableObject {
     @Published var selectedTab = 0
-    
+    @Published var currentUser: Userr?
     @Published var isLoggedIn: Bool = false {
         didSet {
             UserDefaults.standard.set(isLoggedIn, forKey: "isLoggedIn")
@@ -15,10 +17,18 @@ class AppState: ObservableObject {
             UserDefaults.standard.set(token, forKey: "token")
         }
     }
-
     init() {
+        // загружаем данные пользователя из UserDefaults
+        if let savedUser = UserDefaults.standard.object(forKey: "currentUser") as? Data {
+            let decoder = JSONDecoder()
+            if let loadedUser = try? decoder.decode(Userr.self, from: savedUser) {
+                self.currentUser = loadedUser
+            }
+        }
+
         loadIsLoggedInFromUserDefaults()
         loadTokenFromUserDefaults()
+        
     }
 
     private func loadIsLoggedInFromUserDefaults() {
@@ -33,9 +43,8 @@ class AppState: ObservableObject {
 
 @main
 struct AlemAgroApp: App {
-    @StateObject var loginViewModel = LoginViewModel()
     @StateObject var appState = AppState()
-
+    @StateObject var loginViewModel = LoginViewModel()
     var body: some Scene {
         WindowGroup {
             if appState.isLoggedIn {
@@ -56,22 +65,21 @@ struct AlemAgroApp: App {
                                    }
                                    .tag(1)
                               
-                               
-                             ContentView()
+                               ProfileView().environmentObject(loginViewModel).environmentObject(appState)
                                    .tabItem {
                                        Image(systemName: "person.fill")
                                        Text("Профиль")
                                    }
                                    .tag(2)
-                                 //  .environmentObject(loginViewModel)
+                               
                            }
                        
                    
-                    .environmentObject(appState)
+                   // .environmentObject(appState)
                 
             } else {
                 LoginView()
-                    .environmentObject(loginViewModel)
+                   // .environmentObject(loginViewModel)
                     .environmentObject(appState)     
             }
         }

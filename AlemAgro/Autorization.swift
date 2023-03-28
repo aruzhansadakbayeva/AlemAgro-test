@@ -43,7 +43,14 @@ class LoginViewModel: ObservableObject {
                         self.isLoggedIn = true
                         saveTokenToUserDefaults(token: response.token)
                         self.currentUser = response.user
+
+                        // сохраняем данные пользователя в UserDefaults
+                        let encoder = JSONEncoder()
+                        if let encoded = try? encoder.encode(response.user) {
+                            UserDefaults.standard.set(encoded, forKey: "currentUser")
+                        }
                     }
+
                 } catch let error {
                     print("Error decoding response: \(error.localizedDescription)")
                 }
@@ -123,7 +130,7 @@ struct LoginView: View {
         }
         .onReceive(viewModel.$isLoggedIn) { isLoggedIn in
             if isLoggedIn {
-              
+          
                 appState.isLoggedIn = true
             }
         }
@@ -150,4 +157,23 @@ struct Userr: Codable {
     let unFollowClients: [Int]
     let favoriteClients: [Int]
     let subscribesRegion: [Int]
+}
+
+
+struct ProfileView: View {
+    @EnvironmentObject var loginViewModel: LoginViewModel
+    @EnvironmentObject var appState: AppState
+    var body: some View {
+        VStack {
+            Text("Профиль")
+            Text("Имя пользователя: \(appState.currentUser?.name ?? "")")
+            Text("Email: \(loginViewModel.currentUser?.email ?? "")")
+            Button(action: {
+                appState.isLoggedIn = false
+                loginViewModel.logout()
+            }, label: {
+                Text("Выйти")
+            })
+        }
+    }
 }

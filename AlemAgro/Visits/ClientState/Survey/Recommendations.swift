@@ -56,8 +56,9 @@ class PostmanViewModel4: ObservableObject {
 struct Recommendations: View {
     @StateObject var viewModel = PostmanViewModel4()
     @State var selectedItems = Set<PostmanResponse4>()
-
+   
     var body: some View {
+ 
         List(viewModel.response, id: \.id, selection: $selectedItems) { item in
             HStack {
                 Text("\(item.name)")

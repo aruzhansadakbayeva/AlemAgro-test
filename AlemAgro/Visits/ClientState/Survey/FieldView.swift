@@ -105,10 +105,12 @@ struct FieldView: View {
             }
             .navigationBarTitle("Осмотр поля")
                .navigationBarItems(trailing:
-                   NavigationLink(destination: Recommendations()) {
-                       Text("Далее")
-                   }
-                   .disabled(!isNextButtonEnabled)
+                                    NavigationLink(destination: Recommendations()) {
+                                        Text("Далее")
+                                    }
+                                    .disabled(!isNextButtonEnabled)
+
+                   
                )
         }
         .onAppear {

@@ -20,6 +20,8 @@ struct PostmanResponse: Decodable, Equatable, Hashable{
 }
 class PostmanViewModel: ObservableObject {
     @Published var response: [PostmanResponse] = []
+    @Published var selectedItems: Set<PostmanResponse> = []
+    
     var nextView: AnyView?
     
     func fetchData() {
@@ -67,28 +69,28 @@ struct SelectVisitView: View {
     @StateObject var viewModel = PostmanViewModel()
     @State var selectedItems = Set<PostmanResponse>()
     var isNextButtonEnabled: Bool {
-        return !selectedItems.isEmpty
+        return !viewModel.selectedItems.isEmpty
     }
     
     var body: some View {
-        List(viewModel.response, id: \.id, selection: $selectedItems) { item in
+        List(viewModel.response, id: \.id, selection:  $viewModel.selectedItems) { item in
             HStack {
                 Text("\(item.name)")
                 Spacer()
-                if selectedItems.contains(item) {
+                if viewModel.selectedItems.contains(item) {
                     Image(systemName:"checkmark.square.fill")
                         .foregroundColor(.blue)
                 }
-                if !selectedItems.contains(item) {
+                if !viewModel.selectedItems.contains(item) {
                     Image(systemName:"square")
                         .foregroundColor(.blue)
                 }
             }
             .onTapGesture {
-                if selectedItems.contains(item) {
-                    selectedItems.remove(item)
+                if viewModel.selectedItems.contains(item) {
+                    viewModel.selectedItems.remove(item)
                 } else {
-                    selectedItems.insert(item)
+                    viewModel.selectedItems.insert(item)
                 }
                 
                 viewModel.nextView = viewModel.getNextView(for: item)
@@ -105,5 +107,6 @@ struct SelectVisitView: View {
         .onAppear {
             viewModel.fetchData()
         }
+       
     }
 }
