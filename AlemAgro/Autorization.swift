@@ -163,17 +163,45 @@ struct Userr: Codable {
 struct ProfileView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var appState: AppState
+    
+    let defaultUserImage = "person.circle"
+    
     var body: some View {
-        VStack {
-            Text("Профиль")
-            Text("Имя пользователя: \(appState.currentUser?.name ?? "")")
-            Text("Email: \(loginViewModel.currentUser?.email ?? "")")
+        VStack(spacing: 20) {
+            Image(systemName: defaultUserImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.gray)
+                .frame(width: 100, height: 100)
+                .padding()
+            
+            Text(appState.currentUser?.name ?? "")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
+            
+            Text(appState.currentUser?.email ?? "")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            
+            Divider()
+            
             Button(action: {
                 appState.isLoggedIn = false
                 loginViewModel.logout()
             }, label: {
                 Text("Выйти")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(10)
             })
+            .padding(.horizontal)
+            
+            Spacer()
         }
+        .navigationBarTitle("Профиль")
     }
 }
