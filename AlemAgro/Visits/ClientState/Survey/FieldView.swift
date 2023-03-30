@@ -55,7 +55,7 @@ class PostmanViewModel2: ObservableObject {
              } catch let error {
                  print("Error decoding response: \(error)")
              }
-             print(String(data: data, encoding: .utf8)!)
+            // print(String(data: data, encoding: .utf8)!)
          }.resume()
      }
 }
@@ -87,14 +87,20 @@ struct FieldView: View {
                                     .onTapGesture {
                                         if viewModel.selectedItems.contains(item) {
                                             viewModel.selectedItems.remove(item)
+                                            SelectedItemsManager.selectedCategoryIds.remove(item.categoryId) // удаляем categoryId из selectedCategoryIds
                                            SelectedItemsManager.selectedItems2.remove(item) // удаляем элемент из SelectedItemsManager
+                                          
                                             print("Удален элемент: \(item.name)")
                                         } else {
                                             viewModel.selectedItems.insert(item)
+                                            SelectedItemsManager.selectedCategoryIds.insert(item.categoryId) // добавляем categoryId в selectedCategoryIds
                                             SelectedItemsManager.selectedItems2.insert(item) // добавляем элемент в SelectedItemsManager
+                                          
                                             print("Добавлен элемент: \(item.name)")
                                         }
+                                        print("Selected categoryIds: \(SelectedItemsManager.selectedCategoryIds)") // выводим выбранные categoryId в консоль
                                         print("Selected items: \(viewModel.selectedItems)")
+                                   
                                     }
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)

@@ -63,7 +63,7 @@ class VisitViewModel: ObservableObject {
             } catch let error {
                 print("Error decoding response: \(error)")
             }
-            print(String(data: data, encoding: .utf8)!)
+        //    print(String(data: data, encoding: .utf8)!)
         }.resume()
 
     }
@@ -122,6 +122,9 @@ struct VisitListView: View {
         .navigationBarTitle(title)
         .onAppear {
             viewModel.fetchData()
+         
+                 
+              
         }
     }
 }
@@ -129,19 +132,20 @@ struct VisitListView: View {
 
 struct ClientDetailView: View {
     let client: Clientt
-
-    @State private var statusVisit: Bool = false // Add a state variable to hold the statusVisit value
     @State private var visitId: Int = 0 // Add a state variable to hold the visitId
+    @State private var statusVisit: Bool = false // Add a state variable to hold the statusVisit value
+
     @State var buttonPressed = false
     @State var isFinished = false
 
     var body: some View {
+   
         List{
             VStack(alignment: .leading){
                 Text("\(client.clientName)").fontWeight(.bold)
                 Text("**Дата встречи**: \(client.dateVisit)")
                 Text("**ИИН**: \(String(client.clientIin))")
-
+                Text("**VisitId**: \(String(client.visitId))")
                 Text("**Цель визита**: \(client.meetingTypeName ?? "")")
                 
             }
@@ -171,6 +175,7 @@ struct ClientDetailView: View {
                                                     self.isFinished.toggle()
                                                     statusVisit = false
                                                     sendVisitIdToAPI2()
+                                                    
                                                 }) {
                                                     if !isFinished {
                                                         HStack {
@@ -198,17 +203,22 @@ struct ClientDetailView: View {
                                                 }
                                             }
                                         }
-                                )
+                                ).onAppear {
+                                    VisitIdManager.shared.setCurrentVisitId(id: client.visitId)
+                                }
 
    
     }
+ 
     func sendVisitIdToAPI() {
+    
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
-        
-        let parameters = ["type": "plannedMeetingMob", "action": "setStartVisit", "visitId": visitId] as [String : Any]
+        let defaults = UserDefaults.standard
+        defaults.set("VisitId", forKey: "visitId")
+        let parameters = ["type": "plannedMeetingMob", "action": "setStartVisit", "visitId": client.visitId] as [String : Any]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -220,7 +230,7 @@ struct ClientDetailView: View {
                 return
             }
             
-            print(String(data: data, encoding: .utf8)!)
+      print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
     
@@ -235,7 +245,7 @@ struct ClientDetailView: View {
             fatalError("Invalid URL: \(urlString)")
         }
         
-        let parameters = ["type": "plannedMeetingMob", "action": "setFinishVisit", "visitId": visitId] as [String : Any]
+        let parameters = ["type": "plannedMeetingMob", "action": "setFinishVisit", "visitId": client.visitId] as [String : Any]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -255,3 +265,16 @@ struct ClientDetailView: View {
 }
 
 
+class VisitIdManager {
+    static let shared = VisitIdManager()
+    
+    private var currentVisitId: Int? = nil
+    
+    func setCurrentVisitId(id: Int) {
+        currentVisitId = id
+    }
+    
+    func getCurrentVisitId() -> Int? {
+        return currentVisitId
+    }
+}

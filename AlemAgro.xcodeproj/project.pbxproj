@@ -296,8 +296,8 @@
 				CD7C171129C2EA0700F0803E /* ClientsList.swift */,
 				CDD68CE029C082B30056F76D /* VisitsClientsList.swift */,
 				CD9CC0E229C860420076F9CA /* FieldView.swift */,
-				CD6B906D29D2E4CC00DE6443 /* SIManager.swift */,
 				CD6B906F29D2EE6700DE6443 /* FixedSurvey.swift */,
+				CD6B906D29D2E4CC00DE6443 /* SIManager.swift */,
 			);
 			path = Survey;
 			sourceTree = "<group>";

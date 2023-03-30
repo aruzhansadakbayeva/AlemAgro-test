@@ -48,12 +48,13 @@ class PostmanViewModel3: ObservableObject {
             } catch let error {
                 print("Error decoding response: \(error)")
             }
-            print(String(data: data, encoding: .utf8)!)
+          //  print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
 }
 
 struct Difficulties: View {
+
     @StateObject var viewModel = PostmanViewModel3()
     @State var selectedItems = Set<PostmanResponse3>()
     var isNextButtonEnabled: Bool {
@@ -99,7 +100,7 @@ struct Difficulties: View {
       
             .navigationBarTitle("Cложности заключения договора")
             .navigationBarItems(trailing:
-                NavigationLink(destination: Recommendations()) {
+                                    NavigationLink(destination: Recommendations()) {
                     Text("Далее")
                 }
                 .disabled(!isNextButtonEnabled)

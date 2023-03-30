@@ -48,11 +48,12 @@ class PostmanViewModel4: ObservableObject {
             } catch let error {
                 print("Error decoding response: \(error)")
             }
-            print(String(data: data, encoding: .utf8)!)
+           // print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
 }
 struct Recommendations: View {
+
     @StateObject var viewModel = PostmanViewModel4()
     @State var selectedItems = Set<PostmanResponse4>()
     @State var showCustomOption = false
@@ -99,7 +100,9 @@ struct Recommendations: View {
 
                 }
             }
+    
             .navigationBarItems(trailing:
+                                   
             NavigationLink(
                 destination:
                     SelectedItemsView(),
@@ -114,10 +117,12 @@ struct Recommendations: View {
                                 )
             .onAppear {
                 viewModel.fetchData()
+          
             }
      
         }
     }
+    
 }
 
 /*

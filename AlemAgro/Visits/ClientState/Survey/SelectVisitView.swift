@@ -18,6 +18,7 @@ struct PostmanResponse: Decodable, Equatable, Hashable{
         return lhs.id == rhs.id && lhs.name == rhs.name
     }
 }
+
 class PostmanViewModel: ObservableObject {
     @Published var response: [PostmanResponse] = []
     @Published var selectedItems: Set<PostmanResponse> = []
@@ -54,7 +55,7 @@ class PostmanViewModel: ObservableObject {
            // print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
-    
+ 
     func getNextView(for item: PostmanResponse) -> AnyView {
           switch item.name {
           case "Осмотр поля":
@@ -68,6 +69,7 @@ class PostmanViewModel: ObservableObject {
 }
 
 struct SelectVisitView: View {
+   
     @StateObject var viewModel = PostmanViewModel()
     @State var selectedItems = Set<PostmanResponse>()
     var isNextButtonEnabled: Bool {
@@ -84,47 +86,49 @@ struct SelectVisitView: View {
                         .frame(height: 50)
                 }
                 Spacer()
-     
-
+                
+                
                 if viewModel.selectedItems.contains(item) {
                     Image(systemName:"checkmark.square.fill")
                         .foregroundColor(.blue)
-           
-    
+                    
+                    
                 }
                 if !viewModel.selectedItems.contains(item) {
                     Image(systemName:"square")
                         .foregroundColor(.blue)
                 }
-          
+                
             }
             .onTapGesture {
                 if viewModel.selectedItems.contains(item) {
                     viewModel.selectedItems.remove(item)
-                   SelectedItemsManager.selectedItems.remove(item) // удаляем элемент из SelectedItemsManager
-                   print("Удален элемент: \(item.name)")
+                    SelectedItemsManager.selectedItems.remove(item) // удаляем элемент из SelectedItemsManager
+                    print("Удален элемент: \(item.name)")
                 } else {
                     viewModel.selectedItems.insert(item)
-                   SelectedItemsManager.selectedItems.insert(item) // добавляем элемент в SelectedItemsManager
-                   print("Добавлен элемент: \(item.name)")
+                    SelectedItemsManager.selectedItems.insert(item) // добавляем элемент в SelectedItemsManager
+                    print("Добавлен элемент: \(item.name)")
                 }
                 viewModel.nextView = viewModel.getNextView(for: item)
             }
             
             .navigationBarTitle("Проделанная работа")
             .navigationBarItems(trailing:
-                NavigationLink(destination: viewModel.nextView ?? AnyView(Recommendations())) {
-                    Text("Далее")
-                }
+                                    NavigationLink(destination: viewModel.nextView ?? AnyView(Recommendations())) {
+                Text("Далее")
+            }
                 .disabled(!isNextButtonEnabled)
             )
-
+            
         }
         .onAppear {
             viewModel.fetchData()
         }
-       
+        
     }
+    
+}
     /*
     func sendVisitIdToAPI2() {
         let urlString = "http://10.200.100.17/api/manager/workspace"
@@ -158,7 +162,6 @@ struct SelectVisitView: View {
     }
      */
 
-}
 
 
 
