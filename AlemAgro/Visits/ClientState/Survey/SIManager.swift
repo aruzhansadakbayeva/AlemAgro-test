@@ -75,7 +75,7 @@ struct SelectedItemsView: View {
     func sendToAPI() {
         let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
 print("Current visit id: \(currentVisitId)")
-        
+  
 
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {

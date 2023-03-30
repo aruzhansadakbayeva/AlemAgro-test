@@ -36,14 +36,19 @@ struct Clientt: Decodable  {
 
 class VisitViewModel: ObservableObject {
     @Published var response: [Visit] = []
-    let currentUserId = UserIdManager.shared.getCurrentUserId() ?? 0
+    @Published var currentUserId: Int = 0
+
+ //   let currentUserId = UserIdManager.shared.getCurrentUserId() ?? 0
+
     func fetchData() {
+       
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
                 
-        let parameters = ["type": "plannedMeetingMob","action": "getMeetings", "userId": String(currentUserId)] as [String : Any]
+        let parameters = ["type": "plannedMeetingMob","action": "getMeetings", "userId": currentUserId] as [String : Any]
+        print(parameters)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -65,8 +70,9 @@ class VisitViewModel: ObservableObject {
             }
         //    print(String(data: data, encoding: .utf8)!)
         }.resume()
-
+      
     }
+      
 }
 
 
@@ -82,6 +88,7 @@ struct VisitListView: View {
     @State private var selectedDate = Date()
     @StateObject var viewModel = VisitViewModel()
     @State private var title = "Встречи"
+    @EnvironmentObject var appState: AppState
     var sortedVisits: [Visit] {
         viewModel.response.sorted(by: { $0.dateToVisit > $1.dateToVisit })
     }
@@ -121,11 +128,11 @@ struct VisitListView: View {
         }
         .navigationBarTitle(title)
         .onAppear {
-            viewModel.fetchData()
-         
-                 
-              
-        }
+                   if let userId = appState.currentUser?.id {
+                       viewModel.currentUserId = userId
+                       viewModel.fetchData()
+                   }
+               }
     }
 }
 

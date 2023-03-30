@@ -209,7 +209,7 @@ struct ProfileView: View {
         }
         .navigationBarTitle("Профиль")
         .onAppear {
-            UserIdManager.shared.setCurrentUserId(id: appState.currentUser?.id ?? 0)
+            UserIdManager.shared.setCurrentUserId(id: appState.currentUser?.id ?? 0 )
     }
     }
       
