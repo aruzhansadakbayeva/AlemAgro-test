@@ -22,7 +22,6 @@ struct HomeView: View {
                 VStack(spacing: 0.0) {
 
                     ScrollView(.vertical, showsIndicators: false) {
-                        
                         VStack(spacing: 20.0) {
                             Spacer()
                             MatchedView()

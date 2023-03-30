@@ -184,6 +184,11 @@ struct ProfileView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             
+            Text("\(String(appState.currentUser?.id  ?? 0))")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            
+            
             Divider()
             
             Button(action: {
@@ -203,5 +208,9 @@ struct ProfileView: View {
             Spacer()
         }
         .navigationBarTitle("Профиль")
+        .onAppear {
+            UserIdManager.shared.setCurrentUserId(id: appState.currentUser?.id ?? 0)
     }
+    }
+      
 }

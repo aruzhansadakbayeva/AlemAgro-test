@@ -36,14 +36,14 @@ struct Clientt: Decodable  {
 
 class VisitViewModel: ObservableObject {
     @Published var response: [Visit] = []
-
+    let currentUserId = UserIdManager.shared.getCurrentUserId() ?? 0
     func fetchData() {
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
                 
-        let parameters = ["type": "plannedMeetingMob","action": "getMeetings", "userId": 1174] as [String : Any]
+        let parameters = ["type": "plannedMeetingMob","action": "getMeetings", "userId": String(currentUserId)] as [String : Any]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -276,5 +276,19 @@ class VisitIdManager {
     
     func getCurrentVisitId() -> Int? {
         return currentVisitId
+    }
+}
+
+class UserIdManager {
+    static let shared = UserIdManager()
+    
+    private var currentUserId: Int? = nil
+    
+    func setCurrentUserId(id: Int) {
+        currentUserId = id
+    }
+    
+    func getCurrentUserId() -> Int? {
+        return currentUserId
     }
 }

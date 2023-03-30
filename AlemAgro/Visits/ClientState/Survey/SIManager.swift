@@ -125,7 +125,7 @@ print("Current visit id: \(currentVisitId)")
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-       
+            print("Parameters: \(parameters)")
             print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
