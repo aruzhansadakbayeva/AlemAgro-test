@@ -56,7 +56,11 @@ class PostmanViewModel4: ObservableObject {
     }
 }
 struct Recommendations: View {
+    @Environment(\.colorScheme) var colorScheme
 
+    var colorPrimary: Color {
+        return colorScheme == .dark ? .black : .white
+    }
     @StateObject var viewModel = PostmanViewModel4()
     @State var selectedItems = Set<PostmanResponse4>()
     @State var showCustomOption = false
@@ -162,9 +166,9 @@ struct Recommendations: View {
             }) {
                 Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
                     .font(.system(size: 35))
-                    .foregroundColor(isRecording ? .red : .white)
+                    .foregroundColor(isRecording ? .red : colorPrimary)
                     .padding()
-                    .background(isRecording ? Color.white : Color.blue)
+                    .background(isRecording ? colorPrimary : Color.blue)
                     .clipShape(Circle())
                     .shadow(radius: 2)
             }
@@ -185,14 +189,15 @@ struct Recommendations: View {
                         .font(.system(size: 35))
                         .foregroundColor(.blue)
                         .padding()
-                        .background(Color.white)
+                        .background(colorPrimary)
                         .clipShape(Circle())
                         .shadow(radius: 2)
                 }
             }
         }
         .padding()
-        .background(Color(UIColor.systemBackground)) // устанавливаем цвет фона для темного режима
+        
+       .background(Color(UIColor.systemBackground)) // устанавливаем цвет фона для темного режима
 
 
         
