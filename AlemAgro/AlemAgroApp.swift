@@ -52,7 +52,7 @@ struct AlemAgroApp: App {
          
                           
                            TabView(selection: $appState.selectedTab) {
-                               HomeView().environmentObject(appState)
+                               HomeView().environmentObject(appState)   .preferredColorScheme(.dark) 
                                    .tabItem {
                                        Image(systemName: "house")
                                        Text("Главная")

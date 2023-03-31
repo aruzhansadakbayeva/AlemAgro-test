@@ -103,30 +103,41 @@ struct VisitListView: View {
                             NavigationLink(destination: ClientDetailView(client: client)) {
                                 VStack(alignment: .leading, spacing: 10) {
                                     HStack {
-                                        Text(client.clientName)
-                                            .font(.headline)
-                                            .foregroundColor(.black)
-                                            .fixedSize(horizontal: false, vertical: true)
+                                        Text("\(client.clientName)")
+                                            .font(.subheadline)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.primary)
                                         Spacer()
                                         Text(visit.statusVisit)
                                             .font(.subheadline)
-                                          //  .foregroundColor(.black)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
+                                            .padding(8)
+                                            .background(Color.purple)
+                                            .cornerRadius(8)
                                     }
                                     Text(client.dateVisit)
                                         .font(.subheadline)
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.secondary)
                                 }
                                 .padding()
-                                .background(Color.white)
+                                .background(Color(UIColor.systemBackground))
                                 .cornerRadius(8)
-                                .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
+                                .shadow(color: Color.gray.opacity(0.5), radius: 2, x: 0, y: 1)
+                                /*.overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.blue, lineWidth: 1)
+                                )*/
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
             }
             .padding(.horizontal)
+            .background(Color(UIColor.systemBackground))
         }
+
         .navigationBarTitle(title)
         .onAppear {
                    if let userId = appState.currentUser?.id {

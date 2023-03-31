@@ -92,74 +92,26 @@ struct Recommendations: View {
                                 showCustomOption = false
                             }
                         }
-                    ), label: Text("")) {
+                    ),
+                           label: Text("")) {
                         ForEach(optionsDict[item.id] ?? [], id: \.self) { option in
                             Text(option)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding()
-              
-                    if showCustomOption && SelectedItemsManager.selectedOptions[item] == "Другое" {
-                        HStack {
-                            TextField("Введите свой ответ", text: Binding(
-                                get: {  SelectedItemsManager.selectedOptions[item] ?? "" },
-                                set: {  SelectedItemsManager.selectedOptions[item] = $0 }
-                            ))
-                            .padding()
+                   
+                        if showCustomOption && SelectedItemsManager.selectedOptions[item] == "Другое" {
                             HStack {
-                                if isRecording {
-                                    Text("Идет запись...")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                                /*else {
-                                    Text("Tap to start recording")
-                                        .font(.headline)
-                                        .foregroundColor(.gray)
-                                }
-                                 */
+                                TextField("Введите свой ответ", text: Binding(
+                                    get: {  SelectedItemsManager.selectedOptions[item] ?? "" },
+                                    set: {  SelectedItemsManager.selectedOptions[item] = $0 }
+                                ))
+                                .padding()
                                 
-                                Button(action: {
-                                    if isRecording {
-                                        stopRecording()
-                                    } else {
-                                        startRecording()
-                                    }
-                                }) {
-                                    Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
-                                        .font(.system(size: 25))
-                                        .foregroundColor(isRecording ? .red : .white)
-                                     //  .padding(40)
-                                        .background(isRecording ? Color.white : Color.blue)
-                                        .clipShape(Circle())
-                                        .shadow(radius: 2)
-                                }
-                                
-                                if let audioPlayer = audioPlayer {
-                                    
-                                    Button(action: {
-                                        if isPlaying {
-                                            audioPlayer.stop()
-                                            isPlaying = false
-                                        } else {
-                                            audioPlayer.play()
-                                            isPlaying = true
-                                        }
-                                    }) {
-                                        Image(systemName: isPlaying ? "stop.fill" : "play.fill")
-                                            .font(.system(size: 25))
-                                            .foregroundColor(.blue)
-                                         //   .padding(20)
-                                            .background(Color.white)
-                                          //  .clipShape(Circle())
-                                           // .shadow(radius: 4)
-                                    }
-                                }
+                       
                             }
-                            .padding()
-                        }
-                        
+                            
                         
                     }
 
@@ -185,8 +137,64 @@ struct Recommendations: View {
                 viewModel.fetchData()
           
             }
+            
      
         }
+        HStack {
+            if isRecording {
+                Text("Идет запись...")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+            /*else {
+             Text("Tap to start recording")
+             .font(.headline)
+             .foregroundColor(.gray)
+             }
+             */
+            
+            Button(action: {
+                if isRecording {
+                    stopRecording()
+                } else {
+                    startRecording()
+                }
+            }) {
+                Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
+                    .font(.system(size: 35))
+                    .foregroundColor(isRecording ? .red : .white)
+                    .padding()
+                    .background(isRecording ? Color.white : Color.blue)
+                    .clipShape(Circle())
+                    .shadow(radius: 2)
+            }
+            
+            
+            if let audioPlayer = audioPlayer {
+                
+                Button(action: {
+                    if isPlaying {
+                        audioPlayer.stop()
+                        isPlaying = false
+                    } else {
+                        audioPlayer.play()
+                        isPlaying = true
+                    }
+                }) {
+                    Image(systemName: isPlaying ? "stop.fill" : "play.fill")
+                        .font(.system(size: 35))
+                        .foregroundColor(.blue)
+                        .padding()
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(radius: 2)
+                }
+            }
+        }
+        .padding()
+        .background(Color(UIColor.systemBackground)) // устанавливаем цвет фона для темного режима
+
+
         
     }
     func startRecording() {
@@ -212,6 +220,7 @@ struct Recommendations: View {
         } catch let error {
             print("Error starting recording: \(error.localizedDescription)")
         }
+        
     }
     
     func stopRecording() {
