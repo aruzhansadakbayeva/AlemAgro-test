@@ -152,6 +152,7 @@ struct VisitListView: View {
 
 
 struct ClientDetailView: View {
+
     let client: Clientt
     @State private var visitId: Int = 0 // Add a state variable to hold the visitId
     @State private var statusVisit: Bool = false // Add a state variable to hold the statusVisit value
@@ -167,14 +168,15 @@ struct ClientDetailView: View {
                     Text("\(client.clientName)")
                         .fontWeight(.bold)
                         .font(.title)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                     
                 }.padding()
+                   
                
                 ClientObjectView(client: client)
-            }   .background(Color(.black))
+            }  // .background(colorPrimary)
               
-            
+                .background(Color(UIColor.systemBackground))
         }
     
         /*

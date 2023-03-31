@@ -61,6 +61,11 @@ class PostmanViewModel2: ObservableObject {
 }
 
 struct FieldView: View {
+    @Environment(\.colorScheme) var colorScheme
+
+    var colorPrimary: Color {
+        return colorScheme == .dark ? .black : .white
+    }
     @StateObject var viewModel = PostmanViewModel2()
     var isNextButtonEnabled: Bool {
         return !viewModel.selectedItems.isEmpty
@@ -69,7 +74,7 @@ struct FieldView: View {
         ScrollView {
             VStack(spacing: 10) {
                 ForEach(viewModel.categorizedResponse.sorted(by: { $0.key < $1.key }), id: \.key) { category, items in
-                    Section(header: Text(category).fontWeight(.bold).foregroundColor(.white)) {
+                    Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(items, id: \.id) { item in
@@ -79,10 +84,10 @@ struct FieldView: View {
                                             .frame(width: 110, height: 110)
                                             .aspectRatio(contentMode: .fit)
                                             .clipShape(Circle())
-                                           // .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                                        Text("\(item.name)").font(.system(size: 14)).foregroundColor(.white)
+                                           //.overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                        Text("\(item.name)").font(.system(size: 14)).foregroundColor(Color.primary)
                                     }
-                                    .background(Color.black)
+                                    .background(colorPrimary)
                                     .cornerRadius(8)
                                     .onTapGesture {
                                         if viewModel.selectedItems.contains(item) {
