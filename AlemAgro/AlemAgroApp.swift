@@ -45,6 +45,7 @@ class AppState: ObservableObject {
 struct AlemAgroApp: App {
     @StateObject var appState = AppState()
     @StateObject var loginViewModel = LoginViewModel()
+
     var body: some Scene {
         WindowGroup {
             if appState.isLoggedIn {
@@ -57,9 +58,9 @@ struct AlemAgroApp: App {
                                        Text("Главная")
                                    }
                                    .tag(0)
-                               
-                               WebView(url: URL(string: "http://my.alemagro.com/map")!)
-                        
+                       
+                       //    WebView(url: URL(string: "http://my.alemagro.com/map")!)
+          ClientObjectView()
                                    .tabItem {
                                        Image(systemName: "folder.fill")
                                        Text("Проекты")
