@@ -149,7 +149,24 @@ struct ClientDetailView: View {
     @State var isFinished = false
 
     var body: some View {
-   ClientObjectView()
+        NavigationView {
+           
+            VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 17){
+                    Text("\(client.clientName)")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .foregroundColor(.white)
+                    
+                }.padding()
+               
+                ClientObjectView(client: client)
+            }   .background(Color(.black))
+              
+            
+        }
+    
+        /*
         List{
             VStack(alignment: .leading){
                 Text("\(client.clientName)").fontWeight(.bold)
@@ -160,9 +177,10 @@ struct ClientDetailView: View {
                 
             }
         
-
+         }
+*/
                
-            }.navigationBarItems(
+            .navigationBarItems(
                                     trailing:
                                         Button(action: {
                                             statusVisit = true // Set the statusVisit to true when the button is tapped
@@ -176,7 +194,7 @@ struct ClientDetailView: View {
                                                 }
                                                 .foregroundColor(.white)
                                            
-                                                .background(Color.blue)
+                                                .background(Color("purple"))
                                            
                                                 .cornerRadius(7)
                                             }
@@ -213,7 +231,11 @@ struct ClientDetailView: View {
                                                 }
                                             }
                                         }
-                                ).onAppear {
+                                    
+                                )
+            
+
+            .onAppear {
                                     VisitIdManager.shared.setCurrentVisitId(id: client.visitId)
                                 }
 

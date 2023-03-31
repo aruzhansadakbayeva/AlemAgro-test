@@ -122,14 +122,20 @@ print("Current visit id: \(currentVisitId)")
 
 struct ClientObjectView: View {
     @StateObject var viewModel = DetailClientViewModel()
-
+    let client: Clientt
     var body: some View {
         List(viewModel.response, id: \.clientId) { clientObject in
             VStack(alignment: .leading) {
-                Text("Client ID: \(clientObject.clientId)")
-                Text("Client Name: \(clientObject.clientName)")
-                Text("Client Category: \(clientObject.clientCategory)")
-                Text("Address: \(clientObject.address)")
+                Text("**Адрес**: \(clientObject.address)")
+                Text("**ИИН**: \(String(clientObject.clientIin))")
+                Text("**Поле**: \(clientObject.plotName ?? "Нету")")
+                Text("**Цель встречи**: \(client.visitTypeName ?? "")")
+                Text("**Место встречи**: \(clientObject.meetingTypeName)")
+                Text("**Сумма контрактов за последние три года**:\n \(clientObject.summContract)")
+                Text("**Сумма контрактов за текущий сезон**:\n \(clientObject.summCurrentContractSeason)")
+                Text("**Сумма субсидий за три года**:\n \(clientObject.subscidesSum)")
+             
+               /*
                 ForEach(clientObject.contactInf) { contact in
                     Text("Contact Info:")
                     Text("ID: \(contact.id)")
@@ -140,6 +146,7 @@ struct ClientObjectView: View {
                         Text("Email: \(email)")
                     }
                 }
+                */
             }
         }
         .onAppear {
