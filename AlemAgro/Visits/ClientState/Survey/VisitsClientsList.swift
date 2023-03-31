@@ -85,6 +85,7 @@ class VisitViewModel: ObservableObject {
     return components.url!
 }()) ) */
 struct VisitListView: View {
+    
     @State private var selectedDate = Date()
     @StateObject var viewModel = VisitViewModel()
     @State private var title = "Встречи"
@@ -131,6 +132,8 @@ struct VisitListView: View {
                    if let userId = appState.currentUser?.id {
                        viewModel.currentUserId = userId
                        viewModel.fetchData()
+              
+                         
                    }
                }
     }
@@ -146,7 +149,7 @@ struct ClientDetailView: View {
     @State var isFinished = false
 
     var body: some View {
-   
+   ClientObjectView()
         List{
             VStack(alignment: .leading){
                 Text("\(client.clientName)").fontWeight(.bold)

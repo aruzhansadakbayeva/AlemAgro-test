@@ -17,8 +17,8 @@ struct ClientObject: Decodable {
     let clientIin: Int
     let managerId: Int?
     let managerName: String?
-    let startVisit: String
-    let finishVisit: String
+    let startVisit: String?
+    let finishVisit: String?
     let statusVisit: Bool
     let visitTypeId: Int
     let visitTypeName: String?
@@ -65,18 +65,25 @@ struct ClientData: Decodable {
 
 
 
+
 class DetailClientViewModel: ObservableObject {
     @Published var response: [ClientObject] = []
+
     
-    //   let currentUserId = UserIdManager.shared.getCurrentUserId() ?? 0
     
     func fetchData() {
+       
+        let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
+print("Current visit id: \(currentVisitId)")
+  
+
+        
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
         
-        let parameters = ["type": "plannedMeetingMob","action": "getDetailMeeting", "visitId": 603] as [String : Any]
+        let parameters = ["type": "plannedMeetingMob","action": "getDetailMeeting", "visitId": currentVisitId] as [String : Any]
         print(parameters)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -106,15 +113,16 @@ class DetailClientViewModel: ObservableObject {
                 print("Error decoding response: \(error)")
             }
             
-            print(String(data: data, encoding: .utf8)!)
+          //  print(String(data: data, encoding: .utf8)!)
         }.resume()
+
     }
 }
 
 
 struct ClientObjectView: View {
     @StateObject var viewModel = DetailClientViewModel()
-    
+
     var body: some View {
         List(viewModel.response, id: \.clientId) { clientObject in
             VStack(alignment: .leading) {
