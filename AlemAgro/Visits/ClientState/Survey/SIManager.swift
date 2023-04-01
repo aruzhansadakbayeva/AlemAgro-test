@@ -22,6 +22,7 @@ class SelectedItemsManager {
             print("Выбранные элементы: \(SelectedItemsManager.selectedItems2)")
         }
     }
+
     static var selectedCategoryIds = Set<Int>()
     
     static var selectedItems = Set<PostmanResponse>() {

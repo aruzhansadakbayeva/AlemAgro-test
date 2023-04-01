@@ -25,6 +25,7 @@ class PostmanViewModel2: ObservableObject {
     @Published var response: [PostmanResponse2] = []
     @Published var selectedItems = Set<PostmanResponse2>()
 
+
     var categorizedResponse: [String: [PostmanResponse2]] {
          Dictionary(grouping: response, by: { $0.category })
      }
@@ -73,7 +74,9 @@ struct FieldView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                ForEach(viewModel.categorizedResponse.sorted(by: { $0.key < $1.key }), id: \.key) { category, items in
+                ForEach(viewModel.categorizedResponse.sorted(by: { $0.value[0].categoryId < $1.value[0].categoryId }), id: \.key) { category, items in
+        
+
                     Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {
                             HStack {
@@ -90,23 +93,34 @@ struct FieldView: View {
                                     .background(colorPrimary)
                                     .cornerRadius(8)
                                     .onTapGesture {
-                                        if viewModel.selectedItems.contains(item) {
-                                            viewModel.selectedItems.remove(item)
-                                            SelectedItemsManager.selectedCategoryIds.remove(item.categoryId) // удаляем categoryId из selectedCategoryIds
-                                            SelectedItemsManager.selectedItems2.remove(item) // удаляем элемент из SelectedItemsManager
-                                          
-                                            print("Удален элемент: \(item.name)")
+                                        if item.categoryId == 3 { // Множественная выборка для items третьей категории
+                                            if viewModel.selectedItems.contains(item) {
+                                                viewModel.selectedItems.remove(item)
+                                                SelectedItemsManager.selectedItems2.remove(item)
+                                            } else {
+                                                viewModel.selectedItems.insert(item)
+                                                SelectedItemsManager.selectedItems2.insert(item)
+                                            }
                                         } else {
-                                            viewModel.selectedItems.insert(item)
-                                            SelectedItemsManager.selectedCategoryIds.insert(item.categoryId) // добавляем categoryId в selectedCategoryIds
-                                            SelectedItemsManager.selectedItems2.insert(item) // добавляем элемент в SelectedItemsManager
-                                          
-                                            print("Добавлен элемент: \(item.name)")
+                                            if viewModel.selectedItems.contains(item) {
+                                                viewModel.selectedItems.remove(item)
+                                                SelectedItemsManager.selectedCategoryIds.remove(item.categoryId)
+                                                SelectedItemsManager.selectedItems2.remove(item)
+                                            } else {
+                                                viewModel.selectedItems.removeAll()
+                                                SelectedItemsManager.selectedCategoryIds.removeAll()
+                                                SelectedItemsManager.selectedItems2.removeAll()
+                                                viewModel.selectedItems.insert(item)
+                                                SelectedItemsManager.selectedCategoryIds.insert(item.categoryId)
+                                                SelectedItemsManager.selectedItems2.insert(item)
+                                            }
                                         }
+
                                         print("Selected categoryIds: \(SelectedItemsManager.selectedCategoryIds)") // выводим выбранные categoryId в консоль
                                         print("Selected items: \(viewModel.selectedItems)")
                                        
                                     }
+
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
                                             .stroke(viewModel.selectedItems.contains(item) ? Color.blue : Color.clear, lineWidth: 2)
@@ -137,3 +151,18 @@ struct FieldView: View {
     }
 }
 
+
+/*   if viewModel.selectedItems.contains(item) {
+ viewModel.selectedItems.remove(item)
+ SelectedItemsManager.selectedCategoryIds.remove(item.categoryId) // удаляем categoryId из selectedCategoryIds
+ SelectedItemsManager.selectedItems2.remove(item) // удаляем элемент из SelectedItemsManager
+
+ print("Удален элемент: \(item.name)")
+} else {
+ viewModel.selectedItems.insert(item)
+ SelectedItemsManager.selectedCategoryIds.insert(item.categoryId) // добавляем categoryId в selectedCategoryIds
+ SelectedItemsManager.selectedItems2.insert(item) // добавляем элемент в SelectedItemsManager
+
+ print("Добавлен элемент: \(item.name)")
+}
+ */

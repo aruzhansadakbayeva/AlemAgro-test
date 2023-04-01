@@ -51,7 +51,8 @@ class LoginViewModel: ObservableObject {
                         }
                     }
 
-                } catch let error {
+                }
+                catch let error {
                     print("Error decoding response: \(error.localizedDescription)")
                 }
             case 401:
@@ -79,14 +80,14 @@ func saveTokenToUserDefaults(token: String) {
     defaults.set(token, forKey: "token")
 }
 struct LoginView: View {
+   
+    @StateObject private var viewModel = LoginViewModel()
+    @EnvironmentObject var appState: AppState
     @Environment(\.colorScheme) var colorScheme
 
     var colorPrimary: Color {
         return colorScheme == .dark ? .black : .white
     }
-    @StateObject private var viewModel = LoginViewModel()
-    @EnvironmentObject var appState: AppState
-    
     var body: some View {
         VStack {
             Spacer()
@@ -98,11 +99,11 @@ struct LoginView: View {
             
             VStack(spacing: 16) {
                 TextField("Email", text: $viewModel.email)
-                    .accentColor(.primary)
+                 //   .accentColor(.primary)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                    
                 SecureField("Пароль", text: $viewModel.password)
-                    .accentColor(.primary)
+                 //   .accentColor(.primary)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                    
             }
@@ -113,6 +114,7 @@ struct LoginView: View {
                     print("Ошибка: заполните все поля")
                 } else {
                     viewModel.loginUser()
+            
                 }
             }, label: {
                 Text("Войти")
@@ -133,17 +135,17 @@ struct LoginView: View {
         .padding(.bottom, UIScreen.main.bounds.height * 0.07) // <- изменение тут
         .background(colorPrimary)
         .edgesIgnoringSafeArea(.all)
-        .alert(isPresented: $viewModel.showAlert) {
-            Alert(title: Text("Ошибка"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
-        }
-        .onReceive(viewModel.$isLoggedIn) { isLoggedIn in
-            if isLoggedIn {
-          
-                appState.isLoggedIn = true
-            }
-        }
-    }
-}
+         .alert(isPresented: $viewModel.showAlert) {
+             Alert(title: Text("Ошибка"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+         }
+         .onReceive(viewModel.$isLoggedIn) { isLoggedIn in
+             if isLoggedIn {
+                 appState.isLoggedIn = true
+             }
+         }
+     }
+ }
+
 
 
 
