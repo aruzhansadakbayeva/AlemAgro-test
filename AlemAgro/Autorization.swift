@@ -79,6 +79,11 @@ func saveTokenToUserDefaults(token: String) {
     defaults.set(token, forKey: "token")
 }
 struct LoginView: View {
+    @Environment(\.colorScheme) var colorScheme
+
+    var colorPrimary: Color {
+        return colorScheme == .dark ? .black : .white
+    }
     @StateObject private var viewModel = LoginViewModel()
     @EnvironmentObject var appState: AppState
     
@@ -93,10 +98,13 @@ struct LoginView: View {
             
             VStack(spacing: 16) {
                 TextField("Email", text: $viewModel.email)
+                    .accentColor(.primary)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                
+                   
                 SecureField("Пароль", text: $viewModel.password)
+                    .accentColor(.primary)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                   
             }
             .padding(.horizontal, 16)
             
@@ -123,7 +131,7 @@ struct LoginView: View {
             Spacer()
         }
         .padding(.bottom, UIScreen.main.bounds.height * 0.07) // <- изменение тут
-        .background(Color.white)
+        .background(colorPrimary)
         .edgesIgnoringSafeArea(.all)
         .alert(isPresented: $viewModel.showAlert) {
             Alert(title: Text("Ошибка"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
