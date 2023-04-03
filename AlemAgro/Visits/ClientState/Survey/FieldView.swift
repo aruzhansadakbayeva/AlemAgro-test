@@ -94,27 +94,35 @@ struct FieldView: View {
                                     .cornerRadius(8)
                                     .onTapGesture {
                                         if item.categoryId == 3 { // Множественная выборка для items третьей категории
-                                            if viewModel.selectedItems.contains(item) {
-                                                viewModel.selectedItems.remove(item)
-                                                SelectedItemsManager.selectedItems2.remove(item)
-                                            } else {
-                                                viewModel.selectedItems.insert(item)
-                                                SelectedItemsManager.selectedItems2.insert(item)
-                                            }
-                                        } else {
-                                            if viewModel.selectedItems.contains(item) {
+                                            if viewModel.selectedItems.contains(item){
                                                 viewModel.selectedItems.remove(item)
                                                 SelectedItemsManager.selectedCategoryIds.remove(item.categoryId)
                                                 SelectedItemsManager.selectedItems2.remove(item)
                                             } else {
-                                                viewModel.selectedItems.removeAll()
-                                                SelectedItemsManager.selectedCategoryIds.removeAll()
-                                                SelectedItemsManager.selectedItems2.removeAll()
                                                 viewModel.selectedItems.insert(item)
-                                                SelectedItemsManager.selectedCategoryIds.insert(item.categoryId)
                                                 SelectedItemsManager.selectedItems2.insert(item)
+                                                SelectedItemsManager.selectedCategoryIds.insert(item.categoryId)
                                             }
                                         }
+                                        else if viewModel.selectedItems.contains(item)  {
+                                            
+                                            viewModel.selectedItems.remove(item)
+                                            SelectedItemsManager.selectedCategoryIds.remove(item.categoryId) // удаляем categoryId из selectedCategoryIds
+                                            SelectedItemsManager.selectedItems2.remove(item) // удаляем элемент из SelectedItemsManager
+                                            
+                                            print("Удален элемент: \(item.name)")
+                                        } else {
+                                            let itemsToRemove = viewModel.selectedItems.filter { $0.categoryId == item.categoryId }
+                                            viewModel.selectedItems.subtract(itemsToRemove)
+                                            SelectedItemsManager.selectedItems2.subtract(itemsToRemove)
+                                            viewModel.selectedItems.insert(item)
+                                            SelectedItemsManager.selectedCategoryIds.insert(item.categoryId) // добавляем categoryId в selectedCategoryIds
+                                            SelectedItemsManager.selectedItems2.insert(item) // добавляем элемент в SelectedItemsManager
+                                            
+                                            print("Добавлен элемент: \(item.name)")
+                                        }
+                                    
+                                
 
                                         print("Selected categoryIds: \(SelectedItemsManager.selectedCategoryIds)") // выводим выбранные categoryId в консоль
                                         print("Selected items: \(viewModel.selectedItems)")
@@ -165,4 +173,26 @@ struct FieldView: View {
 
  print("Добавлен элемент: \(item.name)")
 }
+ */
+
+
+/*
+ 
+ 
+ 
+ 
+ if viewModel.selectedItems.contains(item) {
+     viewModel.selectedItems.remove(item)
+     SelectedItemsManager.selectedItems2.remove(item)
+ } else {
+     // Remove previously selected items from the same category
+     let itemsToRemove = viewModel.selectedItems.filter { $0.categoryId == item.categoryId }
+     viewModel.selectedItems.subtract(itemsToRemove)
+     SelectedItemsManager.selectedItems2.subtract(itemsToRemove)
+
+     // Add the newly selected item
+     viewModel.selectedItems.insert(item)
+     SelectedItemsManager.selectedItems2.insert(item)
+ }
+
  */

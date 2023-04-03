@@ -83,19 +83,22 @@ print("Current visit id: \(currentVisitId)")
             fatalError("Invalid URL: \(urlString)")
         }
         let workDoneIds = SelectedItemsManager.selectedItems.map { $0.id }
-        let fieldInspection = Array(SelectedItemsManager.selectedCategoryIds).map { categoryId -> [String: Any] in
-            let services = Array(SelectedItemsManager.selectedItems2.filter { $0.categoryId == categoryId }).map { item -> [String: Any] in
-                return [
-                    "typeId": item.id,
-                    "description": item.name
-                ]
-            }
-            
-            return [
-                "cultId": categoryId,
-                "services": services
-            ]
+        let itemsByCategoryId = Dictionary(grouping: SelectedItemsManager.selectedItems2, by: { $0.categoryId })
+
+        let service = (itemsByCategoryId[1] ?? []).map { item -> [String: Any] in
+            return [        "cultId": item.categoryId,        "id": item.id,        "description": item.name    ]
         }
+
+        let steps = (itemsByCategoryId[2] ?? []).map { item -> [String: Any] in
+            return [        "cultId": item.categoryId,        "id": item.id,        "description": item.name    ]
+        }
+
+        let complications = (itemsByCategoryId[3] ?? []).map { item -> [String: Any] in
+            return [        "cultId": item.categoryId,        "id": item.id,        "description": item.name    ]
+        }
+
+        let fieldInspection = [    "service": service,    "steps": steps,    "complications": complications]
+
     
             let parameters = [
                 "type": "meetingSurvey",
@@ -126,6 +129,7 @@ print("Current visit id: \(currentVisitId)")
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
+            print("Осмотр поля: \(fieldInspection)")
             print("Parameters: \(parameters)")
             print(String(data: data, encoding: .utf8)!)
         }.resume()
