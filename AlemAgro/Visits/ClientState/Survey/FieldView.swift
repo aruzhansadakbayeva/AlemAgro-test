@@ -61,6 +61,20 @@ class PostmanViewModel2: ObservableObject {
      }
 }
 
+struct ItemsView: View {
+    @ObservedObject var viewModel: PostmanViewModel2
+    var counter: Int
+    
+    var body: some View {
+        VStack {
+            Text("Selected items for view \(counter):")
+            ForEach(viewModel.selectedItems.sorted(by: { $0.id < $1.id }), id: \.id) { item in
+                Text("- \(item.name)")
+            }
+        }
+    }
+}
+
 struct FieldView: View {
     @Environment(\.colorScheme) var colorScheme
 
@@ -70,25 +84,23 @@ struct FieldView: View {
     @StateObject var viewModel = PostmanViewModel2()
     @State var counter: Int
 
-
-
     init(counter: Int) {
         self._counter = State(initialValue: counter)
     }
 
     var isNextButtonEnabled: Bool {
         return !viewModel.selectedItems.isEmpty
-     }
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                Text("view number: \(counter)")
+                Text("View number: \(counter)")
+            ItemsView(viewModel: viewModel, counter: counter)
                 NavigationLink(destination: FieldView(counter: counter + 1)) {
                     Text("Добавить культуру")
                 }
                 ForEach(viewModel.categorizedResponse.sorted(by: { $0.value[0].categoryId < $1.value[0].categoryId }), id: \.key) { category, items in
-        
-             
                     Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {
                             HStack {
@@ -104,6 +116,7 @@ struct FieldView: View {
                                     }
                                     .background(colorPrimary)
                                     .cornerRadius(8)
+                                   
                                     .onTapGesture {
                                         if item.categoryId == 3 { // Множественная выборка для items третьей категории
                                             if viewModel.selectedItems.contains(item){
@@ -133,13 +146,12 @@ struct FieldView: View {
                                             
                                             print("Добавлен элемент: \(item.name)")
                                         }
-                               
+
                                         
                                         print("Selected categoryIds: \(SelectedItemsManager.selectedCategoryIds)") // выводим выбранные categoryId в консоль
                                         print("Selected items: \(viewModel.selectedItems)")
                                        
                                     }
-
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
                                             .stroke(viewModel.selectedItems.contains(item) ? Color.blue : Color.clear, lineWidth: 2)
@@ -155,26 +167,18 @@ struct FieldView: View {
         
 
             .navigationBarTitle("Осмотр поля")
-                        .navigationBarItems(
-                                        trailing:
-                                            
-
-                                           
-                                            NavigationLink(destination: Recommendations()) {
-                                                Text("Далее")
-                                            }
-                                        
-                                            .disabled(!isNextButtonEnabled)
-                                        
-                                    )
-                     
+            .navigationBarItems(
+                trailing:
+                    NavigationLink(destination: Recommendations()) {
+                        Text("Далее")
                     }
-
+                    .disabled(!isNextButtonEnabled)
+            )
+                     
+        }
         .onAppear {
             viewModel.fetchData()
-
         }
-        
     }
 }
 
@@ -188,6 +192,7 @@ struct FView: View{
         }
     }
 }
+
 
 
 /*   if viewModel.selectedItems.contains(item) {
