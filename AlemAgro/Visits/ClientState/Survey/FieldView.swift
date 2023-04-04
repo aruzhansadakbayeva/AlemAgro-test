@@ -68,15 +68,27 @@ struct FieldView: View {
         return colorScheme == .dark ? .black : .white
     }
     @StateObject var viewModel = PostmanViewModel2()
+    @State var counter: Int
+
+
+
+    init(counter: Int) {
+        self._counter = State(initialValue: counter)
+    }
+
     var isNextButtonEnabled: Bool {
         return !viewModel.selectedItems.isEmpty
      }
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
+                Text("view number: \(counter)")
+                NavigationLink(destination: FieldView(counter: counter + 1)) {
+                    Text("Добавить культуру")
+                }
                 ForEach(viewModel.categorizedResponse.sorted(by: { $0.value[0].categoryId < $1.value[0].categoryId }), id: \.key) { category, items in
         
-
+             
                     Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {
                             HStack {
@@ -121,9 +133,8 @@ struct FieldView: View {
                                             
                                             print("Добавлен элемент: \(item.name)")
                                         }
-                                    
-                                
-
+                               
+                                        
                                         print("Selected categoryIds: \(SelectedItemsManager.selectedCategoryIds)") // выводим выбранные categoryId в консоль
                                         print("Selected items: \(viewModel.selectedItems)")
                                        
@@ -144,17 +155,36 @@ struct FieldView: View {
         
 
             .navigationBarTitle("Осмотр поля")
-               .navigationBarItems(trailing:
-                                    NavigationLink(destination: Recommendations()) {
-                                        Text("Далее")
-                                    }
-                                    .disabled(!isNextButtonEnabled)
+                        .navigationBarItems(
+                                        trailing:
+                                            
 
-                   
-               )
-        }
+                                           
+                                            NavigationLink(destination: Recommendations()) {
+                                                Text("Далее")
+                                            }
+                                        
+                                            .disabled(!isNextButtonEnabled)
+                                        
+                                    )
+                     
+                    }
+
         .onAppear {
             viewModel.fetchData()
+
+        }
+        
+    }
+}
+
+
+struct FView: View{
+    @State var counter: Int = 0
+    var body: some View{
+        VStack{
+       FieldView(counter: counter + 1)
+            
         }
     }
 }

@@ -83,21 +83,61 @@ print("Current visit id: \(currentVisitId)")
             fatalError("Invalid URL: \(urlString)")
         }
         let workDoneIds = SelectedItemsManager.selectedItems.map { $0.id }
+        /*
+        let fieldInspection = Array(SelectedItemsManager.selectedItems2).map { item -> [String: Any] in
+                 let culture = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 1 }.map { item -> [String: Any] in
+                     return [
+                         "cultId": item.categoryId,
+                         "id": item.id,
+                         "description": item.name
+                     ]
+                 }
+                 let step = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 2 }.map { item -> [String: Any] in
+                     return [
+                         "cultId": item.categoryId,
+                         "tid": item.id,
+                         "description": item.name
+                     ]
+                 }
+                 let complications = Array(SelectedItemsManager.selectedItems2.filter { $0.categoryId == 3 }).map { item -> [String: Any] in
+                     return [
+                         "cultId": item.categoryId,
+                         "id": item.id,
+                         "description": item.name
+                     ]
+                 }
+
+                 return [
+                  //   "cultId": categoryId,
+                     "culture": culture,
+                     "step": step,
+                     "complications": complications
+                 ]
+             }
+*/
         let itemsByCategoryId = Dictionary(grouping: SelectedItemsManager.selectedItems2, by: { $0.categoryId })
 
-        let service = (itemsByCategoryId[1] ?? []).map { item -> [String: Any] in
-            return [        "cultId": item.categoryId,        "id": item.id,        "description": item.name    ]
+        let culture = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 1 }.map { item -> [String: Any] in
+            return [
+                "cultId": item.categoryId,
+                "id": item.id,
+                "description": item.name
+            ]
         }
 
-        let steps = (itemsByCategoryId[2] ?? []).map { item -> [String: Any] in
-            return [        "cultId": item.categoryId,        "id": item.id,        "description": item.name    ]
+        let step = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 2 }.map { item -> [String: Any] in
+            return [
+                "cultId": item.categoryId,
+                "tid": item.id,
+                "description": item.name
+            ]
         }
 
         let complications = (itemsByCategoryId[3] ?? []).map { item -> [String: Any] in
             return [        "cultId": item.categoryId,        "id": item.id,        "description": item.name    ]
         }
 
-        let fieldInspection = [    "service": service,    "steps": steps,    "complications": complications]
+        let fieldInspection = [    "culture": culture,    "step": step,    "complications": complications]
 
     
             let parameters = [

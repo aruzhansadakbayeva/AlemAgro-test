@@ -59,7 +59,7 @@ class PostmanViewModel: ObservableObject {
     func getNextView(for item: PostmanResponse) -> AnyView {
           switch item.name {
           case "Осмотр поля":
-              return AnyView(FieldView())
+              return AnyView(FView())
           case "Предложение КП":
               return AnyView(Difficulties())
           default:
