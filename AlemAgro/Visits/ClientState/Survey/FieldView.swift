@@ -31,7 +31,7 @@ class PostmanViewModel2: ObservableObject {
             set: { self.selectedItems = $0 }
         )
     }
-
+    @Published var selectedItemsHistory: [[PostmanResponse2]] = []
     var categorizedResponse: [String: [PostmanResponse2]] {
          Dictionary(grouping: response, by: { $0.category })
      }
@@ -68,15 +68,30 @@ class PostmanViewModel2: ObservableObject {
             // print(String(data: data, encoding: .utf8)!)
          }.resume()
      }
+    func addSelectedItems() {
+            let items = response.filter { selectedItems.contains($0) }
+            selectedItemsHistory.append(items)
+        }
 }
 struct AllSelectedItemsView: View {
-    @ObservedObject var viewModel = PostmanViewModel2.shared // Используем синглтон
-
+    var selectedItemsHistory: [[PostmanResponse2]]
+    
     var body: some View {
         VStack {
-            Text("All selected items:")
-            ForEach(viewModel.allSelectedItems, id: \.id) { item in
-                Text("- \(item.name)")
+            Text("All selected items history:")
+            ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(selectedItemsHistory.indices, id: \.self) { index in
+                        VStack(alignment: .leading) {
+                            Text("View \(index + 1):")
+                                .fontWeight(.bold)
+                            ForEach(selectedItemsHistory[index], id: \.id) { item in
+                                Text("- \(item.name)")
+                            }
+                        }
+                        .padding(.bottom)
+                    }
+                }
             }
         }
     }
@@ -152,16 +167,20 @@ struct FieldView: View {
                 )
 
                 NavigationLink(destination: FieldView(counter: counter + 1)) {
-                    Text("Добавить культуру")
-                }
-                Button(action: {
-                               self.showAllSelectedItems.toggle()
-                           }) {
-                               Text("Show All Selected Items")
-                           }
-                           .sheet(isPresented: $showAllSelectedItems) {
-                               AllSelectedItemsView(viewModel: viewModel)
-                           }
+                                    Text("Добавить культуру")
+                                }
+                                .onDisappear {
+                                    // Add selected items to history before navigating to the next view
+                                    viewModel.addSelectedItems()
+                                }
+                                Button(action: {
+                                    self.showAllSelectedItems.toggle()
+                                }) {
+                                    Text("Show All Selected Items")
+                                }
+                                .sheet(isPresented: $showAllSelectedItems) {
+                                    AllSelectedItemsView(selectedItemsHistory: viewModel.selectedItemsHistory)
+                                }
                 ForEach(viewModel.categorizedResponse.sorted(by: { $0.value[0].categoryId < $1.value[0].categoryId }), id: \.key) { category, items in
                     Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {
