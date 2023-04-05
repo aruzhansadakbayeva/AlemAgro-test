@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PostmanResponse2: Decodable, Equatable, Hashable{
+struct PostmanResponse2: Identifiable,Decodable, Equatable, Hashable{
     var id: Int
     var name: String
     var category: String
@@ -22,6 +22,7 @@ struct PostmanResponse2: Decodable, Equatable, Hashable{
 
 
 class PostmanViewModel2: ObservableObject {
+    static let shared = PostmanViewModel2() // Синглтон
     @Published var response: [PostmanResponse2] = []
     @Published var selectedItems = Set<PostmanResponse2>()
     var selectedItemsBinding: Binding<Set<PostmanResponse2>> {
@@ -34,7 +35,10 @@ class PostmanViewModel2: ObservableObject {
     var categorizedResponse: [String: [PostmanResponse2]] {
          Dictionary(grouping: response, by: { $0.category })
      }
-    
+    var allSelectedItems: [PostmanResponse2] {
+        return response.filter { selectedItems.contains($0) }
+    }
+
      func fetchData() {
          let urlString = "http://10.200.100.17/api/manager/workspace"
          guard let url = URL(string: urlString) else {
@@ -65,11 +69,33 @@ class PostmanViewModel2: ObservableObject {
          }.resume()
      }
 }
+struct AllSelectedItemsView: View {
+    @ObservedObject var viewModel = PostmanViewModel2.shared // Используем синглтон
+
+    var body: some View {
+        VStack {
+            Text("All selected items:")
+            ForEach(viewModel.allSelectedItems, id: \.id) { item in
+                Text("- \(item.name)")
+            }
+        }
+    }
+}
 
 struct ItemsView: View {
-    @ObservedObject var viewModel: PostmanViewModel2
+    @ObservedObject var viewModel = PostmanViewModel2.shared
     var selectedItemsBinding: Binding<Set<PostmanResponse2>>
     var counter: Int
+    var allSelectedItems: [[PostmanResponse2]] {
+        viewModel.response
+            .filter { selectedItemsBinding.wrappedValue.contains($0) }
+            .reduce(into: [String: [PostmanResponse2]]()) { result, response in
+                let key = response.category
+                result[key, default: []].append(response)
+            }
+            .sorted { $0.key < $1.key }
+            .map { $0.value }
+    }
 
     init(viewModel: PostmanViewModel2, counter: Int) {
         self.viewModel = viewModel
@@ -80,8 +106,12 @@ struct ItemsView: View {
     var body: some View {
         VStack {
             Text("Selected items for view \(counter):")
-            ForEach(selectedItemsBinding.wrappedValue.sorted(by: { $0.id < $1.id }), id: \.id) { item in
-                Text("- \(item.name)")
+            ForEach(allSelectedItems, id: \.first?.id) { items in
+                Section(header: Text(items.first?.category ?? "").fontWeight(.bold)) {
+                    ForEach(items.sorted(by: { $0.id < $1.id }), id: \.id) { item in
+                        Text("- \(item.name)")
+                    }
+                }
             }
         }
     }
@@ -94,7 +124,7 @@ struct FieldView: View {
     var colorPrimary: Color {
         return colorScheme == .dark ? .black : .white
     }
-    @StateObject var viewModel = PostmanViewModel2()
+    @StateObject var viewModel = PostmanViewModel2.shared
     @State var counter: Int
 
     init(counter: Int) {
@@ -104,20 +134,34 @@ struct FieldView: View {
     var isNextButtonEnabled: Bool {
         return !viewModel.selectedItems.isEmpty
     }
+    @State var selectedItemsArray: [[PostmanResponse2]] = []
+    var allSelectedItems: [[PostmanResponse2]] {
+        return selectedItemsArray.filter { !$0.isEmpty }
+    }
+    @State var showAllSelectedItems = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
                 Text("View number: \(counter)")
+                
                 ItemsView(
-                                viewModel: viewModel,
-                           
-                                counter: counter
-                            )
+                    viewModel: viewModel,
+                  
+                    counter: counter
+                )
 
                 NavigationLink(destination: FieldView(counter: counter + 1)) {
                     Text("Добавить культуру")
                 }
+                Button(action: {
+                               self.showAllSelectedItems.toggle()
+                           }) {
+                               Text("Show All Selected Items")
+                           }
+                           .sheet(isPresented: $showAllSelectedItems) {
+                               AllSelectedItemsView(viewModel: viewModel)
+                           }
                 ForEach(viewModel.categorizedResponse.sorted(by: { $0.value[0].categoryId < $1.value[0].categoryId }), id: \.key) { category, items in
                     Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {

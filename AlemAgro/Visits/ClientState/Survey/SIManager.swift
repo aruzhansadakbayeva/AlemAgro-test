@@ -59,10 +59,7 @@ struct SelectedItemsView: View {
                 }
             }
             
-            VStack{
-                ItemsView(viewModel: viewModel, counter: 1)
-            }//  90p
-
+      
             ForEach(Array(SelectedItemsManager.selectedCategoryIds), id: \.self) { categoryId in
                 Section(header: Text("Selected Items for cultId \(categoryId)")) {
                     ForEach(Array(SelectedItemsManager.selectedItems2.filter({ $0.categoryId == categoryId })), id: \.id) { item in
