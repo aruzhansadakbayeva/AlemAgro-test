@@ -33,7 +33,7 @@ class SelectedItemsManager {
 }
 
 struct SelectedItemsView: View {
-
+    @StateObject var viewModel = PostmanViewModel2()
     
     var body: some View {
         Button(action: {
@@ -44,14 +44,14 @@ struct SelectedItemsView: View {
         List {
             ForEach(Array(SelectedItemsManager.selectedItems), id: \.id) { item in
                 Text("\(item.name)")
-             
+                
             }
-   
+            
             
             ForEach(Array(SelectedItemsManager.selectedItems3), id: \.id) { item in
                 Text("\(item.name)")
             }
-   
+            
             ForEach(SelectedItemsManager.selectedOptions.sorted(by: { $0.key.id < $1.key.id }), id: \.key.id) { item in
                 HStack {
                     Text("\(item.key.name): ")
@@ -59,8 +59,10 @@ struct SelectedItemsView: View {
                 }
             }
             
-        
-            // Iterate over selectedCategoryIds and display selectedItems2 for each category
+            VStack{
+                ItemsView(viewModel: viewModel, counter: 1)
+            }//  90p
+
             ForEach(Array(SelectedItemsManager.selectedCategoryIds), id: \.self) { categoryId in
                 Section(header: Text("Selected Items for cultId \(categoryId)")) {
                     ForEach(Array(SelectedItemsManager.selectedItems2.filter({ $0.categoryId == categoryId })), id: \.id) { item in

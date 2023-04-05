@@ -24,7 +24,12 @@ struct PostmanResponse2: Decodable, Equatable, Hashable{
 class PostmanViewModel2: ObservableObject {
     @Published var response: [PostmanResponse2] = []
     @Published var selectedItems = Set<PostmanResponse2>()
-
+    var selectedItemsBinding: Binding<Set<PostmanResponse2>> {
+        Binding<Set<PostmanResponse2>>(
+            get: { self.selectedItems },
+            set: { self.selectedItems = $0 }
+        )
+    }
 
     var categorizedResponse: [String: [PostmanResponse2]] {
          Dictionary(grouping: response, by: { $0.category })
@@ -63,17 +68,25 @@ class PostmanViewModel2: ObservableObject {
 
 struct ItemsView: View {
     @ObservedObject var viewModel: PostmanViewModel2
+    var selectedItemsBinding: Binding<Set<PostmanResponse2>>
     var counter: Int
-    
+
+    init(viewModel: PostmanViewModel2, counter: Int) {
+        self.viewModel = viewModel
+        self.counter = counter
+        self.selectedItemsBinding = viewModel.selectedItemsBinding
+    }
+
     var body: some View {
         VStack {
             Text("Selected items for view \(counter):")
-            ForEach(viewModel.selectedItems.sorted(by: { $0.id < $1.id }), id: \.id) { item in
+            ForEach(selectedItemsBinding.wrappedValue.sorted(by: { $0.id < $1.id }), id: \.id) { item in
                 Text("- \(item.name)")
             }
         }
     }
 }
+
 
 struct FieldView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -96,7 +109,12 @@ struct FieldView: View {
         ScrollView {
             VStack(spacing: 10) {
                 Text("View number: \(counter)")
-            ItemsView(viewModel: viewModel, counter: counter)
+                ItemsView(
+                                viewModel: viewModel,
+                           
+                                counter: counter
+                            )
+
                 NavigationLink(destination: FieldView(counter: counter + 1)) {
                     Text("Добавить культуру")
                 }
