@@ -167,7 +167,7 @@ struct FieldView: View {
                 )
 
                 NavigationLink(destination: FieldView(counter: counter + 1)) {
-                                    Text("Добавить культуру")
+                    Text("Добавить культуру")
                                 }
                                 .onDisappear {
                                     // Add selected items to history before navigating to the next view

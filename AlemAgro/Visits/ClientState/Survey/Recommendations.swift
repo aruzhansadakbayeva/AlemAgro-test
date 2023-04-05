@@ -57,7 +57,7 @@ class PostmanViewModel4: ObservableObject {
 }
 struct Recommendations: View {
     @Environment(\.colorScheme) var colorScheme
-
+    @ObservedObject var viewModel2 = PostmanViewModel2.shared
     var colorPrimary: Color {
         return colorScheme == .dark ? .black : .white
     }
@@ -127,7 +127,7 @@ struct Recommendations: View {
                                    
             NavigationLink(
                 destination:
-                    SelectedItemsView(),
+                    SelectedItemsView(selectedItemsHistory: viewModel2.selectedItemsHistory),
                 label: {
                     Text("Завершить").fontWeight(.bold).foregroundColor(Color.white)
                         .foregroundColor(.white)

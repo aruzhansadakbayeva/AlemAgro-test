@@ -34,8 +34,35 @@ class SelectedItemsManager {
 
 struct SelectedItemsView: View {
     @StateObject var viewModel = PostmanViewModel2()
-    
+    var selectedItemsHistory: [[PostmanResponse2]]
     var body: some View {
+        VStack {
+               Text("All selected items history:")
+               ScrollView {
+                   VStack(alignment: .leading) {
+                       ForEach(selectedItemsHistory.indices, id: \.self) { index in
+                           VStack(alignment: .leading) {
+                               Text("View \(index + 1):")
+                                   .fontWeight(.bold)
+                               
+                               // Создаем словарь, где ключом будет категория, а значением - массив элементов
+                               let itemsByCategory = Dictionary(grouping: selectedItemsHistory[index], by: { $0.category })
+                               
+                               ForEach(itemsByCategory.keys.sorted(), id: \.self) { category in
+                                   Text(category)
+                                       .fontWeight(.semibold)
+                                   
+                                   ForEach(itemsByCategory[category]!, id: \.id) { item in
+                                       Text("- \(item.name)")
+                                   }
+                               }
+                           }
+                           .padding(.bottom)
+                       }
+                   }
+               }
+           }
+       
         Button(action: {
        
             sendToAPI()
