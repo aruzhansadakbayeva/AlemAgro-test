@@ -13,7 +13,7 @@ struct ClientObject: Decodable {
     let clientName: String
     let clientCategory: String
     let address: String
-    let contactInf: [ContactInfo]
+    let contactInf: [ContactInf]
     let clientIin: Int
     let managerId: Int?
     let managerName: String?
@@ -29,13 +29,15 @@ struct ClientObject: Decodable {
     let plotName: String?
     let summContract: String
     let summCurrentContractSeason: String
-    let allContractsAa: [AllContractsAa]
+    let checkContracts: Bool
     let potentialClientPercent: String
     let subscidesSum: String
-    let subscidesList: [SubscidesList]
+    let checkSubscides: Bool
+    let duration: String?
+    let distance: String?
 }
 
-struct ContactInfo: Identifiable, Decodable {
+struct ContactInf: Identifiable, Decodable {
     let id: String
     let position: String
     let name: String
@@ -43,31 +45,15 @@ struct ContactInfo: Identifiable, Decodable {
     let email: String?
 }
 
-struct AllContractsAa: Decodable{
-    let productName: String
-    let productCount: String
-    let avgPrice: String
-}
-
-struct SubscidesList: Decodable {
-    let season: Int
-    let providerName: String
-    let providerIin: Int
-    let productName: String
-    let sumSubcides: String
-    let productVolume: Double
-    let productUnit: String
-    let usageArea: String
-}
 struct ClientData: Decodable {
-    let clientObj: [ClientObject]
+    let data: ClientObject
 }
 
 
 
 
 class DetailClientViewModel: ObservableObject {
-    @Published var response: [ClientObject] = []
+    @Published var response: ClientObject?
 
     
     
@@ -99,7 +85,7 @@ print("Current visit id: \(currentVisitId)")
             do {
                 let decodedResponse = try JSONDecoder().decode(ClientData.self, from: data)
                 DispatchQueue.main.async {
-                    self.response = decodedResponse.clientObj
+                    self.response = decodedResponse.data
                 }
             } catch let DecodingError.dataCorrupted(context) {
                 print("Data corrupted: \(context)")
@@ -124,7 +110,7 @@ struct ClientObjectView: View {
     @StateObject var viewModel = DetailClientViewModel()
     let client: Clientt
     var body: some View {
-        List(viewModel.response, id: \.clientId) { clientObject in
+        List([viewModel.response].compactMap { $0 }, id: \.clientId) { clientObject in
             VStack(alignment: .leading) {
                 Text("**Адрес**: \(clientObject.address)")
                 Text("**ИИН**: \(String(clientObject.clientIin))")
@@ -154,3 +140,23 @@ struct ClientObjectView: View {
         }
     }
 }
+
+
+/*
+struct AllContractsAa: Decodable{
+    let productName: String
+    let productCount: String
+    let avgPrice: String
+}
+
+struct SubscidesList: Decodable {
+    let season: Int
+    let providerName: String
+    let providerIin: Int
+    let productName: String
+    let sumSubcides: String
+    let productVolume: Double
+    let productUnit: String
+    let usageArea: String
+}
+ */

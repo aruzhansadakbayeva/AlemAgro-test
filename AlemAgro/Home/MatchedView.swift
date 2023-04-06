@@ -35,7 +35,7 @@ struct MatchedView: View {
                     Text("Клиенты") .fontWeight(.bold)
                     Text("Список клиентов").font(.system(size: 15)).font(.footnote)
                 }.frame(maxWidth: .infinity, alignment: .topLeading)
-                NavigationLink(destination: ClientView()){
+                NavigationLink(destination: ContentView()){
                 label: do {
                     Image(systemName: "chevron.right").font(.title2)
                 }

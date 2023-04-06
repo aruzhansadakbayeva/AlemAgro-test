@@ -20,13 +20,6 @@
 		CD4A3FFB29A725950061744A /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A3FFA29A725950061744A /* AccountView.swift */; };
 		CD4A3FFE29A727A40061744A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CD4A3FFD29A727A40061744A /* FirebaseAuth */; };
 		CD4A400029A727BE0061744A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = CD4A3FFF29A727BE0061744A /* FirebaseDatabase */; };
-		CD4A400229A7413D0061744A /* clientInfoData.json in Resources */ = {isa = PBXBuildFile; fileRef = CD4A400129A7413C0061744A /* clientInfoData.json */; };
-		CD4A400829A741FC0061744A /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A400729A741FC0061744A /* Client.swift */; };
-		CD4A400A29A742070061744A /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A400929A742070061744A /* ModelData.swift */; };
-		CD4A401129A744720061744A /* ClientList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A400C29A744720061744A /* ClientList.swift */; };
-		CD4A401229A744720061744A /* ClientRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A400D29A744720061744A /* ClientRow.swift */; };
-		CD4A401429A744720061744A /* ClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A400F29A744720061744A /* ClientView.swift */; };
-		CD4A401529A744720061744A /* ClientDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4A401029A744720061744A /* ClientDetail.swift */; };
 		CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */; };
 		CD6B906E29D2E4CC00DE6443 /* SIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B906D29D2E4CC00DE6443 /* SIManager.swift */; };
 		CD790AE829D6DA5100C3BD50 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD790AE729D6DA5100C3BD50 /* Test.swift */; };
@@ -58,13 +51,6 @@
 		33D859A728AD74F000C842CF /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		CD0F872829A157BF002D6056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CD4A3FFA29A725950061744A /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
-		CD4A400129A7413C0061744A /* clientInfoData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = clientInfoData.json; sourceTree = "<group>"; };
-		CD4A400729A741FC0061744A /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		CD4A400929A742070061744A /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
-		CD4A400C29A744720061744A /* ClientList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientList.swift; sourceTree = "<group>"; };
-		CD4A400D29A744720061744A /* ClientRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientRow.swift; sourceTree = "<group>"; };
-		CD4A400F29A744720061744A /* ClientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientView.swift; sourceTree = "<group>"; };
-		CD4A401029A744720061744A /* ClientDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientDetail.swift; sourceTree = "<group>"; };
 		CD5E7BBA29A8C7F500EE7D2F /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		CD6B906D29D2E4CC00DE6443 /* SIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIManager.swift; sourceTree = "<group>"; };
 		CD790AE729D6DA5100C3BD50 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
@@ -123,7 +109,6 @@
 				33D8598A28AC0E0000C842CF /* Home */,
 				CD0D0F3B29AC5BB100A6EDFC /* Visits */,
 				33D8597B28ABDDCB00C842CF /* AlemAgroApp.swift */,
-				CD4A400429A741B90061744A /* ClientInfo */,
 				33D8597D28ABDDCB00C842CF /* ContentView.swift */,
 				33D8597F28ABDDCC00C842CF /* Assets.xcassets */,
 				33D8598128ABDDCC00C842CF /* Preview Content */,
@@ -197,44 +182,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CD4A400329A7418F0061744A /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A400129A7413C0061744A /* clientInfoData.json */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		CD4A400429A741B90061744A /* ClientInfo */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A400B29A744720061744A /* Views */,
-				CD4A400529A741C70061744A /* Model */,
-				CD4A400329A7418F0061744A /* Resources */,
-			);
-			path = ClientInfo;
-			sourceTree = "<group>";
-		};
-		CD4A400529A741C70061744A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A400729A741FC0061744A /* Client.swift */,
-				CD4A400929A742070061744A /* ModelData.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		CD4A400B29A744720061744A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CD4A400C29A744720061744A /* ClientList.swift */,
-				CD4A400D29A744720061744A /* ClientRow.swift */,
-				CD4A400F29A744720061744A /* ClientView.swift */,
-				CD4A401029A744720061744A /* ClientDetail.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		CD556A3229B1BA9600A8E722 /* ClientState */ = {
@@ -330,7 +277,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD4A400229A7413D0061744A /* clientInfoData.json in Resources */,
 				CDB683C029A71CC8003BED40 /* GoogleService-Info.plist in Resources */,
 				33D8598328ABDDCC00C842CF /* Preview Assets.xcassets in Resources */,
 				33D8598028ABDDCC00C842CF /* Assets.xcassets in Resources */,
@@ -351,25 +297,19 @@
 				3314726D28AD8298000AFD83 /* HomeView.swift in Sources */,
 				CD9CC0F029D19F4D0076F9CA /* Difficulties.swift in Sources */,
 				33D859A628AD6ABB00C842CF /* TabData.swift in Sources */,
-				CD4A401229A744720061744A /* ClientRow.swift in Sources */,
 				33D8597E28ABDDCB00C842CF /* ContentView.swift in Sources */,
 				CDD68CE129C082B30056F76D /* VisitsClientsList.swift in Sources */,
 				CD4A3FFB29A725950061744A /* AccountView.swift in Sources */,
 				3314726F28AEAF4F000AFD83 /* CustomSearchBar.swift in Sources */,
 				CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */,
-				CD4A400A29A742070061744A /* ModelData.swift in Sources */,
 				33D8599728AC1E4D00C842CF /* CircleBackground.swift in Sources */,
-				CD4A401529A744720061744A /* ClientDetail.swift in Sources */,
 				CD9CC0E729C87C0E0076F9CA /* WholeModel.swift in Sources */,
-				CD4A400829A741FC0061744A /* Client.swift in Sources */,
 				CD9CC0E329C860420076F9CA /* FieldView.swift in Sources */,
 				CD790AE829D6DA5100C3BD50 /* Test.swift in Sources */,
 				CD7C171229C2EA0700F0803E /* ClientsList.swift in Sources */,
-				CD4A401129A744720061744A /* ClientList.swift in Sources */,
 				CDA00DCF29BAF97100011CE7 /* SelectVisitView.swift in Sources */,
 				33D8597C28ABDDCB00C842CF /* AlemAgroApp.swift in Sources */,
 				CD7C171429C32ECB00F0803E /* Autorization.swift in Sources */,
-				CD4A401429A744720061744A /* ClientView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
