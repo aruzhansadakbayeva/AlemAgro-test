@@ -123,8 +123,91 @@ struct SelectedItemsView: View {
                 .padding(.horizontal, 20)
             }
             .padding(.horizontal, 20)
-        }
+        }            .navigationBarItems(trailing:
+                                            NavigationLink(
+                                                destination: VisitListView()
+                                                    .onAppear {
+                                                        // Perform action here
+                                                        // You can call a function or perform any other action
+                                                        // when the destination view appears
+                                                        sendToAPI()
+                                                    },
+                                                label: {
+                                                    Text("Подтвердить завершение")
+                                                        .fontWeight(.bold)
+                                                        .foregroundColor(Color.white)
+                                                        .font(.subheadline)
+                                                        .padding(5)
+                                                        .background(Color.green)
+                                                        .cornerRadius(7)
+                                                })
+                                            .padding()
+                                        )
     }
+    
+    func sendToAPI() {
+        let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
+print("Current visit id: \(currentVisitId)")
+  
+
+        let urlString = "http://10.200.100.17/api/manager/workspace"
+        guard let url = URL(string: urlString) else {
+            fatalError("Invalid URL: \(urlString)")
+        }
+        let workDoneIds = SelectedItemsManager.selectedItems.map { $0.id }
+
+        let fieldInspection = selectedItemsHistory.enumerated().map { (index, items) -> [String: Any] in
+            var fieldInspectionItem: [String: Any] = [:]
+            fieldInspectionItem["culture"] = "Культура \(index + 1)"
+            let itemsByCategory = Dictionary(grouping: items, by: { $0.category })
+            var categoryItems: [[String: Any]] = []
+            for category in itemsByCategory.keys.sorted() {
+                var categoryItem: [String: Any] = [:]
+                categoryItem["category"] = category
+                let itemNames = itemsByCategory[category]!.map { "- \($0.name)" }
+                categoryItem["items"] = itemNames
+                categoryItems.append(categoryItem)
+            }
+            fieldInspectionItem["categories"] = categoryItems
+            return fieldInspectionItem
+        }
+
+    
+            let parameters = [
+                "type": "meetingSurvey",
+                "action": "fixedSurvey",
+                "visitId": currentVisitId,
+                "workDone": workDoneIds,
+                "fieldInspection": fieldInspection,
+                "contractComplication": SelectedItemsManager.selectedItems3.map { item -> [String: Any] in
+                    return [
+                        "typeId": item.id,
+                        "description": item.name
+                    ]
+                },
+                "recomendation": SelectedItemsManager.selectedOptions.map { item -> [String: Any] in
+                    return [
+                        "typeId": item.key.id,
+                        "description": item.value,
+                    ]
+                },
+                "fileVisit": "dsasdsa"] as [String : Any]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            print("Осмотр поля: \(fieldInspection)")
+            print("Parameters: \(parameters)")
+            print(String(data: data, encoding: .utf8)!)
+        }.resume()
+    }
+
     
     
 }
