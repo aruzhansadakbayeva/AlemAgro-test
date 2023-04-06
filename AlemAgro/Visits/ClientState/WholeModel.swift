@@ -109,33 +109,34 @@ struct ClientObjectView: View {
     @StateObject var viewModel = DetailClientViewModel()
     let client: Clientt
     var body: some View {
-        VStack{
-            HStack{
-                NavigationLink(
-                    destination: GetContract(),
-                    label: {
-                        Text("Контракты").fontWeight(.bold).padding(5)
-                        
-                            .foregroundColor(.white)
-                        
-                            .background(Color("grey"))
-                        
-                            .cornerRadius(7)
-                    }).padding()
-                Spacer()
-                NavigationLink(
-                    destination: GetSubscidesList(),
-                    label: {
-                        Text("Субсидии").fontWeight(.bold).padding(5)
-                        
-                            .foregroundColor(.white)
-                        
-                            .background(Color("grey"))
-                        
-                            .cornerRadius(7)
-                    }).padding()
+    
+            VStack(spacing:-5){
+                HStack{
+                    NavigationLink(
+                        destination: GetContract(),
+                        label: {
+                            Text("Контракты").fontWeight(.bold).padding(5)
+                            
+                                .foregroundColor(.white)
+                            
+                                .background(Color("grey"))
+                            
+                                .cornerRadius(5)
+                        }).padding()
+                    Spacer()
+                    NavigationLink(
+                        destination: GetSubscidesList(),
+                        label: {
+                            Text("Список субсидий").fontWeight(.bold).padding(5)
+                            
+                                .foregroundColor(.white)
+                            
+                                .background(Color("grey"))
+                            
+                                .cornerRadius(5)
+                        }).padding()
+                }
             }
-        }
             List([viewModel.response].compactMap { $0 }, id: \.clientId) { clientObject in
                 VStack(alignment: .leading) {
                     Text("**Адрес**: \(clientObject.address)")
@@ -164,27 +165,27 @@ struct ClientObjectView: View {
                                     Text("**Почта**: \(email)")
                                 }
                                 Text("**Должность**: \(contact.position)")
-                            
+                                
                                 
                             }
                         }
                         
                     }
-               
+                    
                     
                 }
                 
             }
-         
-        
-        .onAppear {
-            viewModel.fetchData()
-                     ClientIdManager.shared.setCurrentClientId(id: client.clientId)
-                                    
+            
+            
+            .onAppear {
+                viewModel.fetchData()
+                ClientIdManager.shared.setCurrentClientId(id: client.clientId)
+                
+            }
+            
         }
-        
     }
-}
 
 
 /*

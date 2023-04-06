@@ -161,7 +161,7 @@ struct ClientDetailView: View {
     @State var isFinished = false
 
     var body: some View {
-        NavigationView {
+        VStack{
            
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 17){
@@ -191,7 +191,9 @@ struct ClientDetailView: View {
             }
         
          }
-*/
+*/ .onAppear {
+    VisitIdManager.shared.setCurrentVisitId(id: client.visitId)
+}
                
             .navigationBarItems(
                                     trailing:
@@ -248,9 +250,7 @@ struct ClientDetailView: View {
                                 )
             
 
-            .onAppear {
-                                    VisitIdManager.shared.setCurrentVisitId(id: client.visitId)
-                                }
+           
 
    
     }

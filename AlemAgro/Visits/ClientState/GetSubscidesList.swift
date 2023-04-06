@@ -63,28 +63,28 @@ struct GetSubscidesList: View {
     @ObservedObject var viewModel = SubscidesViewModel() // Создаем экземпляр SubscidesViewModel
     
     var body: some View {
-    
-  
-        VStack {
-            Text("Список субсидий")
-                .font(.title)
-                .padding()
-            
-            List(viewModel.response, id: \.self) { subscide in
-                VStack(alignment: .leading) {
-                    Text("**Season**: \(subscide.season ?? 0)")
-                    Text("**Provider Name**: \(subscide.providerName ?? "")")
-                    Text("**Provider IIN**: \(subscide.providerIin ?? 0)")
-                    Text("**Product Name**: \(subscide.productName ?? "")")
-                    Text("**Sum Subcides**: \(subscide.sumSubcides ?? "")")
-                    Text("**Product Volume**: \(subscide.productVolume ?? 0)")
-                    Text("**Product Unit**: \(subscide.productUnit ?? "")")
-                    Text("**Usage Area**: \(subscide.usageArea ?? "")")
-                }
-            }.padding()
-        }
-        .onAppear {
-            viewModel.fetchData() // Вызываем метод fetchData() для получения данных
-        }
+        
+            VStack {
+                Text("Список субсидий")
+                    .font(.title2)
+                    .padding()
+                
+                List(viewModel.response, id: \.self) { subscide in
+                    VStack(alignment: .leading) {
+                        Text("**Season**: \(subscide.season ?? 0)")
+                        Text("**Provider Name**: \(subscide.providerName ?? "")")
+                        Text("**Provider IIN**: \(subscide.providerIin ?? 0)")
+                        Text("**Product Name**: \(subscide.productName ?? "")")
+                        Text("**Sum Subcides**: \(subscide.sumSubcides ?? "")")
+                        Text("**Product Volume**: \(subscide.productVolume ?? 0)")
+                        Text("**Product Unit**: \(subscide.productUnit ?? "")")
+                        Text("**Usage Area**: \(subscide.usageArea ?? "")")
+                    }
+                }.padding()
+            }
+            .onAppear {
+                viewModel.fetchData() // Вызываем метод fetchData() для получения данных
+            }
+        
     }
 }
