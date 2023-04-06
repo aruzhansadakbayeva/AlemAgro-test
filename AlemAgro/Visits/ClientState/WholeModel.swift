@@ -105,7 +105,6 @@ print("Current visit id: \(currentVisitId)")
     }
 }
 
-
 struct ClientObjectView: View {
     @StateObject var viewModel = DetailClientViewModel()
     let client: Clientt
@@ -120,21 +119,35 @@ struct ClientObjectView: View {
                 Text("**Сумма контрактов за последние три года**:\n \(clientObject.summContract)")
                 Text("**Сумма контрактов за текущий сезон**:\n \(clientObject.summCurrentContractSeason)")
                 Text("**Сумма субсидий за три года**:\n \(clientObject.subscidesSum)")
-             
-               /*
-                ForEach(clientObject.contactInf) { contact in
-                    Text("Contact Info:")
-                    Text("ID: \(contact.id)")
-                    Text("Position: \(contact.position)")
-                    Text("Name: \(contact.name)")
-                    Text("Phone Number: \(contact.phNumber)")
-                    if let email = contact.email {
-                        Text("Email: \(email)")
+                Divider()
+                    .padding(.vertical, 10)
+                // Displaying ContactInf
+                VStack(alignment: .leading){
+       
+                    ForEach(clientObject.contactInf) { contact in
+                        VStack(alignment: .leading) {
+                            Text("Контакты клиента:")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                            Text(contact.name)
+                                .bold()
+                                .lineLimit(nil)
+                            Text("**Телефон**: \(contact.phNumber)")
+                            if let email = contact.email {
+                                Text("**Почта**: \(email)")
+                            }
+                            Text("**Должность**: \(contact.position)")
+                            
+                            
+                        }
                     }
+                    
                 }
-                */
+                
+              
             }
         }
+        
         .onAppear {
             viewModel.fetchData()
         }
@@ -160,3 +173,16 @@ struct SubscidesList: Decodable {
     let usageArea: String
 }
  */
+
+  /*
+   ForEach(clientObject.contactInf) { contact in
+       Text("Contact Info:")
+       Text("ID: \(contact.id)")
+       Text("Position: \(contact.position)")
+       Text("Name: \(contact.name)")
+       Text("Phone Number: \(contact.phNumber)")
+       if let email = contact.email {
+           Text("Email: \(email)")
+       }
+   }
+   */

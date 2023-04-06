@@ -31,6 +31,8 @@
 		CD9CC0F229D1A11D0076F9CA /* Recommendations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CC0F129D1A11D0076F9CA /* Recommendations.swift */; };
 		CDA00DCF29BAF97100011CE7 /* SelectVisitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA00DCE29BAF97100011CE7 /* SelectVisitView.swift */; };
 		CDB683C029A71CC8003BED40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDB683BF29A71CC8003BED40 /* GoogleService-Info.plist */; };
+		CDC7FC4929DED6CF00676E6B /* GetSubscidesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7FC4829DED6CF00676E6B /* GetSubscidesList.swift */; };
+		CDC7FC4B29DED6EB00676E6B /* GetContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7FC4A29DED6EB00676E6B /* GetContract.swift */; };
 		CDD1A073299E1636003E4C43 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A072299E1636003E4C43 /* FirebaseFirestore */; };
 		CDD1A075299E1636003E4C43 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A074299E1636003E4C43 /* FirebaseFirestoreSwift */; };
 		CDD1A07F299F695B003E4C43 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A07E299F695B003E4C43 /* SDWebImageSwiftUI */; };
@@ -62,6 +64,8 @@
 		CD9CC0F129D1A11D0076F9CA /* Recommendations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendations.swift; sourceTree = "<group>"; };
 		CDA00DCE29BAF97100011CE7 /* SelectVisitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectVisitView.swift; sourceTree = "<group>"; };
 		CDB683BF29A71CC8003BED40 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CDC7FC4829DED6CF00676E6B /* GetSubscidesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSubscidesList.swift; sourceTree = "<group>"; };
+		CDC7FC4A29DED6EB00676E6B /* GetContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetContract.swift; sourceTree = "<group>"; };
 		CDD68CE029C082B30056F76D /* VisitsClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsClientsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +193,8 @@
 			children = (
 				CD9CC0EE29D19EBA0076F9CA /* Survey */,
 				CD9CC0E629C87C0E0076F9CA /* WholeModel.swift */,
+				CDC7FC4829DED6CF00676E6B /* GetSubscidesList.swift */,
+				CDC7FC4A29DED6EB00676E6B /* GetContract.swift */,
 			);
 			path = ClientState;
 			sourceTree = "<group>";
@@ -292,6 +298,7 @@
 			files = (
 				33D859A228AC2DF800C842CF /* utils.swift in Sources */,
 				33D859A828AD74F000C842CF /* CustomTabBar.swift in Sources */,
+				CDC7FC4929DED6CF00676E6B /* GetSubscidesList.swift in Sources */,
 				CD6B906E29D2E4CC00DE6443 /* SIManager.swift in Sources */,
 				CD9CC0F229D1A11D0076F9CA /* Recommendations.swift in Sources */,
 				3314726D28AD8298000AFD83 /* HomeView.swift in Sources */,
@@ -305,6 +312,7 @@
 				33D8599728AC1E4D00C842CF /* CircleBackground.swift in Sources */,
 				CD9CC0E729C87C0E0076F9CA /* WholeModel.swift in Sources */,
 				CD9CC0E329C860420076F9CA /* FieldView.swift in Sources */,
+				CDC7FC4B29DED6EB00676E6B /* GetContract.swift in Sources */,
 				CD790AE829D6DA5100C3BD50 /* Test.swift in Sources */,
 				CD7C171229C2EA0700F0803E /* ClientsList.swift in Sources */,
 				CDA00DCF29BAF97100011CE7 /* SelectVisitView.swift in Sources */,
