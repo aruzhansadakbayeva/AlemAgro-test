@@ -109,48 +109,80 @@ struct ClientObjectView: View {
     @StateObject var viewModel = DetailClientViewModel()
     let client: Clientt
     var body: some View {
-        List([viewModel.response].compactMap { $0 }, id: \.clientId) { clientObject in
-            VStack(alignment: .leading) {
-                Text("**Адрес**: \(clientObject.address)")
-                Text("**ИИН**: \(String(clientObject.clientIin))")
-                Text("**Поле**: \(clientObject.plotName ?? "Нету")")
-                Text("**Цель встречи**: \(client.visitTypeName ?? "")")
-                Text("**Место встречи**: \(clientObject.meetingTypeName)")
-                Text("**Сумма контрактов за последние три года**:\n \(clientObject.summContract)")
-                Text("**Сумма контрактов за текущий сезон**:\n \(clientObject.summCurrentContractSeason)")
-                Text("**Сумма субсидий за три года**:\n \(clientObject.subscidesSum)")
-                Divider()
-                    .padding(.vertical, 10)
-                // Displaying ContactInf
-                VStack(alignment: .leading){
-       
-                    ForEach(clientObject.contactInf) { contact in
-                        VStack(alignment: .leading) {
-                            Text("Контакты клиента:")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                            Text(contact.name)
-                                .bold()
-                                .lineLimit(nil)
-                            Text("**Телефон**: \(contact.phNumber)")
-                            if let email = contact.email {
-                                Text("**Почта**: \(email)")
+        VStack{
+            HStack{
+                NavigationLink(
+                    destination: GetContract(),
+                    label: {
+                        Text("Контракты").fontWeight(.bold).padding(5)
+                        
+                            .foregroundColor(.white)
+                        
+                            .background(Color("grey"))
+                        
+                            .cornerRadius(7)
+                    }).padding()
+                Spacer()
+                NavigationLink(
+                    destination: GetSubscidesList(),
+                    label: {
+                        Text("Субсидии").fontWeight(.bold).padding(5)
+                        
+                            .foregroundColor(.white)
+                        
+                            .background(Color("grey"))
+                        
+                            .cornerRadius(7)
+                    }).padding()
+            }
+        }
+            List([viewModel.response].compactMap { $0 }, id: \.clientId) { clientObject in
+                VStack(alignment: .leading) {
+                    Text("**Адрес**: \(clientObject.address)")
+                    Text("**ИИН**: \(String(clientObject.clientIin))")
+                    Text("**Поле**: \(clientObject.plotName ?? "Нету")")
+                    Text("**Цель встречи**: \(client.visitTypeName ?? "")")
+                    Text("**Место встречи**: \(clientObject.meetingTypeName)")
+                    Text("**Сумма контрактов за последние три года**:\n \(clientObject.summContract)")
+                    Text("**Сумма контрактов за текущий сезон**:\n \(clientObject.summCurrentContractSeason)")
+                    Text("**Сумма субсидий за три года**:\n \(clientObject.subscidesSum)")
+                    Divider()
+                        .padding(.vertical, 10)
+                    // Displaying ContactInf
+                    VStack(alignment: .leading){
+                        
+                        ForEach(clientObject.contactInf) { contact in
+                            VStack(alignment: .leading) {
+                                Text("Контакты клиента:")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                Text(contact.name)
+                                    .bold()
+                                    .lineLimit(nil)
+                                Text("**Телефон**: \(contact.phNumber)")
+                                if let email = contact.email {
+                                    Text("**Почта**: \(email)")
+                                }
+                                Text("**Должность**: \(contact.position)")
+                            
+                                
                             }
-                            Text("**Должность**: \(contact.position)")
-                            
-                            
                         }
+                        
                     }
+               
                     
                 }
                 
-              
             }
-        }
+         
         
         .onAppear {
             viewModel.fetchData()
+                     ClientIdManager.shared.setCurrentClientId(id: client.clientId)
+                                    
         }
+        
     }
 }
 

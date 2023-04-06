@@ -308,7 +308,19 @@ struct ClientDetailView: View {
     
 
 }
-
+class ClientIdManager {
+    static let shared = ClientIdManager()
+    
+    private var currentClientId: Int? = nil
+    
+    func setCurrentClientId(id: Int) {
+        currentClientId = id
+    }
+    
+    func getCurrentClientId() -> Int? {
+        return currentClientId
+    }
+}
 
 class VisitIdManager {
     static let shared = VisitIdManager()
