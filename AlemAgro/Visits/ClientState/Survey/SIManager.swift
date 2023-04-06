@@ -52,7 +52,7 @@ struct SelectedItemsView: View {
                     }
                     ForEach(selectedItemsHistory.indices, id: \.self) { index in
                         VStack(alignment: .leading) {
-                            Text("Культура \(index + 1):")
+                            Text("Культура \(index + 1):").foregroundColor(.green)
                                 .fontWeight(.bold)
                                 .padding(.bottom, 5)
                             
@@ -84,7 +84,7 @@ struct SelectedItemsView: View {
                         .padding(.bottom, 10)
                     
                     ForEach(Array(SelectedItemsManager.selectedItems), id: \.id) { item in
-                        Text("\(item.name)")
+                        Text("- \(item.name)")
                             .padding(.bottom, 5)
                     }
                 
@@ -97,7 +97,7 @@ struct SelectedItemsView: View {
                     }
                     ForEach(Array(SelectedItemsManager.selectedItems3), id: \.id) { item in
                    
-                            Text("\(item.name)")
+                            Text("- \(item.name)")
                                 .padding(.bottom, 5)
                         
                     }
@@ -112,8 +112,9 @@ struct SelectedItemsView: View {
                     
                     ForEach(SelectedItemsManager.selectedOptions.sorted(by: { $0.key.id < $1.key.id }), id: \.key.id) { item in
                         HStack {
-                            Text("\(item.key.name): ")
+                            Text("\(item.key.name)")
                                 .fontWeight(.semibold)
+                            Spacer()
                             Text("\(item.value)")
                         }
                         .padding(.bottom, 5)
