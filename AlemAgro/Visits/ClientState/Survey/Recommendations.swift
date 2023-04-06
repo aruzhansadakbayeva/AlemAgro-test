@@ -78,6 +78,7 @@ struct Recommendations: View {
     @State private var isPlaying = false
     
     var body: some View {
+
         VStack {
             List(viewModel.response, id: \.id, selection: $selectedItems) { item in
                 VStack {
@@ -124,19 +125,26 @@ struct Recommendations: View {
             }
     
             .navigationBarItems(trailing:
-                                   
-            NavigationLink(
-                destination:
-                    SelectedItemsView(selectedItemsHistory: viewModel2.selectedItemsHistory),
-                label: {
-                    Text("Завершить").fontWeight(.bold).foregroundColor(Color.white)
-                        .foregroundColor(.white)
-                        .font(.subheadline).padding(5)
-                        .background(Color.green)
-                        .cornerRadius(7)
-                } )
-            .padding()
-                                )
+                NavigationLink(
+                    destination: SelectedItemsView(selectedItemsHistory: viewModel2.selectedItemsHistory)
+                        .onAppear {
+                            // Perform action here
+                            // You can call a function or perform any other action
+                            // when the destination view appears
+                            sendToAPI()
+                        },
+                    label: {
+                        Text("Завершить")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.white)
+                            .font(.subheadline)
+                            .padding(5)
+                            .background(Color.green)
+                            .cornerRadius(7)
+                    })
+                .padding()
+            )
+
             .onAppear {
                 viewModel.fetchData()
           
@@ -249,6 +257,110 @@ struct Recommendations: View {
     }
     
     
+    func sendToAPI() {
+        let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
+print("Current visit id: \(currentVisitId)")
+  
+
+        let urlString = "http://10.200.100.17/api/manager/workspace"
+        guard let url = URL(string: urlString) else {
+            fatalError("Invalid URL: \(urlString)")
+        }
+        let workDoneIds = SelectedItemsManager.selectedItems.map { $0.id }
+        /*
+        let fieldInspection = Array(SelectedItemsManager.selectedItems2).map { item -> [String: Any] in
+                 let culture = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 1 }.map { item -> [String: Any] in
+                     return [
+                         "cultId": item.categoryId,
+                         "id": item.id,
+                         "description": item.name
+                     ]
+                 }
+                 let step = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 2 }.map { item -> [String: Any] in
+                     return [
+                         "cultId": item.categoryId,
+                         "tid": item.id,
+                         "description": item.name
+                     ]
+                 }
+                 let complications = Array(SelectedItemsManager.selectedItems2.filter { $0.categoryId == 3 }).map { item -> [String: Any] in
+                     return [
+                         "cultId": item.categoryId,
+                         "id": item.id,
+                         "description": item.name
+                     ]
+                 }
+
+                 return [
+                  //   "cultId": categoryId,
+                     "culture": culture,
+                     "step": step,
+                     "complications": complications
+                 ]
+             }
+*/
+        let itemsByCategoryId = Dictionary(grouping: SelectedItemsManager.selectedItems2, by: { $0.categoryId })
+
+        let culture = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 1 }.map { item -> [String: Any] in
+            return [
+                "cultId": item.categoryId,
+                "id": item.id,
+                "description": item.name
+            ]
+        }
+
+        let step = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 2 }.map { item -> [String: Any] in
+            return [
+                "cultId": item.categoryId,
+                "tid": item.id,
+                "description": item.name
+            ]
+        }
+
+        let complications = (itemsByCategoryId[3] ?? []).map { item -> [String: Any] in
+            return [        "cultId": item.categoryId,        "id": item.id,        "description": item.name    ]
+        }
+
+        let fieldInspection = [    "culture": culture,    "step": step,    "complications": complications]
+
+    
+            let parameters = [
+                "type": "meetingSurvey",
+                "action": "fixedSurvey",
+                "visitId": currentVisitId,
+                "workDone": workDoneIds,
+                "fieldInspection": fieldInspection,
+                "contractComplication": SelectedItemsManager.selectedItems3.map { item -> [String: Any] in
+                    return [
+                        "typeId": item.id,
+                        "description": item.name
+                    ]
+                },
+                "recomendation": SelectedItemsManager.selectedOptions.map { item -> [String: Any] in
+                    return [
+                        "typeId": item.key.id,
+                        "description": item.value,
+                    ]
+                },
+                "fileVisit": "dsasdsa"] as [String : Any]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            print("Осмотр поля: \(fieldInspection)")
+            print("Parameters: \(parameters)")
+            print(String(data: data, encoding: .utf8)!)
+        }.resume()
+    }
+
+    
+ 
     
 }
 /*

@@ -36,173 +36,106 @@ struct SelectedItemsView: View {
     @StateObject var viewModel = PostmanViewModel2()
     var selectedItemsHistory: [[PostmanResponse2]]
     var body: some View {
-        VStack {
-               Text("All selected items history:")
-               ScrollView {
-                   VStack(alignment: .leading) {
-                       ForEach(selectedItemsHistory.indices, id: \.self) { index in
-                           VStack(alignment: .leading) {
-                               Text("View \(index + 1):")
-                                   .fontWeight(.bold)
-                               
-                               // Создаем словарь, где ключом будет категория, а значением - массив элементов
-                               let itemsByCategory = Dictionary(grouping: selectedItemsHistory[index], by: { $0.category })
-                               
-                               ForEach(itemsByCategory.keys.sorted(), id: \.self) { category in
-                                   Text(category)
-                                       .fontWeight(.semibold)
-                                   
-                                   ForEach(itemsByCategory[category]!, id: \.id) { item in
-                                       Text("- \(item.name)")
-                                   }
-                               }
-                           }
-                           .padding(.bottom)
-                       }
-                   }
-               }
-           }
-       
-        Button(action: {
-       
-            sendToAPI()
-            
-        }) {Text("Send") }
-        List {
-            ForEach(Array(SelectedItemsManager.selectedItems), id: \.id) { item in
-                Text("\(item.name)")
+        ScrollView{
+            VStack(alignment: .leading) {
+                Text("Результат опроса:")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.bottom, 10)
+                VStack(alignment: .leading){
+                    if (!selectedItemsHistory.isEmpty) {
+                        Text("Осмотр поля:")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.bottom, 10)
+                        
+                    }
+                    ForEach(selectedItemsHistory.indices, id: \.self) { index in
+                        VStack(alignment: .leading) {
+                            Text("Культура \(index + 1):")
+                                .fontWeight(.bold)
+                                .padding(.bottom, 5)
+                            
+                            // Создаем словарь, где ключом будет категория, а значением - массив элементов
+                            let itemsByCategory = Dictionary(grouping: selectedItemsHistory[index], by: { $0.category })
+                            
+                            ForEach(itemsByCategory.keys.sorted(), id: \.self) { category in
+                                Text(category)
+                                    .fontWeight(.bold)
+                                
+                                ForEach(itemsByCategory[category]!, id: \.id) { item in
+                                    Text("- \(item.name)")
+                                        .padding(.bottom, 5)
+                                }
+                            }
+                        }
+                        .padding(.bottom, 10)
+                    }
+                    
+                    
+                } .padding(.horizontal, 20)
+                Divider()
+                    .padding(.vertical, 10)
                 
-            }
-            
-            
-            ForEach(Array(SelectedItemsManager.selectedItems3), id: \.id) { item in
-                Text("\(item.name)")
-            }
-            
-            ForEach(SelectedItemsManager.selectedOptions.sorted(by: { $0.key.id < $1.key.id }), id: \.key.id) { item in
-                HStack {
-                    Text("\(item.key.name): ")
-                    Text("\(item.value)")
-                }
-            }
-            
-      
-            ForEach(Array(SelectedItemsManager.selectedCategoryIds), id: \.self) { categoryId in
-                Section(header: Text("Selected Items for cultId \(categoryId)")) {
-                    ForEach(Array(SelectedItemsManager.selectedItems2.filter({ $0.categoryId == categoryId })), id: \.id) { item in
+                VStack(alignment: .leading) {
+                    Text("Проделанная работа:")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.bottom, 10)
+                    
+                    ForEach(Array(SelectedItemsManager.selectedItems), id: \.id) { item in
                         Text("\(item.name)")
+                            .padding(.bottom, 5)
+                    }
+                
+                    if (!SelectedItemsManager.selectedItems3.isEmpty) {
+                        Text("Сложности заключения договора:")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.bottom, 10)
+                        
+                    }
+                    ForEach(Array(SelectedItemsManager.selectedItems3), id: \.id) { item in
+                   
+                            Text("\(item.name)")
+                                .padding(.bottom, 5)
+                        
+                    }
+                    
+                    Divider()
+                        .padding(.vertical, 10)
+                    
+                    Text("Рекомендации:")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.bottom, 10)
+                    
+                    ForEach(SelectedItemsManager.selectedOptions.sorted(by: { $0.key.id < $1.key.id }), id: \.key.id) { item in
+                        HStack {
+                            Text("\(item.key.name): ")
+                                .fontWeight(.semibold)
+                            Text("\(item.value)")
+                        }
+                        .padding(.bottom, 5)
                     }
                 }
+                .padding(.horizontal, 20)
             }
+            .padding(.horizontal, 20)
         }
     }
-
-
-    
-    func sendToAPI() {
-        let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
-print("Current visit id: \(currentVisitId)")
-  
-
-        let urlString = "http://10.200.100.17/api/manager/workspace"
-        guard let url = URL(string: urlString) else {
-            fatalError("Invalid URL: \(urlString)")
-        }
-        let workDoneIds = SelectedItemsManager.selectedItems.map { $0.id }
-        /*
-        let fieldInspection = Array(SelectedItemsManager.selectedItems2).map { item -> [String: Any] in
-                 let culture = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 1 }.map { item -> [String: Any] in
-                     return [
-                         "cultId": item.categoryId,
-                         "id": item.id,
-                         "description": item.name
-                     ]
-                 }
-                 let step = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 2 }.map { item -> [String: Any] in
-                     return [
-                         "cultId": item.categoryId,
-                         "tid": item.id,
-                         "description": item.name
-                     ]
-                 }
-                 let complications = Array(SelectedItemsManager.selectedItems2.filter { $0.categoryId == 3 }).map { item -> [String: Any] in
-                     return [
-                         "cultId": item.categoryId,
-                         "id": item.id,
-                         "description": item.name
-                     ]
-                 }
-
-                 return [
-                  //   "cultId": categoryId,
-                     "culture": culture,
-                     "step": step,
-                     "complications": complications
-                 ]
-             }
-*/
-        let itemsByCategoryId = Dictionary(grouping: SelectedItemsManager.selectedItems2, by: { $0.categoryId })
-
-        let culture = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 1 }.map { item -> [String: Any] in
-            return [
-                "cultId": item.categoryId,
-                "id": item.id,
-                "description": item.name
-            ]
-        }
-
-        let step = SelectedItemsManager.selectedItems2.filter { $0.categoryId == 2 }.map { item -> [String: Any] in
-            return [
-                "cultId": item.categoryId,
-                "tid": item.id,
-                "description": item.name
-            ]
-        }
-
-        let complications = (itemsByCategoryId[3] ?? []).map { item -> [String: Any] in
-            return [        "cultId": item.categoryId,        "id": item.id,        "description": item.name    ]
-        }
-
-        let fieldInspection = [    "culture": culture,    "step": step,    "complications": complications]
-
-    
-            let parameters = [
-                "type": "meetingSurvey",
-                "action": "fixedSurvey",
-                "visitId": currentVisitId,
-                "workDone": workDoneIds,
-                "fieldInspection": fieldInspection,
-                "contractComplication": SelectedItemsManager.selectedItems3.map { item -> [String: Any] in
-                    return [
-                        "typeId": item.id,
-                        "description": item.name
-                    ]
-                },
-                "recomendation": SelectedItemsManager.selectedOptions.map { item -> [String: Any] in
-                    return [
-                        "typeId": item.key.id,
-                        "description": item.value,
-                    ]
-                },
-                "fileVisit": "dsasdsa"] as [String : Any]
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                print("Error: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-            print("Осмотр поля: \(fieldInspection)")
-            print("Parameters: \(parameters)")
-            print(String(data: data, encoding: .utf8)!)
-        }.resume()
-    }
-
-    
- 
     
     
 }
+  
+    
+
+/*
+      ForEach(Array(SelectedItemsManager.selectedCategoryIds), id: \.self) { categoryId in
+          Section(header: Text("Selected Items for cultId \(categoryId)")) {
+              ForEach(Array(SelectedItemsManager.selectedItems2.filter({ $0.categoryId == categoryId })), id: \.id) { item in
+                  Text("\(item.name)")
+              }
+          }
+      }
+      */
