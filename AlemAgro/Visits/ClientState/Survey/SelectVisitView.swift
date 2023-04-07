@@ -56,57 +56,36 @@ class PostmanViewModel: ObservableObject {
         }.resume()
     }
 
-
+    let currentClientVisitTypeName = ClientVisitTypeNameManager.shared.getCurrentClientVisitTypeName() ?? ""
+    
     func getNextViewCombined(for item: PostmanResponse) -> AnyView {
         let currentClientVisitTypeName = ClientVisitTypeNameManager.shared.getCurrentClientVisitTypeName() ?? ""
-        var viewsToReturn: [AnyView] = []
-
-        if item.name == "Осмотр поля" || currentClientVisitTypeName == "Осмотр полей" {
-            viewsToReturn.append(AnyView(FView()))
+        
+        if item.name == "Осмотр поля" //|| currentClientVisitTypeName == "Осмотр полей"
+        {
+            return AnyView(FView())
+        }
+        
+        if item.name == "Осмотр поля" && item.name == "Предложение КП" && currentClientVisitTypeName == "Предложение КП" {
+            return AnyView(FView())
         }
 
-        if item.name == "Предложение КП" || currentClientVisitTypeName == "Предложение КП" || currentClientVisitTypeName == "Заключение договора" {
-            viewsToReturn.append(AnyView(Difficulties()))
+    
+    
+        if item.name == "Предложение КП" && currentClientVisitTypeName == "Предложение КП" {
+            return AnyView(Difficulties())
         }
-
-        if viewsToReturn.isEmpty {
-            viewsToReturn.append(AnyView(Recommendations()))
-        }
-
-        return AnyView(PresentationView(viewsToReturn: viewsToReturn))
+        
+        return AnyView(Recommendations())
     }
+
 
 
 
 
 }
 
-struct PresentationView: View {
-    @State private var currentIndex = 0
-    let viewsToReturn: [AnyView]
 
-    init(viewsToReturn: [AnyView]) {
-        self.viewsToReturn = viewsToReturn
-    }
-
-    var body: some View {
-        VStack {
-            // Отображение текущего представления на основе индекса
-            viewsToReturn[currentIndex]
-
-            // Кнопка "Далее"
-            Button(action: {
-                currentIndex += 1
-                // Если достигнут конец массива, вернуться на первое представление
-                if currentIndex >= viewsToReturn.count {
-                    currentIndex = 0
-                }
-            }) {
-                Text("Далее")
-            }
-        }
-    }
-}
 struct SelectVisitView: View {
    
     @StateObject var viewModel = PostmanViewModel()
@@ -149,6 +128,8 @@ struct SelectVisitView: View {
                     SelectedItemsManager.selectedItems.insert(item) // добавляем элемент в SelectedItemsManager
                     print("Добавлен элемент: \(item.name)")
                 }
+                let allSelectedItems = viewModel.selectedItems.map { $0.name }
+                print("Все выбранные элементы: \(allSelectedItems)")
                 viewModel.nextView = viewModel.getNextViewCombined(for: item)
             }
             
