@@ -119,14 +119,14 @@ struct SelectVisitView: View {
                                     NavigationLink(destination: {
                  if (viewModel.selectedItems.contains(where: { $0.name == "Предложение КП" }) &&
                     viewModel.selectedItems.contains(where: { $0.name == "Осмотр поля" })) &&
-                    viewModel.currentClientVisitTypeName == "Предложение КП"
+                    viewModel.currentClientVisitTypeName == "Заключение договора"
  {
                     FView2()
                 }
                else if viewModel.selectedItems.contains(where: { $0.name == "Осмотр поля" }) {
                     FView()
                 }
-                else if viewModel.selectedItems.contains(where: { $0.name == "Предложение КП" }) && viewModel.currentClientVisitTypeName == "Предложение КП" {
+                else if viewModel.selectedItems.contains(where: { $0.name == "Предложение КП" }) && viewModel.currentClientVisitTypeName == "Заключение договора" {
                     Difficulties()
                 }
                 else {
