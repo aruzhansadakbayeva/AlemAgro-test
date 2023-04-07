@@ -24,8 +24,7 @@ class PostmanViewModel: ObservableObject {
     @Published var selectedItems: Set<PostmanResponse> = []
     @Published var otherValue: String = ""
     
-    var nextView: AnyView?
-    
+
     func fetchData() {
         let urlString = "http://10.200.100.17/api/manager/workspace"
         guard let url = URL(string: urlString) else {
@@ -58,26 +57,7 @@ class PostmanViewModel: ObservableObject {
 
     let currentClientVisitTypeName = ClientVisitTypeNameManager.shared.getCurrentClientVisitTypeName() ?? ""
     
-    func getNextViewCombined(for item: PostmanResponse) -> AnyView {
-        let currentClientVisitTypeName = ClientVisitTypeNameManager.shared.getCurrentClientVisitTypeName() ?? ""
-        
-        if item.name == "Осмотр поля" //|| currentClientVisitTypeName == "Осмотр полей"
-        {
-            return AnyView(FView())
-        }
-        
-        if item.name == "Осмотр поля" && item.name == "Предложение КП" && currentClientVisitTypeName == "Предложение КП" {
-            return AnyView(FView())
-        }
 
-    
-    
-        if item.name == "Предложение КП" && currentClientVisitTypeName == "Предложение КП" {
-            return AnyView(Difficulties())
-        }
-        
-        return AnyView(Recommendations())
-    }
 
 
 
@@ -87,7 +67,8 @@ class PostmanViewModel: ObservableObject {
 
 
 struct SelectVisitView: View {
-   
+    @State private var showDifficulties = false
+
     @StateObject var viewModel = PostmanViewModel()
     @State var selectedItems = Set<PostmanResponse>()
     var isNextButtonEnabled: Bool {
@@ -130,27 +111,37 @@ struct SelectVisitView: View {
                 }
                 let allSelectedItems = viewModel.selectedItems.map { $0.name }
                 print("Все выбранные элементы: \(allSelectedItems)")
-                viewModel.nextView = viewModel.getNextViewCombined(for: item)
+                print("Выбранные элементы: \(viewModel.selectedItems)")
             }
             
             .navigationBarTitle("Проделанная работа")
             .navigationBarItems(trailing:
-                                    NavigationLink(destination: viewModel.nextView ?? AnyView(Recommendations())) { // Используем функцию getNextView2() для определения следующего окна
-                                         Text("Далее")
-            }
-                .disabled(!isNextButtonEnabled)
+                                    NavigationLink(destination: {
+                 if (viewModel.selectedItems.contains(where: { $0.name == "Предложение КП" }) &&
+                    viewModel.selectedItems.contains(where: { $0.name == "Осмотр поля" })) &&
+                    viewModel.currentClientVisitTypeName == "Предложение КП"
+ {
+                    FView2()
+                }
+               else if viewModel.selectedItems.contains(where: { $0.name == "Осмотр поля" }) {
+                    FView()
+                }
+                else if viewModel.selectedItems.contains(where: { $0.name == "Предложение КП" }) && viewModel.currentClientVisitTypeName == "Предложение КП" {
+                    Difficulties()
+                }
+                else {
+                    Recommendations()
+                }
+            }, label: {
+                Text("Далее")
+            })
+                                        .disabled(!isNextButtonEnabled)
             )
-            
         }
         .onAppear {
             viewModel.fetchData()
-             
-         //   WorkDoneManager.shared.setWorkDone(name: )
-                
         }
-        
     }
-    
 }
     /*
     func sendVisitIdToAPI2() {
