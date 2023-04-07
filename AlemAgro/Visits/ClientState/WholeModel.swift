@@ -181,7 +181,7 @@ struct ClientObjectView: View {
             .onAppear {
                 viewModel.fetchData()
                 ClientIdManager.shared.setCurrentClientId(id: client.clientId)
-                
+                ClientVisitTypeNameManager.shared.setCurrentClientVisitTypeName(name: client.visitTypeName ?? "")
             }
             
         }

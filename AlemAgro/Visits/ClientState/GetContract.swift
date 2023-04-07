@@ -59,7 +59,7 @@ struct GetContract: View {
        var body: some View {
            VStack {
                Text("Контракты")
-                   .font(.title)
+                   .font(.title2)
                    .padding()
                
                List(contractViewModel.response, id: \.self) { contract in

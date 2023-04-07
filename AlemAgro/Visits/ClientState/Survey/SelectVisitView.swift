@@ -55,19 +55,58 @@ class PostmanViewModel: ObservableObject {
            // print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
- 
-    func getNextView(for item: PostmanResponse) -> AnyView {
-          switch item.name {
-          case "Осмотр поля":
-              return AnyView(FView())
-          case "Предложение КП":
-              return AnyView(Difficulties())
-          default:
-              return AnyView(Recommendations())
-          }
-      }
+
+
+    func getNextViewCombined(for item: PostmanResponse) -> AnyView {
+        let currentClientVisitTypeName = ClientVisitTypeNameManager.shared.getCurrentClientVisitTypeName() ?? ""
+        var viewsToReturn: [AnyView] = []
+
+        if item.name == "Осмотр поля" || currentClientVisitTypeName == "Осмотр полей" {
+            viewsToReturn.append(AnyView(FView()))
+        }
+
+        if item.name == "Предложение КП" || currentClientVisitTypeName == "Предложение КП" || currentClientVisitTypeName == "Заключение договора" {
+            viewsToReturn.append(AnyView(Difficulties()))
+        }
+
+        if viewsToReturn.isEmpty {
+            viewsToReturn.append(AnyView(Recommendations()))
+        }
+
+        return AnyView(PresentationView(viewsToReturn: viewsToReturn))
+    }
+
+
+
+
 }
 
+struct PresentationView: View {
+    @State private var currentIndex = 0
+    let viewsToReturn: [AnyView]
+
+    init(viewsToReturn: [AnyView]) {
+        self.viewsToReturn = viewsToReturn
+    }
+
+    var body: some View {
+        VStack {
+            // Отображение текущего представления на основе индекса
+            viewsToReturn[currentIndex]
+
+            // Кнопка "Далее"
+            Button(action: {
+                currentIndex += 1
+                // Если достигнут конец массива, вернуться на первое представление
+                if currentIndex >= viewsToReturn.count {
+                    currentIndex = 0
+                }
+            }) {
+                Text("Далее")
+            }
+        }
+    }
+}
 struct SelectVisitView: View {
    
     @StateObject var viewModel = PostmanViewModel()
@@ -110,13 +149,13 @@ struct SelectVisitView: View {
                     SelectedItemsManager.selectedItems.insert(item) // добавляем элемент в SelectedItemsManager
                     print("Добавлен элемент: \(item.name)")
                 }
-                viewModel.nextView = viewModel.getNextView(for: item)
+                viewModel.nextView = viewModel.getNextViewCombined(for: item)
             }
             
             .navigationBarTitle("Проделанная работа")
             .navigationBarItems(trailing:
-                                    NavigationLink(destination: viewModel.nextView ?? AnyView(Recommendations())) {
-                Text("Далее")
+                                    NavigationLink(destination: viewModel.nextView ?? AnyView(Recommendations())) { // Используем функцию getNextView2() для определения следующего окна
+                                         Text("Далее")
             }
                 .disabled(!isNextButtonEnabled)
             )
@@ -124,6 +163,9 @@ struct SelectVisitView: View {
         }
         .onAppear {
             viewModel.fetchData()
+             
+         //   WorkDoneManager.shared.setWorkDone(name: )
+                
         }
         
     }

@@ -166,6 +166,7 @@ struct ClientDetailView: View {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 17){
                     Text("\(client.clientName)")
+             
                         .fontWeight(.bold)
                         .font(.title)
                         .foregroundColor(.primary)
@@ -319,6 +320,32 @@ class ClientIdManager {
     
     func getCurrentClientId() -> Int? {
         return currentClientId
+    }
+}
+class WorkDoneManager {
+    static let shared = WorkDoneManager()
+    
+    private var currentWorkDone: String? = nil
+    
+    func setWorkDone(name: String) {
+        currentWorkDone = name
+    }
+    
+    func getCurrentWorkDone() -> String? {
+        return currentWorkDone
+    }
+}
+class ClientVisitTypeNameManager {
+    static let shared = ClientVisitTypeNameManager()
+    
+    private var currentClientVisitTypeName: String? = nil
+    
+    func setCurrentClientVisitTypeName(name: String) {
+        currentClientVisitTypeName = name
+    }
+    
+    func getCurrentClientVisitTypeName() -> String? {
+        return currentClientVisitTypeName
     }
 }
 
