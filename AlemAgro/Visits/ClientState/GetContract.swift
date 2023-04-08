@@ -70,52 +70,53 @@ struct GetContract: View {
     @State private var selectedCategory: UUID? = nil
     
     var body: some View {
-        VStack {
-            // Display the received response on the screen
-            List {
-                ForEach(contractViewModel.response, id: \.id) { season in
-                    Section(header: Text(season.season)) {
-                        ForEach(season.categories, id: \.id) { category in
-                          
-                                Button(action: {
-                                    // Toggle the selected category
-                                    if selectedCategory == category.id {
-                                        selectedCategory = nil
-                                    } else {
-                                        selectedCategory = category.id
-                                    }
-                                }) {
+  
+            VStack {
+                List {
+                    ForEach(contractViewModel.response, id: \.id) { season in
+                        Section(header: Text(season.season)) {
+                            ForEach(season.categories, id: \.id) { category in
+                                NavigationLink(destination: CategoryView(category: category, selectedCategory: $selectedCategory)) {
                                     Text(category.category)
                                         .font(.headline)
                                         .foregroundColor(.black)
                                 }
                                 .disabled(selectedCategory == category.id)
-
-                                if selectedCategory == category.id {
-                                    // Add a button to hide the selected category
-                                    Button(action: {
-                                        selectedCategory = nil
-                                    }) {
-                                        Text("Скрыть категорию")
-                                    }
-                                    ForEach(category.contracts) { product in
-                                        VStack(alignment: .leading) {
-                                            Text("**Продукт**: \(product.productName)")
-                                            Text("**Средняя цена**: \(product.avgPrice)")
-                                            Text("**Кол-во**: \(product.count)")
-                                        }
-                                      
-                                    }.padding()
-                                }
-                            
+                            }
                         }
                     }
                 }
             }
+            .navigationTitle("Контракты")
+            .onAppear {
+                // Fetch data when the view appears
+                contractViewModel.fetchData()
+            }
+        
+    }
+}
+
+struct CategoryView: View {
+    let category: Category
+    @Binding var selectedCategory: UUID?
+    
+    var body: some View {
+        VStack {
+            List{
+                
+                ForEach(category.contracts) { product in
+                    VStack(alignment: .leading) {
+                        Text("**Продукт**: \(product.productName)")
+                        Text("**Средняя цена**: \(product.avgPrice)")
+                        Text("**Кол-во**: \(product.count)")
+                    }
+                    .padding()
+                }
+            }
         }
+        .navigationTitle(category.category)
         .onAppear {
-            // Fetch data when the view appears
-            contractViewModel.fetchData()
+            selectedCategory = category.id
         }
     }
 }
