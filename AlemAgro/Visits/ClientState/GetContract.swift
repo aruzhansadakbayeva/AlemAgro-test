@@ -76,7 +76,7 @@ struct GetContract: View {
                 ForEach(contractViewModel.response, id: \.id) { season in
                     Section(header: Text(season.season)) {
                         ForEach(season.categories, id: \.id) { category in
-                            VStack(alignment: .leading) {
+                          
                                 Button(action: {
                                     // Toggle the selected category
                                     if selectedCategory == category.id {
@@ -86,19 +86,28 @@ struct GetContract: View {
                                     }
                                 }) {
                                     Text(category.category)
-                                        .font(.headline).foregroundColor(.black)
+                                        .font(.headline)
+                                        .foregroundColor(.black)
                                 }
+                                .disabled(selectedCategory == category.id)
+
                                 if selectedCategory == category.id {
+                                    // Add a button to hide the selected category
+                                    Button(action: {
+                                        selectedCategory = nil
+                                    }) {
+                                        Text("Скрыть категорию")
+                                    }
                                     ForEach(category.contracts) { product in
                                         VStack(alignment: .leading) {
                                             Text("**Продукт**: \(product.productName)")
                                             Text("**Средняя цена**: \(product.avgPrice)")
                                             Text("**Кол-во**: \(product.count)")
                                         }
-                                        Divider()
+                                      
                                     }.padding()
                                 }
-                            }
+                            
                         }
                     }
                 }
