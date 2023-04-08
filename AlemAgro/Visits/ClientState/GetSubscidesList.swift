@@ -77,7 +77,11 @@ class SubscidesViewModel: ObservableObject {
 struct GetSubscidesList: View {
     @ObservedObject var viewModel = SubscidesViewModel() // Создаем экземпляр SubscidesViewModel
     @State private var selectedCategory: UUID? = nil
-    
+    @Environment(\.colorScheme) var colorScheme
+
+    var colorPrimary: Color {
+        return colorScheme == .dark ? .white : .black
+    }
     var body: some View {
   
             VStack {
@@ -88,7 +92,7 @@ struct GetSubscidesList: View {
                                 NavigationLink(destination: CategoryView2(category: category, selectedCategory: $selectedCategory)) {
                                     Text(category.category)
                                         .font(.headline)
-                                        .foregroundColor(.black)
+                                     .foregroundColor(colorPrimary)
                                 }
                                 .disabled(selectedCategory == category.id)
                             }

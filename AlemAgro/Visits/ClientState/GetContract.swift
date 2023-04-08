@@ -68,7 +68,11 @@ class ContractViewModel: ObservableObject {
 struct GetContract: View {
     @StateObject var contractViewModel = ContractViewModel()
     @State private var selectedCategory: UUID? = nil
-    
+    @Environment(\.colorScheme) var colorScheme
+
+    var colorPrimary: Color {
+        return colorScheme == .dark ? .white : .black
+    }
     var body: some View {
   
             VStack {
@@ -79,7 +83,7 @@ struct GetContract: View {
                                 NavigationLink(destination: CategoryView(category: category, selectedCategory: $selectedCategory)) {
                                     Text(category.category)
                                         .font(.headline)
-                                        .foregroundColor(.black)
+                                        .foregroundColor(colorPrimary)
                                 }
                                 .disabled(selectedCategory == category.id)
                             }
