@@ -7,14 +7,26 @@
 
 import SwiftUI
 
-struct Contract: Decodable, Hashable {
-    let productName: String?
-    let productCount: String?
-    let avgPrice: String?
+struct Product: Identifiable, Codable {
+    let id = UUID()
+    let productName: String
+    let avgPrice: String
+    let count: String
+}
 
+struct Category:Identifiable, Codable{
+    let id = UUID()
+    let category: String
+    let contracts: [Product]
+}
+
+struct Season: Identifiable, Codable {
+    let id = UUID()
+    let season: String
+    let categories: [Category]
 }
 class ContractViewModel: ObservableObject {
-    @Published var response: [Contract] = []
+    @Published var response: [Season] = []
 
 
     func fetchData() {
@@ -40,7 +52,7 @@ class ContractViewModel: ObservableObject {
             }
                     
             do {
-                let decodedResponse = try JSONDecoder().decode([Contract].self, from: data)
+                let decodedResponse = try JSONDecoder().decode([Season].self, from: data)
                 DispatchQueue.main.async {
                     self.response = decodedResponse
                 }
@@ -54,29 +66,51 @@ class ContractViewModel: ObservableObject {
       
 }
 struct GetContract: View {
-    @ObservedObject var contractViewModel = ContractViewModel()
+    @StateObject var contractViewModel = ContractViewModel()
+    @State private var selectedCategory: UUID? = nil
+    
+    var body: some View {
+        VStack {
+            // Display the received response on the screen
+            List {
+                ForEach(contractViewModel.response, id: \.id) { season in
+                    Section(header: Text(season.season)) {
+                        ForEach(season.categories, id: \.id) { category in
+                            VStack(alignment: .leading) {
+                                Button(action: {
+                                    // Toggle the selected category
+                                    if selectedCategory == category.id {
+                                        selectedCategory = nil
+                                    } else {
+                                        selectedCategory = category.id
+                                    }
+                                }) {
+                                    Text(category.category)
+                                        .font(.headline).foregroundColor(.black)
+                                }
+                                if selectedCategory == category.id {
+                                    ForEach(category.contracts) { product in
+                                        VStack(alignment: .leading) {
+                                            Text("**Продукт**: \(product.productName)")
+                                            Text("**Средняя цена**: \(product.avgPrice)")
+                                            Text("**Кол-во**: \(product.count)")
+                                        }
+                                        Divider()
+                                    }.padding()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .onAppear {
+            // Fetch data when the view appears
+            contractViewModel.fetchData()
+        }
+    }
+}
 
-       var body: some View {
-           VStack {
-               Text("Контракты")
-                   .font(.title2)
-                   .padding()
-               
-               List(contractViewModel.response, id: \.self) { contract in
-                   VStack(alignment: .leading) {
-                       Text("**Продукт**: \(contract.productName ?? "")")
-                       Text("**Количество**: \(contract.productCount ?? "")")
-                       Text("**Средняя цена**: \(contract.avgPrice ?? "")")
-                   }
-               }
-               .padding()
-           }
-           .onAppear {
-               // Call the fetchData() function when the view appears
-               contractViewModel.fetchData()
-           }
-       }
-   }
 
    // Usage:
    // Create an instance of the ContractView and display it in your SwiftUI hierarchy

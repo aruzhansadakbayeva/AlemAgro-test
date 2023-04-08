@@ -7,19 +7,32 @@
 
 import SwiftUI
 
-struct SubscidesList: Decodable, Hashable {
-    let season: Int?
-    let providerName: String?
-    let providerIin: Int?
-    let productName: String?
-    let sumSubcides: String?
-    let productVolume: Double?
-    let productUnit: String?
+struct SubscidesList: Identifiable, Codable {
+    let id = UUID()
+    let clientName: String?
+    let region: String?
     let usageArea: String?
+    let providerName: String?
+    let productName: String?
+    let productPrice: String?
+    let sum: String?
+    let count: String?
+    let unit: String?
+  
 
 }
+
+struct Category2: Codable {
+    let category: String
+    let contracts: [SubscidesList]
+}
+
+struct Season2: Codable {
+    let season: String
+    let categories: [Category2]
+}
 class SubscidesViewModel: ObservableObject {
-    @Published var response: [SubscidesList] = []
+    @Published var response: [Season2] = []
 
 
     func fetchData() {
@@ -45,7 +58,7 @@ class SubscidesViewModel: ObservableObject {
             }
                     
             do {
-                let decodedResponse = try JSONDecoder().decode([SubscidesList].self, from: data)
+                let decodedResponse = try JSONDecoder().decode([Season2].self, from: data)
                 DispatchQueue.main.async {
                     self.response = decodedResponse
                 }
@@ -62,27 +75,39 @@ class SubscidesViewModel: ObservableObject {
 struct GetSubscidesList: View {
     @ObservedObject var viewModel = SubscidesViewModel() // Создаем экземпляр SubscidesViewModel
     
+
     var body: some View {
-        
-            VStack {
-                Text("Список субсидий")
-                    .font(.title2)
-                    .padding()
-                
-                List(viewModel.response, id: \.self) { subscide in
-                    VStack(alignment: .leading) {
-                        Text("**Season**: \(subscide.season ?? 0)")
-                        Text("**Provider Name**: \(subscide.providerName ?? "")")
-                        Text("**Provider IIN**: \(subscide.providerIin ?? 0)")
-                        Text("**Product Name**: \(subscide.productName ?? "")")
-                        Text("**Sum Subcides**: \(subscide.sumSubcides ?? "")")
-                        Text("**Product Volume**: \(subscide.productVolume ?? 0)")
-                        Text("**Product Unit**: \(subscide.productUnit ?? "")")
-                        Text("**Usage Area**: \(subscide.usageArea ?? "")")
+        VStack {
+            // Display the received response on the screen
+            List {
+                ForEach(viewModel.response, id: \.season) { season in
+                    Section(header: Text(season.season)) {
+                        ForEach(season.categories, id: \.category) { category in
+                            VStack(alignment: .leading) {
+                                Text(category.category)
+                                    .font(.headline)
+                                    ForEach(category.contracts) { product in
+                                        VStack(alignment: .leading) {
+                                            Text("**Клиент**: \(product.clientName ?? "")")
+                                            Text("**Регион**: \(product.region ?? "")")
+                                            Text("**Usage Area**: \(product.usageArea ?? "")")
+                                            Text("**Имя провайдера**: \(product.providerName ?? "")")
+                                         
+                                            Text("**Продукт**: \(product.productName ?? "")")
+                                            Text("**Цена продукта**: \(product.productPrice ?? "")")
+                                            Text("**Сумма**: \(product.sum ?? "")")
+                                            Text("**Кол-во**: \(product.count ?? "")")
+                                            Text("**Единица**: \(product.unit ?? "")")
+                                 
+                                        }
+                                    }.padding()
+                            }
+                        }
                     }
-                }.padding()
+                }
             }
-            .onAppear {
+        }
+             .onAppear {
                 viewModel.fetchData() // Вызываем метод fetchData() для получения данных
             }
         
