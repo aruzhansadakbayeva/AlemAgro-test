@@ -22,12 +22,14 @@ struct SubscidesList: Identifiable, Codable {
 
 }
 
-struct Category2: Codable {
+struct Category2: Identifiable, Codable {
+    let id = UUID()
     let category: String
     let contracts: [SubscidesList]
 }
 
-struct Season2: Codable {
+struct Season2: Identifiable, Codable {
+    let id = UUID()
     let season: String
     let categories: [Category2]
 }
@@ -74,42 +76,66 @@ class SubscidesViewModel: ObservableObject {
 
 struct GetSubscidesList: View {
     @ObservedObject var viewModel = SubscidesViewModel() // Создаем экземпляр SubscidesViewModel
+    @State private var selectedCategory: UUID? = nil
     
-
     var body: some View {
-        VStack {
-            // Display the received response on the screen
-            List {
-                ForEach(viewModel.response, id: \.season) { season in
-                    Section(header: Text(season.season)) {
-                        ForEach(season.categories, id: \.category) { category in
-                            VStack(alignment: .leading) {
-                                Text(category.category)
-                                    .font(.headline)
-                                    ForEach(category.contracts) { product in
-                                        VStack(alignment: .leading) {
-                                            Text("**Клиент**: \(product.clientName ?? "")")
-                                            Text("**Регион**: \(product.region ?? "")")
-                                            Text("**Usage Area**: \(product.usageArea ?? "")")
-                                            Text("**Имя провайдера**: \(product.providerName ?? "")")
-                                         
-                                            Text("**Продукт**: \(product.productName ?? "")")
-                                            Text("**Цена продукта**: \(product.productPrice ?? "")")
-                                            Text("**Сумма**: \(product.sum ?? "")")
-                                            Text("**Кол-во**: \(product.count ?? "")")
-                                            Text("**Единица**: \(product.unit ?? "")")
-                                 
-                                        }
-                                    }.padding()
+  
+            VStack {
+                List {
+                    ForEach(viewModel.response, id: \.id) { season in
+                        Section(header: Text(season.season)) {
+                            ForEach(season.categories, id: \.id) { category in
+                                NavigationLink(destination: CategoryView2(category: category, selectedCategory: $selectedCategory)) {
+                                    Text(category.category)
+                                        .font(.headline)
+                                        .foregroundColor(.black)
+                                }
+                                .disabled(selectedCategory == category.id)
                             }
                         }
                     }
                 }
             }
-        }
-             .onAppear {
-                viewModel.fetchData() // Вызываем метод fetchData() для получения данных
+            .navigationTitle("Контракты")
+            .onAppear {
+                // Fetch data when the view appears
+                viewModel.fetchData()
             }
         
     }
 }
+
+struct CategoryView2: View {
+    let category: Category2
+    @Binding var selectedCategory: UUID?
+    
+    var body: some View {
+        VStack {
+            List{
+                
+                ForEach(category.contracts) { product in
+                    VStack(alignment: .leading) {
+                        Text("**Клиент**: \(product.clientName ?? "")")
+                        Text("**Регион**: \(product.region ?? "")")
+                        Text("**Usage Area**: \(product.usageArea ?? "")")
+                        Text("**Имя провайдера**: \(product.providerName ?? "")")
+
+                        Text("**Продукт**: \(product.productName ?? "")")
+                        Text("**Цена продукта**: \(product.productPrice ?? "")")
+                        Text("**Сумма**: \(product.sum ?? "")")
+                        Text("**Кол-во**: \(product.count ?? "")")
+                        Text("**Единица**: \(product.unit ?? "")")
+
+                    }
+                    .padding()
+                }
+            }
+        }
+        .navigationTitle(category.category)
+        .onAppear {
+            selectedCategory = category.id
+        }
+    }
+}
+
+
