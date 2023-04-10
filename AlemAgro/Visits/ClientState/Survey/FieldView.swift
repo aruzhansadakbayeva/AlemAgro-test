@@ -68,10 +68,18 @@ class PostmanViewModel2: ObservableObject {
             // print(String(data: data, encoding: .utf8)!)
          }.resume()
      }
+    
     func addSelectedItems() {
-            let items = response.filter { selectedItems.contains($0) }
-            selectedItemsHistory.append(items)
+        
+        let items = response.filter { selectedItems.contains($0) }
+        if let lastItems = selectedItemsHistory.last, items == lastItems {
+            // Current selection is the same as the last one, do not add to history
+            return
         }
+        selectedItemsHistory.append(items)
+    }
+
+    
 }
 struct AllSelectedItemsView: View {
     var selectedItemsHistory: [[PostmanResponse2]]
@@ -97,40 +105,7 @@ struct AllSelectedItemsView: View {
     }
 }
 
-struct ItemsView: View {
-    @ObservedObject var viewModel = PostmanViewModel2.shared
-    var selectedItemsBinding: Binding<Set<PostmanResponse2>>
-    var counter: Int
-    var allSelectedItems: [[PostmanResponse2]] {
-        viewModel.response
-            .filter { selectedItemsBinding.wrappedValue.contains($0) }
-            .reduce(into: [String: [PostmanResponse2]]()) { result, response in
-                let key = response.category
-                result[key, default: []].append(response)
-            }
-            .sorted { $0.key < $1.key }
-            .map { $0.value }
-    }
 
-    init(viewModel: PostmanViewModel2, counter: Int) {
-        self.viewModel = viewModel
-        self.counter = counter
-        self.selectedItemsBinding = viewModel.selectedItemsBinding
-    }
-
-    var body: some View {
-        VStack {
-            Text("Selected items for view \(counter):")
-            ForEach(allSelectedItems, id: \.first?.id) { items in
-                Section(header: Text(items.first?.category ?? "").fontWeight(.bold)) {
-                    ForEach(items.sorted(by: { $0.id < $1.id }), id: \.id) { item in
-                        Text("- \(item.name)")
-                    }
-                }
-            }
-        }
-    }
-}
 
 
 struct FieldView: View {
@@ -149,30 +124,33 @@ struct FieldView: View {
     var isNextButtonEnabled: Bool {
         return !viewModel.selectedItems.isEmpty
     }
-    @State var selectedItemsArray: [[PostmanResponse2]] = []
-    var allSelectedItems: [[PostmanResponse2]] {
-        return selectedItemsArray.filter { !$0.isEmpty }
-    }
-    @State var showAllSelectedItems = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                Text("View number: \(counter)")
-                
+               Text("Культура №\(counter)")
+            /*
                 ItemsView(
                     viewModel: viewModel,
                   
                     counter: counter
                 )
+             */
+            
 
                 NavigationLink(destination: FieldView(counter: counter + 1)) {
                     Text("Добавить культуру")
                                 }
                                 .onDisappear {
                                     // Add selected items to history before navigating to the next view
-                                    viewModel.addSelectedItems()
+                                   
+                                        viewModel.addSelectedItems()
+                                   
+            
+                                   
                                 }
+                              
+                /*
                                 Button(action: {
                                     self.showAllSelectedItems.toggle()
                                 }) {
@@ -181,6 +159,8 @@ struct FieldView: View {
                                 .sheet(isPresented: $showAllSelectedItems) {
                                     AllSelectedItemsView(selectedItemsHistory: viewModel.selectedItemsHistory)
                                 }
+                 */
+                
                 ForEach(viewModel.categorizedResponse.sorted(by: { $0.value[0].categoryId < $1.value[0].categoryId }), id: \.key) { category, items in
                     Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {
@@ -274,6 +254,48 @@ struct FView: View{
     }
 }
 
+/*  в FieldView @State var selectedItemsArray: [[PostmanResponse2]] = []
+   var allSelectedItems: [[PostmanResponse2]] {
+       return selectedItemsArray.filter { !$0.isEmpty }
+   }
+ 
+   @State var showAllSelectedItems = false
+*/
+struct ItemsView: View {
+    @ObservedObject var viewModel = PostmanViewModel2.shared
+    var selectedItemsBinding: Binding<Set<PostmanResponse2>>
+    var counter: Int
+    var allSelectedItems: [[PostmanResponse2]] {
+        viewModel.response
+            .filter { selectedItemsBinding.wrappedValue.contains($0) }
+            .reduce(into: [String: [PostmanResponse2]]()) { result, response in
+                let key = response.category
+                result[key, default: []].append(response)
+            }
+            .sorted { $0.key < $1.key }
+            .map { $0.value }
+    }
+
+    init(viewModel: PostmanViewModel2, counter: Int) {
+        self.viewModel = viewModel
+        self.counter = counter
+        self.selectedItemsBinding = viewModel.selectedItemsBinding
+    }
+
+    var body: some View {
+        VStack {
+            Text("Selected items for view \(counter):")
+            ForEach(allSelectedItems, id: \.first?.id) { items in
+                Section(header: Text(items.first?.category ?? "").fontWeight(.bold)) {
+                    ForEach(items.sorted(by: { $0.id < $1.id }), id: \.id) { item in
+                        Text("- \(item.name)")
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct FieldView2: View {
     @Environment(\.colorScheme) var colorScheme
 
@@ -299,13 +321,14 @@ struct FieldView2: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                Text("View number: \(counter)")
-                
+                Text("Культура №\(counter)")
+                /*
                 ItemsView(
                     viewModel: viewModel,
                   
                     counter: counter
                 )
+               */
 
                 NavigationLink(destination: FieldView(counter: counter + 1)) {
                     Text("Добавить культуру")
@@ -314,6 +337,7 @@ struct FieldView2: View {
                                     // Add selected items to history before navigating to the next view
                                     viewModel.addSelectedItems()
                                 }
+                /*
                                 Button(action: {
                                     self.showAllSelectedItems.toggle()
                                 }) {
@@ -322,6 +346,7 @@ struct FieldView2: View {
                                 .sheet(isPresented: $showAllSelectedItems) {
                                     AllSelectedItemsView(selectedItemsHistory: viewModel.selectedItemsHistory)
                                 }
+                */
                 ForEach(viewModel.categorizedResponse.sorted(by: { $0.value[0].categoryId < $1.value[0].categoryId }), id: \.key) { category, items in
                     Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {
