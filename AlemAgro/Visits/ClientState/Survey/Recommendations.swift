@@ -70,7 +70,7 @@ struct Recommendations: View {
         2: ["Да", "Нет"],
         3: ["Да", "Нет"]
     ]
-    @State private var selectedOptionForItem2 = ""
+    @State var selectedOptionForItem2 = ""
 
     @State private var isRecording = false
     @State private var audioRecorder: AVAudioRecorder?
@@ -123,8 +123,11 @@ struct Recommendations: View {
                     if item.id == 2 && showCustomOption && SelectedItemsManager.selectedOptions[item] == "Да" {
                         Picker(selection: Binding(
                             get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
-                            set: {  SelectedItemsManager.selectedOptions[item] = $0
+                            set: {
+                             SelectedItemsManager.selectedOptions[item] = $0
                                 selectedOptionForItem2 = $0
+                                
+                               
                                // print("Selected option for item with id \(item.id): \($0)")
                             }
                            
