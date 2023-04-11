@@ -83,7 +83,9 @@ class PostmanViewModel2: ObservableObject {
 }
 struct AllSelectedItemsView: View {
     var selectedItemsHistory: [[PostmanResponse2]]
-    
+    init(selectedItemsHistory: [[PostmanResponse2]]) { // Add a parameter to the constructor
+           self.selectedItemsHistory = selectedItemsHistory
+       }
     var body: some View {
         VStack {
             Text("All selected items history:")
@@ -146,10 +148,10 @@ struct FieldView: View {
                                    
                                         viewModel.addSelectedItems()
                                    
-            
+                                    viewModel.selectedItems.removeAll()
                                    
                                 }
-                              
+                                .navigationBarBackButtonHidden(true) // hide the back button
                 /*
                                 Button(action: {
                                     self.showAllSelectedItems.toggle()

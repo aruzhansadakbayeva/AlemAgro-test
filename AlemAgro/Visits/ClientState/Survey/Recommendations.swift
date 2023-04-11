@@ -66,10 +66,9 @@ struct Recommendations: View {
     @State var showCustomOption = false
     @State var customOptionText = ""
     let optionsDict: [Int: [String]] = [
-        1: ["Да", "Другое"],
-        2: ["Продажа на этом визите", "Продажа была ранее", "Продажи не было"],
-        3: ["Да", "Другое"],
-        4: ["Да", "Другое"]
+        1: ["Да", "Нет"],
+        2: ["Да", "Нет"],
+        3: ["Да", "Нет"]
     ]
     
     @State private var isRecording = false
@@ -84,17 +83,27 @@ struct Recommendations: View {
                 VStack {
                     HStack {
                         Text("\(item.name)")
+                    
                         Spacer()
+                    }
+                    if item.id == 4 {
+                        
+                                TextField("Введите свой ответ", text: Binding(
+                                    get: {  SelectedItemsManager.selectedOptions[item] ?? "" },
+                                    set: {  SelectedItemsManager.selectedOptions[item] = $0 }
+                                )).padding()
+              
                     }
                     Picker(selection: Binding(
                         get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
                         set: {
                             SelectedItemsManager.selectedOptions[item] = $0
-                            if $0 == "Другое" {
-                                showCustomOption = true
-                                
-                            } else {
-                                showCustomOption = false
+                            if item.id == 2{
+                                if $0 == "Да" {
+                                    showCustomOption = true
+                                } else {
+                                    showCustomOption = false
+                                }
                             }
                         }
                     ),
@@ -104,26 +113,33 @@ struct Recommendations: View {
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
+                    .frame(maxWidth: .infinity)
                     .padding()
-                   
-                        if showCustomOption && SelectedItemsManager.selectedOptions[item] == "Другое" {
-                            HStack {
-                                TextField("Введите свой ответ", text: Binding(
-                                    get: {  SelectedItemsManager.selectedOptions[item] ?? "" },
-                                    set: {  SelectedItemsManager.selectedOptions[item] = $0 }
-                                ))
-                                .padding()
-                                
-                       
-                            }
+
+                    if item.id == 2 && showCustomOption && SelectedItemsManager.selectedOptions[item] == "Да" {
+                        Picker(selection: Binding(
+                            get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
+                            set: {  SelectedItemsManager.selectedOptions[item] = $0 }
+                        ),
+                               label: Text("")) {
+                            ForEach(["Продажа на этом визите", "Продажа была ранее", "Продажи не было"], id: \.self) { option in
+                                Text(option) .font(.system(size: 16))
                             
-                        
+                            }
+                        }
+                        .pickerStyle(WheelPickerStyle())
+                        .frame(maxWidth: .infinity, maxHeight: 100)
+                     //   .padding()
                     }
+
+
+                   
+                
 
 
                 }
             }
-    
+            .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing:
                 NavigationLink(
                     destination: SelectedItemsView(selectedItemsHistory: viewModel2.selectedItemsHistory),
@@ -138,6 +154,7 @@ struct Recommendations: View {
                             .cornerRadius(7)
                     })
                 .padding()
+               
             )
 
             .onAppear {
