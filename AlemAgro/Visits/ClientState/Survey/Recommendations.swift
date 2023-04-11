@@ -159,6 +159,8 @@ struct Recommendations: View {
                         SelectedItemsView(selectedItemsHistory: viewModel2.selectedItemsHistory)
                     }},
                 label: {
+                    Text("Далее")
+                    /*
                     Text("Завершить")
                         .fontWeight(.bold)
                         .foregroundColor(Color.white)
@@ -166,6 +168,7 @@ struct Recommendations: View {
                         .padding(5)
                         .background(Color.green)
                         .cornerRadius(7)
+                     */
                 })
             .padding()
 )
