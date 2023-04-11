@@ -70,7 +70,8 @@ struct Recommendations: View {
         2: ["Да", "Нет"],
         3: ["Да", "Нет"]
     ]
-    
+    @State private var selectedOptionForItem2 = ""
+
     @State private var isRecording = false
     @State private var audioRecorder: AVAudioRecorder?
     @State private var audioPlayer: AVAudioPlayer?
@@ -94,6 +95,8 @@ struct Recommendations: View {
                                 )).padding()
               
                     }
+                   // print("Selected option for item with id \(item.id): \(SelectedItemsManager.selectedOptions[item] ?? "")")
+
                     Picker(selection: Binding(
                         get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
                         set: {
@@ -105,6 +108,7 @@ struct Recommendations: View {
                                     showCustomOption = false
                                 }
                             }
+                           // print("Selected option for item with id \(item.id): \($0)")
                         }
                     ),
                            label: Text("")) {
@@ -119,12 +123,16 @@ struct Recommendations: View {
                     if item.id == 2 && showCustomOption && SelectedItemsManager.selectedOptions[item] == "Да" {
                         Picker(selection: Binding(
                             get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
-                            set: {  SelectedItemsManager.selectedOptions[item] = $0 }
+                            set: {  SelectedItemsManager.selectedOptions[item] = $0
+                                selectedOptionForItem2 = $0
+                               // print("Selected option for item with id \(item.id): \($0)")
+                            }
+                           
                         ),
                                label: Text("")) {
                             ForEach(["Продажа на этом визите", "Продажа была ранее", "Продажи не было"], id: \.self) { option in
                                 Text(option) .font(.system(size: 16))
-                            
+                               
                             }
                         }
                         .pickerStyle(WheelPickerStyle())
@@ -141,21 +149,26 @@ struct Recommendations: View {
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing:
-                NavigationLink(
-                    destination: SelectedItemsView(selectedItemsHistory: viewModel2.selectedItemsHistory),
-                 
-                    label: {
-                        Text("Завершить")
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .font(.subheadline)
-                            .padding(5)
-                            .background(Color.green)
-                            .cornerRadius(7)
-                    })
-                .padding()
-               
-            )
+                           NavigationLink(
+                               destination:
+        {
+            if selectedOptionForItem2 == "Продажи не было" {
+                           Difficulties2()
+                        }
+                     else {
+                        SelectedItemsView(selectedItemsHistory: viewModel2.selectedItemsHistory)
+                    }},
+                label: {
+                    Text("Завершить")
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
+                        .font(.subheadline)
+                        .padding(5)
+                        .background(Color.green)
+                        .cornerRadius(7)
+                })
+            .padding()
+)
 
             .onAppear {
                 viewModel.fetchData()
