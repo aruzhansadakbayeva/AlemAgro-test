@@ -110,7 +110,7 @@ struct ClientObjectView: View {
     let client: Clientt
     var body: some View {
     
-            VStack(spacing:-5){
+        VStack(spacing: 20){
                 HStack{
                     NavigationLink(
                         destination: GetContract(),
@@ -122,7 +122,7 @@ struct ClientObjectView: View {
                                 .background(Color("grey"))
                             
                                 .cornerRadius(5)
-                        }).padding()
+                        })
                     Spacer()
                     NavigationLink(
                         destination: GetSubscidesList(),
@@ -134,7 +134,7 @@ struct ClientObjectView: View {
                                 .background(Color("grey"))
                             
                                 .cornerRadius(5)
-                        }).padding()
+                        })
                 }
                 
                 HStack{
@@ -148,7 +148,7 @@ struct ClientObjectView: View {
                             .background(Color("grey"))
                         
                             .cornerRadius(5)
-                    }).padding()
+                    })
                     Spacer()
                     NavigationLink(
                         destination: CAView(),
@@ -160,11 +160,12 @@ struct ClientObjectView: View {
                                 .background(Color("grey"))
                             
                                 .cornerRadius(5)
-                        }).padding()
+                        })
             
                    
                 }
-            }
+            }.padding(.leading, 20)
+            .padding(.trailing, 20)
             List([viewModel.response].compactMap { $0 }, id: \.clientId) { clientObject in
                 VStack(alignment: .leading) {
                     Text("**Адрес**: \(clientObject.address)")
