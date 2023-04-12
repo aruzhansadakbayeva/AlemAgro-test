@@ -61,7 +61,7 @@ struct AlemAgroApp: App {
                                    .tag(0)
                        
                   //    WebView(url: URL(string: "http://my.alemagro.com/map")!)
-                               VoiceRecordingView()
+                          CAView()
                                    .tabItem {
                                        Image(systemName: "folder.fill")
                                        Text("Проекты")

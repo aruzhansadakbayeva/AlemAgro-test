@@ -37,6 +37,8 @@
 		CDD1A075299E1636003E4C43 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A074299E1636003E4C43 /* FirebaseFirestoreSwift */; };
 		CDD1A07F299F695B003E4C43 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = CDD1A07E299F695B003E4C43 /* SDWebImageSwiftUI */; };
 		CDD68CE129C082B30056F76D /* VisitsClientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD68CE029C082B30056F76D /* VisitsClientsList.swift */; };
+		CDE1918429E56523001F210B /* GetCropRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE1918329E56523001F210B /* GetCropRotation.swift */; };
+		CDE1918629E6CEC3001F210B /* GetContractAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE1918529E6CEC3001F210B /* GetContractAnalysis.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +69,8 @@
 		CDC7FC4829DED6CF00676E6B /* GetSubscidesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSubscidesList.swift; sourceTree = "<group>"; };
 		CDC7FC4A29DED6EB00676E6B /* GetContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetContract.swift; sourceTree = "<group>"; };
 		CDD68CE029C082B30056F76D /* VisitsClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsClientsList.swift; sourceTree = "<group>"; };
+		CDE1918329E56523001F210B /* GetCropRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCropRotation.swift; sourceTree = "<group>"; };
+		CDE1918529E6CEC3001F210B /* GetContractAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetContractAnalysis.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,7 +197,9 @@
 			children = (
 				CD9CC0EE29D19EBA0076F9CA /* Survey */,
 				CD9CC0E629C87C0E0076F9CA /* WholeModel.swift */,
+				CDE1918529E6CEC3001F210B /* GetContractAnalysis.swift */,
 				CDC7FC4829DED6CF00676E6B /* GetSubscidesList.swift */,
+				CDE1918329E56523001F210B /* GetCropRotation.swift */,
 				CDC7FC4A29DED6EB00676E6B /* GetContract.swift */,
 			);
 			path = ClientState;
@@ -300,6 +306,7 @@
 				33D859A828AD74F000C842CF /* CustomTabBar.swift in Sources */,
 				CDC7FC4929DED6CF00676E6B /* GetSubscidesList.swift in Sources */,
 				CD6B906E29D2E4CC00DE6443 /* SIManager.swift in Sources */,
+				CDE1918429E56523001F210B /* GetCropRotation.swift in Sources */,
 				CD9CC0F229D1A11D0076F9CA /* Recommendations.swift in Sources */,
 				3314726D28AD8298000AFD83 /* HomeView.swift in Sources */,
 				CD9CC0F029D19F4D0076F9CA /* Difficulties.swift in Sources */,
@@ -309,6 +316,7 @@
 				CD4A3FFB29A725950061744A /* AccountView.swift in Sources */,
 				3314726F28AEAF4F000AFD83 /* CustomSearchBar.swift in Sources */,
 				CD5E7BBB29A8C7F500EE7D2F /* MatchedView.swift in Sources */,
+				CDE1918629E6CEC3001F210B /* GetContractAnalysis.swift in Sources */,
 				33D8599728AC1E4D00C842CF /* CircleBackground.swift in Sources */,
 				CD9CC0E729C87C0E0076F9CA /* WholeModel.swift in Sources */,
 				CD9CC0E329C860420076F9CA /* FieldView.swift in Sources */,

@@ -136,6 +136,34 @@ struct ClientObjectView: View {
                                 .cornerRadius(5)
                         }).padding()
                 }
+                
+                HStack{
+                    NavigationLink(
+                    destination: SeasonCropView(),
+                    label: {
+                        Text("Crop Rotation").fontWeight(.bold).padding(5)
+                        
+                            .foregroundColor(.white)
+                        
+                            .background(Color("grey"))
+                        
+                            .cornerRadius(5)
+                    }).padding()
+                    Spacer()
+                    NavigationLink(
+                        destination: CAView(),
+                        label: {
+                            Text("Анализ контрактов").fontWeight(.bold).padding(5)
+                            
+                                .foregroundColor(.white)
+                            
+                                .background(Color("grey"))
+                            
+                                .cornerRadius(5)
+                        }).padding()
+            
+                   
+                }
             }
             List([viewModel.response].compactMap { $0 }, id: \.clientId) { clientObject in
                 VStack(alignment: .leading) {
