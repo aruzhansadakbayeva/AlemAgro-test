@@ -272,7 +272,7 @@ struct Recommendations: View {
             audioRecorder?.prepareToRecord()
             audioRecorder?.record()
             isRecording = true
-            sendFileToServer()
+      
         } catch let error {
             print("Error starting recording: \(error.localizedDescription)")
         }
@@ -293,13 +293,14 @@ struct Recommendations: View {
         if let audioRecorder = audioRecorder {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: audioRecorder.url)
+                sendFileToServer()
             } catch let error {
                 print("Error creating audio player: \(error.localizedDescription)")
             }
         }
     }
     func sendFileToServer() {
-        let boundary = "Boundary-\(UUID().uuidString)"
+     
         let fileURL = audioRecorder?.url // Получение URL-адреса записанного аудио файла
         
         // Проверка наличия файла URL
@@ -307,7 +308,7 @@ struct Recommendations: View {
             print("Ошибка: URL-адрес записанного аудио файла не доступен")
             return
         }
-        
+        print("вот: \(fileURL.path)")
         let parameters = [
             [
                 "key": "file",
@@ -319,41 +320,47 @@ struct Recommendations: View {
                 "value": "uploadFile",
                 "type": "text"
             ]] as [[String: Any]]
-        
-        var body = ""
+        let postData: Data
+
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
         for param in parameters {
             if param["disabled"] != nil { continue }
             let paramName = param["key"]!
-            body += "--\(boundary)\r\n"
-            body += "Content-Disposition:form-data; name=\"\(paramName)\""
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition:form-data; name=\"\(paramName)\"".data(using: .utf8)!)
             if param["contentType"] != nil {
-                body += "\r\nContent-Type: \(param["contentType"] as! String)"
+                body.append("\r\nContent-Type: \(param["contentType"] as! String)".data(using: .utf8)!)
             }
             let paramType = param["type"] as! String
             if paramType == "text" {
                 let paramValue = param["value"] as! String
-                body += "\r\n\r\n\(paramValue)\r\n"
+                body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
             } else {
                 let paramSrc = param["src"] as! String
                 do {
                     let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc), options: [])
-                    body += "; filename=\"\(paramSrc)\"\r\n"
-                    body += "Content-Type: \"content-type header\"\r\n\r\n"
-                    body += "--\(boundary)\r\n"
-                    body += "Content-Type: application/octet-stream\r\n\r\n"
-                    body += String(data: fileData, encoding: .utf8) ?? ""
-                    body += "\r\n"
+                    body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
+                    body.append("Content-Type: \"content-type header\"\r\n\r\n".data(using: .utf8)!)
+                    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                    body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+                    body.append(fileData)
+                    body.append("\r\n".data(using: .utf8)!)
                 } catch {
                     print("Failed to load file data from URL: \(paramSrc)")
                     print(error.localizedDescription)
                 }
             }
         }
-        body += "--\(boundary)--\r\n";
-        let postData = body.data(using: .utf8)
-        
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+         postData = body
+
+
+     
         var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!,timeoutInterval: Double.infinity)
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+     
+
         
         request.httpMethod = "POST"
         request.httpBody = postData
