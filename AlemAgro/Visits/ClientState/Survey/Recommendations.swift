@@ -76,7 +76,13 @@ struct Recommendations: View {
     @State private var audioRecorder: AVAudioRecorder?
     @State private var audioPlayer: AVAudioPlayer?
     @State private var isPlaying = false
-    
+    var isNextButtonDisabled: Bool {
+        // Возвращаем true, если не все три опции отмечены
+        return !(selectedItems.contains { $0.id == 1 }) ||
+               !(selectedItems.contains { $0.id == 2 }) ||
+               !(selectedItems.contains { $0.id == 3 })
+    }
+
     var body: some View {
 
         VStack {
@@ -121,11 +127,13 @@ struct Recommendations: View {
                     .padding()
 
                     if item.id == 2 && showCustomOption && SelectedItemsManager.selectedOptions[item] == "Да" {
+                      
                         Picker(selection: Binding(
                             get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
                             set: {
+                                (selectedOptionForItem2 = $0);
                              SelectedItemsManager.selectedOptions[item] = $0
-                                selectedOptionForItem2 = $0
+                              
                                 
                                
                                // print("Selected option for item with id \(item.id): \($0)")
@@ -144,12 +152,14 @@ struct Recommendations: View {
                     }
 
 
-                   
+                
                 
 
 
                 }
+
             }
+            
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing:
                            NavigationLink(
@@ -172,8 +182,8 @@ struct Recommendations: View {
                         .background(Color.green)
                         .cornerRadius(7)
                      */
-                })
-            .padding()
+                })      .disabled(isNextButtonDisabled)
+       
 )
 
             .onAppear {
@@ -338,7 +348,7 @@ struct Recommendations: View {
             }
             .navigationBarItems(trailing:
             NavigationLink(
-                destination: 
+                destination:
                     SelectedItemsView(),
                 label: {
                     Text("Завершить").fontWeight(.bold).foregroundColor(Color.white)

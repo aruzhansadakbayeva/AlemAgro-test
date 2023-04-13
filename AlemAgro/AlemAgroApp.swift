@@ -43,6 +43,7 @@ class AppState: ObservableObject {
 
 @main
 struct AlemAgroApp: App {
+ 
     @StateObject var appState = AppState()
     @StateObject var loginViewModel = LoginViewModel()
 
@@ -60,8 +61,8 @@ struct AlemAgroApp: App {
                                    }
                                    .tag(0)
                        
-                  //    WebView(url: URL(string: "http://my.alemagro.com/map")!)
-                          CAView()
+                     WebView(url: URL(string: "http://my.alemagro.com/map")!)
+             
                                    .tabItem {
                                        Image(systemName: "folder.fill")
                                        Text("Проекты")

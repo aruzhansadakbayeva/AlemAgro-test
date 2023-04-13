@@ -166,15 +166,16 @@ struct ClientDetailView: View {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 17){
                     Text("\(client.clientName)")
-             
+          
                         .fontWeight(.bold)
                         .font(.title)
                         .foregroundColor(.primary)
                     
                 }.padding()
                    
-               
+             
                 ClientObjectView(client: client)
+                
             }  // .background(colorPrimary)
               
                 .background(Color(UIColor.systemBackground))

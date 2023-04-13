@@ -159,7 +159,7 @@ struct Difficulties2: View {
         
             }
       
-            .navigationBarTitle("Cложности заключения договора")
+            .navigationBarTitle("Cложности закл-ия договора")
             .navigationBarItems(trailing:
                                     NavigationLink(destination:  SelectedItemsView(selectedItemsHistory: viewModel2.selectedItemsHistory)) {
                     Text("Далее")

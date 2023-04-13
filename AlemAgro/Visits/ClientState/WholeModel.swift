@@ -107,67 +107,49 @@ print("Current visit id: \(currentVisitId)")
 
 struct ClientObjectView: View {
     @StateObject var viewModel = DetailClientViewModel()
+    @StateObject var fileListModel = FileListModel()
+    @State private var showDocumentPicker = false
+    
     let client: Clientt
     var body: some View {
-    
+       
         VStack(spacing: 20){
-                HStack{
-                    NavigationLink(
-                        destination: GetContract(),
-                        label: {
-                            Text("Контракты").fontWeight(.bold).padding(5)
-                            
-                                .foregroundColor(.white)
-                            
-                                .background(Color("grey"))
-                            
-                                .cornerRadius(5)
-                        })
-                    Spacer()
-                    NavigationLink(
-                        destination: GetSubscidesList(),
-                        label: {
-                            Text("Список субсидий").fontWeight(.bold).padding(5)
-                            
-                                .foregroundColor(.white)
-                            
-                                .background(Color("grey"))
-                            
-                                .cornerRadius(5)
-                        })
-                }
+          
+       
+    
+       
+                    ForEach(fileListModel.files) { fileItem in
+                        HStack {
+                            Text(fileItem.name)
+                            Spacer()
+                            Text("\(fileItem.fileURL.lastPathComponent)")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                    }
+
+                    .onDelete(perform: fileListModel.removeFile)
                 
-                HStack{
-                    NavigationLink(
-                    destination: SeasonCropView(),
-                    label: {
-                        Text("Crop Rotation").fontWeight(.bold).padding(5)
-                        
-                            .foregroundColor(.white)
-                        
-                            .background(Color("grey"))
-                        
-                            .cornerRadius(5)
-                    })
-                    Spacer()
-                    NavigationLink(
-                        destination: CAView(),
-                        label: {
-                            Text("Анализ контрактов").fontWeight(.bold).padding(5)
-                            
-                                .foregroundColor(.white)
-                            
-                                .background(Color("grey"))
-                            
-                                .cornerRadius(5)
-                        })
-            
-                   
+                Button(action: {
+                    showDocumentPicker = true
+                }) {
+                    Label("Выбрать файл", systemImage: "doc")
                 }
+            
+          
+        
             }.padding(.leading, 20)
             .padding(.trailing, 20)
-            List([viewModel.response].compactMap { $0 }, id: \.clientId) { clientObject in
+            .sheet(isPresented: $showDocumentPicker) {
+                DocumentPicker(fileURLs: $fileListModel.files)
+            }
+      
+            List([viewModel.response].compactMap { $0 }, id: \.clientId) {
+                clientObject in
+                
                 VStack(alignment: .leading) {
+                    
+                       
                     Text("**Адрес**: \(clientObject.address)")
                     Text("**ИИН**: \(String(clientObject.clientIin))")
                     Text("**Поле**: \(clientObject.plotName ?? "Нету")")
@@ -194,15 +176,78 @@ struct ClientObjectView: View {
                                     Text("**Почта**: \(email)")
                                 }
                                 Text("**Должность**: \(contact.position)")
-                                
-                                
+                               
+                            
                             }
                         }
+                      
                         
                     }
                     
                     
+                    
                 }
+                ScrollView{
+                    VStack(alignment: .leading, spacing: 3) {
+                        Spacer()
+                        NavigationLink(
+                            destination: GetContract(),
+                            label: {
+                                Text("Контракты")
+                                    .fontWeight(.bold)
+                                    .padding(5)
+                                    
+                                    .foregroundColor(.white)
+                                    .frame(width: 330, height: 38)
+                                    .background(Color("purple"))
+                                    .clipShape(Rectangle()).cornerRadius(7)
+                                
+                            })
+                        Spacer()
+                        NavigationLink(
+                            destination: GetSubscidesList(),
+                            label: {
+                                Text("Список субсидий")
+                                    .fontWeight(.bold)
+                                    .padding(5)
+                                
+                                .foregroundColor(.white)
+                                .frame(width: 330, height: 38)
+                                .background(Color("purple"))
+                                .clipShape(Rectangle()).cornerRadius(7)
+                            
+                            })
+                        Spacer()
+                        NavigationLink(
+                            destination: SeasonCropView(),
+                            label: {
+                                Text("Севообороты")
+                                    .fontWeight(.bold)
+                                    .padding(5)
+                                    .foregroundColor(.white)
+                                    .frame(width: 330, height: 38)
+                                    .background(Color("purple"))
+                                    .clipShape(Rectangle()).cornerRadius(7)
+                                
+                               
+                            })
+                        Spacer()
+                        NavigationLink(
+                            destination: CAView(),
+                            label: {
+                                Text("Анализ контрактов")
+                                    .fontWeight(.bold)
+                                    .padding(5)
+                                    .foregroundColor(.white)
+                                    .frame(width: 330, height: 38)
+                                    .background(Color("purple"))
+                                    .clipShape(Rectangle()).cornerRadius(7)
+                                
+                            })
+                    }
+                }
+
+
                 
             }
             

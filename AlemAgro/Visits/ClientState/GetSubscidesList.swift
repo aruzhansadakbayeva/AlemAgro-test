@@ -100,7 +100,7 @@ struct GetSubscidesList: View {
                     }
                 }
             }
-            .navigationTitle("Контракты")
+            .navigationTitle("Список субсидий")
             .onAppear {
                 // Fetch data when the view appears
                 viewModel.fetchData()

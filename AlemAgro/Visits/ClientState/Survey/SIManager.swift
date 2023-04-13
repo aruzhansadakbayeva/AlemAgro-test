@@ -135,7 +135,7 @@ struct SelectedItemsView: View {
                                                         sendToAPI()
                                                     },
                                                 label: {
-                                                    Text("Подтвердить завершение")
+                                                    Text("Завершить")
                                                         .fontWeight(.bold)
                                                         .foregroundColor(Color.white)
                                                         .font(.subheadline)
