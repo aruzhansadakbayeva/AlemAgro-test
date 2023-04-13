@@ -115,21 +115,22 @@ struct ClientObjectView: View {
        
         VStack(spacing: 20){
                   
-               
+            ForEach(fileListModel.files) { fileItem in
+                VStack(alignment: .leading) {
+                   /* Text(fileItem.name)
+                    Spacer()
+                    */
+                    Text("\(fileItem.fileURL.lastPathComponent)")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
+            }
+            
+            .onDelete(perform: fileListModel.removeFile)
+            
                     HStack{
                         
-                        ForEach(fileListModel.files) { fileItem in
-                            HStack {
-                                Text(fileItem.name)
-                                Spacer()
-                                Text("\(fileItem.fileURL.lastPathComponent)")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        
-                        .onDelete(perform: fileListModel.removeFile)
-                        
+                     
                         Button(action: {
                             showDocumentPicker = true
                         }) {
@@ -138,18 +139,21 @@ struct ClientObjectView: View {
                             DocumentPicker(fileURLs: $fileListModel.files)
                         }
                         Spacer()
-                        
+                        /*
                         ForEach(fileListModel.files) { fileItem in
                             HStack {
-                                Text(fileItem.name)
-                                Spacer()
+                                /* Text(fileItem.name)
+                                 Spacer()
+                                 */
                                 Text("\(fileItem.fileURL.lastPathComponent)")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
                         }
+                         
                         
                         .onDelete(perform: fileListModel.removeFile)
+                         */
                         
                         Button(action: {
                             showImagePicker = true
