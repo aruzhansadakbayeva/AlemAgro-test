@@ -300,71 +300,60 @@ struct Recommendations: View {
         }
     }
     func sendFileToServer() {
-     
-        let fileURL = audioRecorder?.url // Получение URL-адреса записанного аудио файла
-        
-        // Проверка наличия файла URL
+
+        let fileURL = audioRecorder?.url // Get the URL of the recorded audio file
+
+        // Check if file URL is available
         guard let fileURL = fileURL else {
-            print("Ошибка: URL-адрес записанного аудио файла не доступен")
+            print("Error: URL of recorded audio file is not available")
             return
         }
-        print("вот: \(fileURL.path)")
+        
         let parameters = [
             [
                 "key": "file",
-                "src": fileURL.path, // Использование path URL-адреса записанного аудио файла
                 "type": "file"
             ],
             [
                 "key": "type",
                 "value": "uploadFile",
                 "type": "text"
-            ]] as [[String: Any]]
-        let postData: Data
-
+            ]
+        ]
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = Data()
+        
         for param in parameters {
             if param["disabled"] != nil { continue }
             let paramName = param["key"]!
             body.append("--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition:form-data; name=\"\(paramName)\"".data(using: .utf8)!)
-            if param["contentType"] != nil {
-                body.append("\r\nContent-Type: \(param["contentType"] as! String)".data(using: .utf8)!)
-            }
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"".data(using: .utf8)!)
             let paramType = param["type"] as! String
             if paramType == "text" {
                 let paramValue = param["value"] as! String
                 body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
             } else {
-                let paramSrc = param["src"] as! String
+                body.append("; filename=\"\(fileURL.lastPathComponent)\"\r\n".data(using: .utf8)!)
+                body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
                 do {
-                    let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc), options: [])
-                    body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
-                    body.append("Content-Type: \"content-type header\"\r\n\r\n".data(using: .utf8)!)
-                    body.append("--\(boundary)\r\n".data(using: .utf8)!)
-                    body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+                    let fileData = try Data(contentsOf: fileURL, options: [])
                     body.append(fileData)
                     body.append("\r\n".data(using: .utf8)!)
                 } catch {
-                    print("Failed to load file data from URL: \(paramSrc)")
+                    print("Failed to load file data from URL: \(fileURL)")
                     print(error.localizedDescription)
                 }
             }
         }
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-         postData = body
+        let postData = body
 
-
-     
-        var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!,timeoutInterval: Double.infinity)
+        var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!, timeoutInterval: Double.infinity)
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-     
 
-        
         request.httpMethod = "POST"
         request.httpBody = postData
-        
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))
@@ -372,7 +361,7 @@ struct Recommendations: View {
             }
             print(String(data: data, encoding: .utf8)!)
         }
-        
+
         task.resume()
     }
 

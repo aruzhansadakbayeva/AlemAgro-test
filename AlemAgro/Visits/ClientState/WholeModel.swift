@@ -109,40 +109,61 @@ struct ClientObjectView: View {
     @StateObject var viewModel = DetailClientViewModel()
     @StateObject var fileListModel = FileListModel()
     @State private var showDocumentPicker = false
-    
+    @State private var showImagePicker = false
     let client: Clientt
     var body: some View {
        
         VStack(spacing: 20){
-          
-       
-    
-       
-                    ForEach(fileListModel.files) { fileItem in
-                        HStack {
-                            Text(fileItem.name)
-                            Spacer()
-                            Text("\(fileItem.fileURL.lastPathComponent)")
-                                .font(.caption)
-                                .foregroundColor(.gray)
+                  
+               
+                    HStack{
+                        
+                        ForEach(fileListModel.files) { fileItem in
+                            HStack {
+                                Text(fileItem.name)
+                                Spacer()
+                                Text("\(fileItem.fileURL.lastPathComponent)")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        
+                        .onDelete(perform: fileListModel.removeFile)
+                        
+                        Button(action: {
+                            showDocumentPicker = true
+                        }) {
+                            Label("Выбрать файл", systemImage: "doc")
+                        }  .sheet(isPresented: $showDocumentPicker) {
+                            DocumentPicker(fileURLs: $fileListModel.files)
+                        }
+                        Spacer()
+                        
+                        ForEach(fileListModel.files) { fileItem in
+                            HStack {
+                                Text(fileItem.name)
+                                Spacer()
+                                Text("\(fileItem.fileURL.lastPathComponent)")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        
+                        .onDelete(perform: fileListModel.removeFile)
+                        
+                        Button(action: {
+                            showImagePicker = true
+                        }) {
+                            Label("Выбрать фото/видео", systemImage: "photo")
+                        }
+                        .sheet(isPresented: $showImagePicker) {
+                            ImagePicker(fileURLs: $fileListModel.files)
                         }
                     }
-
-                    .onDelete(perform: fileListModel.removeFile)
+                  
                 
-                Button(action: {
-                    showDocumentPicker = true
-                }) {
-                    Label("Выбрать файл", systemImage: "doc")
-                }
-            
-          
-        
-            }.padding(.leading, 20)
-            .padding(.trailing, 20)
-            .sheet(isPresented: $showDocumentPicker) {
-                DocumentPicker(fileURLs: $fileListModel.files)
-            }
+                    }.padding(.leading, 20)
+                    .padding(.trailing, 20)
       
             List([viewModel.response].compactMap { $0 }, id: \.clientId) {
                 clientObject in
