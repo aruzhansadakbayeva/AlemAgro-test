@@ -98,7 +98,8 @@ struct DocumentPicker: UIViewControllerRepresentable {
             // Handle cancellation if needed
         }
         func sendFileToServer(_ fileItem: FileItem) {
-         
+            
+             let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
             let fileURL = fileItem.fileURL
             print("Путь: \(fileURL)")
             let parameters = [
@@ -111,7 +112,19 @@ struct DocumentPicker: UIViewControllerRepresentable {
                     "key": "type",
                         "value": "uploadFile",
                         "type": "text"
-                ]] as [[String: Any]]
+                ],
+                [
+                  "key": "action",
+                  "value": "visitProfile",
+                  "type": "text"
+                ],
+                [
+                  "key": "visitId",
+                  "value": "\(currentVisitId)",
+                  "type": "text"
+                ]
+            ] as [[String: Any]]
+            print(parameters)
             let postData: Data
     
             let boundary = "Boundary-\(UUID().uuidString)"
@@ -213,6 +226,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
     
     func sendFileToServer(_ fileItem: FileItem) {
+        let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
         let fileURL = fileItem.fileURL
         print("Путь: \(fileURL)")
         let parameters = [
@@ -225,8 +239,19 @@ struct ImagePicker: UIViewControllerRepresentable {
                 "key": "type",
                 "value": "uploadFile",
                 "type": "text"
+            ],
+            [
+              "key": "action",
+              "value": "visitProfile",
+              "type": "text"
+            ],
+            [
+              "key": "visitId",
+              "value": "\(currentVisitId)",
+              "type": "text"
             ]
         ] as [[String: Any]]
+        print(parameters)
         let postData: Data
 
         let boundary = "Boundary-\(UUID().uuidString)"

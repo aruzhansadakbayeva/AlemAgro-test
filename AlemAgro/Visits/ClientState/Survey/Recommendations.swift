@@ -300,7 +300,7 @@ struct Recommendations: View {
         }
     }
     func sendFileToServer() {
-
+        let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
         let fileURL = audioRecorder?.url // Get the URL of the recorded audio file
 
         // Check if file URL is available
@@ -318,8 +318,19 @@ struct Recommendations: View {
                 "key": "type",
                 "value": "uploadFile",
                 "type": "text"
+            ],
+            [
+              "key": "action",
+              "value": "visitProfile",
+              "type": "text"
+            ],
+            [
+              "key": "visitId",
+              "value": "\(currentVisitId)",
+              "type": "text"
             ]
         ]
+        print(parameters)
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = Data()
         
