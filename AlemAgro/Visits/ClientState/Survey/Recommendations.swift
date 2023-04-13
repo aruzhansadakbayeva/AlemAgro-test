@@ -251,6 +251,7 @@ struct Recommendations: View {
         
     }
     func startRecording() {
+     
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.playAndRecord, mode: .default, options: [])
@@ -271,6 +272,7 @@ struct Recommendations: View {
             audioRecorder?.prepareToRecord()
             audioRecorder?.record()
             isRecording = true
+            sendFileToServer()
         } catch let error {
             print("Error starting recording: \(error.localizedDescription)")
         }
@@ -296,6 +298,78 @@ struct Recommendations: View {
             }
         }
     }
+    func sendFileToServer() {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        let fileURL = audioRecorder?.url // Получение URL-адреса записанного аудио файла
+        
+        // Проверка наличия файла URL
+        guard let fileURL = fileURL else {
+            print("Ошибка: URL-адрес записанного аудио файла не доступен")
+            return
+        }
+        
+        let parameters = [
+            [
+                "key": "file",
+                "src": fileURL.path, // Использование path URL-адреса записанного аудио файла
+                "type": "file"
+            ],
+            [
+                "key": "type",
+                "value": "uploadFile",
+                "type": "text"
+            ]] as [[String: Any]]
+        
+        var body = ""
+        for param in parameters {
+            if param["disabled"] != nil { continue }
+            let paramName = param["key"]!
+            body += "--\(boundary)\r\n"
+            body += "Content-Disposition:form-data; name=\"\(paramName)\""
+            if param["contentType"] != nil {
+                body += "\r\nContent-Type: \(param["contentType"] as! String)"
+            }
+            let paramType = param["type"] as! String
+            if paramType == "text" {
+                let paramValue = param["value"] as! String
+                body += "\r\n\r\n\(paramValue)\r\n"
+            } else {
+                let paramSrc = param["src"] as! String
+                do {
+                    let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc), options: [])
+                    body += "; filename=\"\(paramSrc)\"\r\n"
+                    body += "Content-Type: \"content-type header\"\r\n\r\n"
+                    body += "--\(boundary)\r\n"
+                    body += "Content-Type: application/octet-stream\r\n\r\n"
+                    body += String(data: fileData, encoding: .utf8) ?? ""
+                    body += "\r\n"
+                } catch {
+                    print("Failed to load file data from URL: \(paramSrc)")
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        body += "--\(boundary)--\r\n";
+        let postData = body.data(using: .utf8)
+        
+        var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!,timeoutInterval: Double.infinity)
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        request.httpMethod = "POST"
+        request.httpBody = postData
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print(String(describing: error))
+                return
+            }
+            print(String(data: data, encoding: .utf8)!)
+        }
+        
+        task.resume()
+    }
+
+    
     
 
  
