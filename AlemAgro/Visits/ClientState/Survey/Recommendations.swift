@@ -321,7 +321,7 @@ struct Recommendations: View {
             ],
             [
               "key": "action",
-              "value": "visitProfile",
+              "value": "recommendations",
               "type": "text"
             ],
             [
