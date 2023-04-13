@@ -338,7 +338,9 @@ struct FieldView2: View {
                                 .onDisappear {
                                     // Add selected items to history before navigating to the next view
                                     viewModel.addSelectedItems()
+                                    viewModel.selectedItems.removeAll()
                                 }
+                                .navigationBarBackButtonHidden(true)
                 /*
                                 Button(action: {
                                     self.showAllSelectedItems.toggle()

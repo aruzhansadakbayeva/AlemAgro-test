@@ -76,12 +76,7 @@ struct Recommendations: View {
     @State private var audioRecorder: AVAudioRecorder?
     @State private var audioPlayer: AVAudioPlayer?
     @State private var isPlaying = false
-    var isNextButtonDisabled: Bool {
-        // Возвращаем true, если не все три опции отмечены
-        return !(selectedItems.contains { $0.id == 1 }) ||
-               !(selectedItems.contains { $0.id == 2 }) ||
-               !(selectedItems.contains { $0.id == 3 })
-    }
+
 
     var body: some View {
 
@@ -129,25 +124,29 @@ struct Recommendations: View {
                     if item.id == 2 && showCustomOption && SelectedItemsManager.selectedOptions[item] == "Да" {
                       
                         Picker(selection: Binding(
-                            get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
+                            get: { SelectedItemsManager.selectedOptions[item] ?? "" },
                             set: {
-                                (selectedOptionForItem2 = $0);
-                             SelectedItemsManager.selectedOptions[item] = $0
-                              
-                                
-                               
-                               // print("Selected option for item with id \(item.id): \($0)")
+                                SelectedItemsManager.selectedOptions[item] = $0
+                                if item.id == 2 {
+                                    if $0 == "Да" {
+                                        showCustomOption = true
+                                        selectedOptionForItem2 = $0
+                                    } else {
+                                        showCustomOption = false
+                                        selectedOptionForItem2 = ""
+                                    }
+                                } else {
+                                    selectedOptionForItem2 = $0
+                                }
                             }
-                           
-                        ),
-                               label: Text("")) {
+                        ), label: Text("")) {
                             ForEach(["Продажа на этом визите", "Продажа была ранее", "Продажи не было"], id: \.self) { option in
-                                Text(option) .font(.system(size: 16))
-                               
+                                Text(option).font(.system(size: 16))
                             }
                         }
                         .pickerStyle(WheelPickerStyle())
                         .frame(maxWidth: .infinity, maxHeight: 100)
+
                      //   .padding()
                     }
 
@@ -182,7 +181,7 @@ struct Recommendations: View {
                         .background(Color.green)
                         .cornerRadius(7)
                      */
-                })      .disabled(isNextButtonDisabled)
+                })
        
 )
 
@@ -259,7 +258,8 @@ struct Recommendations: View {
             
             let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
             let audioFilename = documentsPath.appendingPathComponent("recording.m4a")
-            
+            print("Аудио файл находится по пути: \(audioFilename)")
+
             let settings: [String: Any] = [
                 AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
                 AVSampleRateKey: 44100,

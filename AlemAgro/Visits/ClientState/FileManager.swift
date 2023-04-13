@@ -100,21 +100,20 @@ struct DocumentPicker: UIViewControllerRepresentable {
         func sendFileToServer(_ fileItem: FileItem) {
             let boundary = "Boundary-\(UUID().uuidString)"
             let fileURL = fileItem.fileURL
-            
+            print("Путь: \(fileURL)")
             let parameters = [
                 [
                     "key": "file",
-                    "src": fileURL.path,
+                    "src": "\(fileURL.path)",
                     "type": "file"
                 ],
                 [
                     "key": "type",
-                    "value": "",
-                    "type": "text"
+                        "value": "uploadFile",
+                        "type": "text"
                 ]] as [[String: Any]]
-
+            
             var body = ""
-            var error: Error? = nil
             for param in parameters {
                 if param["disabled"] != nil { continue }
                 let paramName = param["key"]!
@@ -130,34 +129,28 @@ struct DocumentPicker: UIViewControllerRepresentable {
                 } else {
                     let paramSrc = param["src"] as! String
                     do {
-                        if let fileData = try? Data(contentsOf: URL(fileURLWithPath: paramSrc), options: []) {
-                            if let fileContent = String(data: fileData, encoding: .utf16) {
-                                // Use the fileContent string
-                                body += "; filename=\"\(paramSrc)\"\r\n"
-                                    + "Content-Type: \"content-type header\"\r\n\r\n\(fileContent)\r\n"
-                            } else {
-                                print("Failed to decode file data to string")
-                            }
-                        } else {
-                            print("Failed to load file data from URL: \(paramSrc)")
-                        }
-
+                        let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc), options: [])
+                        body += "; filename=\"\(paramSrc)\"\r\n"
+                        body += "Content-Type: \"content-type header\"\r\n\r\n"
+                        body += "--\(boundary)\r\n"
+                        body += "Content-Type: application/octet-stream\r\n\r\n"
+                        body += String(data: fileData, encoding: .utf8) ?? ""
+                        body += "\r\n"
                     } catch {
+                        print("Failed to load file data from URL: \(paramSrc)")
                         print(error.localizedDescription)
                     }
-
-                   
                 }
             }
             body += "--\(boundary)--\r\n";
             let postData = body.data(using: .utf8)
-
+            
             var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!,timeoutInterval: Double.infinity)
             request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
+            
             request.httpMethod = "POST"
             request.httpBody = postData
-
+            
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data else {
                     print(String(describing: error))
@@ -165,10 +158,8 @@ struct DocumentPicker: UIViewControllerRepresentable {
                 }
                 print(String(data: data, encoding: .utf8)!)
             }
-
+            
             task.resume()
         }
-
-        
     }
 }
