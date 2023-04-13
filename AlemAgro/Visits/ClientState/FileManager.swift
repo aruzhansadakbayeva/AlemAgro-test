@@ -213,7 +213,6 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
     
     func sendFileToServer(_ fileItem: FileItem) {
-     
         let fileURL = fileItem.fileURL
         print("Путь: \(fileURL)")
         let parameters = [
@@ -224,9 +223,10 @@ struct ImagePicker: UIViewControllerRepresentable {
             ],
             [
                 "key": "type",
-                    "value": "uploadFile",
-                    "type": "text"
-            ]] as [[String: Any]]
+                "value": "uploadFile",
+                "type": "text"
+            ]
+        ] as [[String: Any]]
         let postData: Data
 
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -248,9 +248,8 @@ struct ImagePicker: UIViewControllerRepresentable {
                 do {
                     let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc), options: [])
                     body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
-                    body.append("Content-Type: \"content-type header\"\r\n\r\n".data(using: .utf8)!)
-                    body.append("--\(boundary)\r\n".data(using: .utf8)!)
-                    body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+                    // Указываем правильный тип содержимого для изображения
+                    body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!) // Измените на нужный тип изображения, если это не JPEG
                     body.append(fileData)
                     body.append("\r\n".data(using: .utf8)!)
                 } catch {
@@ -260,18 +259,14 @@ struct ImagePicker: UIViewControllerRepresentable {
             }
         }
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-         postData = body
+        postData = body
 
-
-     
         var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!,timeoutInterval: Double.infinity)
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-     
 
-        
         request.httpMethod = "POST"
         request.httpBody = postData
-        
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))
@@ -279,7 +274,8 @@ struct ImagePicker: UIViewControllerRepresentable {
             }
             print(String(data: data, encoding: .utf8)!)
         }
-        
+
         task.resume()
     }
+
 }
