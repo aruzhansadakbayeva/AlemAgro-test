@@ -138,7 +138,7 @@ struct Recommendations: View {
                             SelectedItemsManager.selectedOptions[item] = newValue
                         }
                         // Дополнительный код
-                    } 
+                    }
                     
                 
 
@@ -163,6 +163,8 @@ struct Recommendations: View {
                     }},
                 label: {
                     Text("Далее")
+                        .disabled(selectedOption.isEmpty || (selectedItems.contains(where: { $0.id == 2 }) && selectedOption == "" && showCustomOption))
+
                     /*
                     Text("Завершить")
                         .fontWeight(.bold)

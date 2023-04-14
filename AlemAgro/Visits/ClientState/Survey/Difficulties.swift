@@ -98,7 +98,7 @@ struct Difficulties: View {
         
             }
       
-            .navigationBarTitle("Cложности заключения договора")
+            .navigationBarTitle("Cложности закл-ия договора")
             .navigationBarItems(trailing:
                                     NavigationLink(destination: Recommendations()) {
                     Text("Далее")

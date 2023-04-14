@@ -124,8 +124,15 @@ struct FieldView: View {
     }
 
     var isNextButtonEnabled: Bool {
-        return !viewModel.selectedItems.isEmpty
+        // Проверяем, что в каждой категории есть хотя бы один выбранный элемент
+        for category in viewModel.categorizedResponse.keys {
+            if viewModel.selectedItems.filter({ $0.category == category }).isEmpty {
+                return false
+            }
+        }
+        return true
     }
+
 
     var body: some View {
         ScrollView {
@@ -312,7 +319,13 @@ struct FieldView2: View {
     }
 
     var isNextButtonEnabled: Bool {
-        return !viewModel.selectedItems.isEmpty
+        // Проверяем, что в каждой категории есть хотя бы один выбранный элемент
+        for category in viewModel.categorizedResponse.keys {
+            if viewModel.selectedItems.filter({ $0.category == category }).isEmpty {
+                return false
+            }
+        }
+        return true
     }
     @State var selectedItemsArray: [[PostmanResponse2]] = []
     var allSelectedItems: [[PostmanResponse2]] {
