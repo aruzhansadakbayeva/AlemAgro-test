@@ -136,6 +136,8 @@ struct Recommendations: View {
                         .onChange(of: selectedOption) { newValue in
                             // Присваиваем выбранное значение к SelectedItemsManager.selectedOptions[item]
                             SelectedItemsManager.selectedOptions[item] = newValue
+                            
+                            
                         }
                         // Дополнительный код
                     }

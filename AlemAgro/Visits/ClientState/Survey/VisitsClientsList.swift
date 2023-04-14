@@ -405,3 +405,16 @@ class UserIdManager {
         return currentUserId
     }
 }
+class TelegramIdManager {
+    static let shared = TelegramIdManager()
+    
+    private var currentTelegramId: String? = nil
+    
+    func setCurrentTelegramId(id: String) {
+        currentTelegramId = id
+    }
+    
+    func getCurrentTelegramId() -> String? {
+        return currentTelegramId
+    }
+}

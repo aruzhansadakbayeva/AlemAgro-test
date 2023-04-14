@@ -174,3 +174,63 @@ struct Difficulties2: View {
 
     }
 }
+struct Difficulties3: View {
+
+    @StateObject var viewModel = PostmanViewModel3()
+    @State var selectedItems = Set<PostmanResponse3>()
+    var isNextButtonEnabled: Bool {
+         return !selectedItems.isEmpty
+     }
+    var body: some View {
+        VStack{
+            List(viewModel.response, id: \.id, selection: $selectedItems) { item in
+                HStack {
+                    Text("\(item.name)")
+                    if item.name == "Другое" {
+                        TextField("Введите значение", text: $viewModel.otherValue)
+                            .padding(.horizontal, 10)
+                            .frame(height: 50)
+                    }
+                    Spacer()
+                    if selectedItems.contains(item) {
+                    
+                        Image(systemName:"checkmark.square.fill")
+                            .foregroundColor(.blue)
+                    }
+                    if !selectedItems.contains(item) {
+                        Image(systemName:"square")
+                            .foregroundColor(.blue)
+                    }
+                }
+                
+                
+                .onTapGesture {
+                    if selectedItems.contains(item) {
+                        selectedItems.remove(item)
+                        SelectedItemsManager.selectedItems3.remove(item) // удаляем элемент из SelectedItemsManager
+                        print("Удален элемент: \(item.name)")
+                    } else {
+                        selectedItems.insert(item)
+                        SelectedItemsManager.selectedItems3.insert(item) // добавляем элемент в SelectedItemsManager
+                        print("Добавлен элемент: \(item.name)")
+                    }
+                   
+                }
+        
+            }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarTitle("Cложности закл-ия договора")
+            .navigationBarItems(trailing:
+                                    NavigationLink(destination: Recommendations()) {
+                    Text("Далее")
+                }
+                .disabled(!isNextButtonEnabled)
+            )
+        }
+        
+        .onAppear {
+            viewModel.fetchData()
+        }
+
+    }
+}

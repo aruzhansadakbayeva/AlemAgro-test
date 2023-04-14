@@ -452,7 +452,7 @@ struct FieldView2: View {
             .navigationBarTitle("Осмотр поля")
             .navigationBarItems(
                 trailing:
-                    NavigationLink(destination: Difficulties()) {
+                    NavigationLink(destination: Difficulties3()) {
                         Text("Далее")
                     }
                     .disabled(!isNextButtonEnabled)

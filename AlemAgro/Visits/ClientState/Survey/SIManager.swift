@@ -124,10 +124,10 @@ struct SelectedItemsView: View {
             }
             .padding(.horizontal, 20)
             
-        }     .navigationBarBackButtonHidden(true)
+        }     //.navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing:
                                             NavigationLink(
-                                                destination: VisitListView()
+                                                destination: VisitListView()   .navigationBarBackButtonHidden(true)
                                                     .onAppear {
                                                         // Perform action here
                                                         // You can call a function or perform any other action

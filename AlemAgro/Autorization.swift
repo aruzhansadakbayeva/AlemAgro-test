@@ -43,7 +43,7 @@ class LoginViewModel: ObservableObject {
                         self.isLoggedIn = true
                         saveTokenToUserDefaults(token: response.token)
                         self.currentUser = response.user
-
+print(response)
                         // сохраняем данные пользователя в UserDefaults
                         let encoder = JSONEncoder()
                         if let encoded = try? encoder.encode(response.user) {
@@ -161,12 +161,14 @@ struct Userr: Codable {
     let id: Int
     let email: String
     let name: String
-    let access_availability: [Int]
+    let access_availability: [Int]?
+    let version: Double
+    let telegramId: String?
     let workPosition: String?
-    let active: Int
-    let unFollowClients: [Int]
-    let favoriteClients: [Int]
-    let subscribesRegion: [Int]
+    let active: Int?
+    let unFollowClients: [Int]?
+    let favoriteClients: [Int]?
+    let subscribesRegion: [Int]?
 }
 
 
@@ -193,11 +195,14 @@ struct ProfileView: View {
             Text(appState.currentUser?.email ?? "")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-            
-            Text("\(String(appState.currentUser?.id  ?? 0))")
+            Text("Telegram ID: \(appState.currentUser?.telegramId ?? "")")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             
+        /*    Text("\(String(appState.currentUser?.id  ?? 0))")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            */
             
             Divider()
             
@@ -220,6 +225,7 @@ struct ProfileView: View {
         .navigationBarTitle("Профиль")
         .onAppear {
             UserIdManager.shared.setCurrentUserId(id: appState.currentUser?.id ?? 0 )
+            TelegramIdManager.shared.setCurrentTelegramId(id: appState.currentUser?.telegramId ?? "")
     }
     }
       
