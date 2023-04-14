@@ -246,7 +246,7 @@ struct ClientObjectView: View {
                         NavigationLink(
                             destination: SeasonCropView(),
                             label: {
-                                Text("Севообороты")
+                                Text("Севооборот клиента")
                                     .fontWeight(.bold)
                                     .padding(5)
                                     .foregroundColor(.white)

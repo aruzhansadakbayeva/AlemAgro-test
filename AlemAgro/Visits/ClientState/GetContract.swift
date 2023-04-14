@@ -91,7 +91,7 @@ struct GetContract: View {
                     }
                 }
             }
-            .navigationTitle("Контракты")
+            .navigationTitle("Контракты клиента")
             .onAppear {
                 // Fetch data when the view appears
                 contractViewModel.fetchData()
@@ -111,8 +111,9 @@ struct CategoryView: View {
                 ForEach(category.contracts) { product in
                     VStack(alignment: .leading) {
                         Text("**Продукт**: \(product.productName)")
+                       
+                        Text("**Количество продуктов**: \(product.count)")
                         Text("**Средняя цена**: \(product.avgPrice)")
-                        Text("**Кол-во**: \(product.count)")
                     }
                     .padding()
                 }

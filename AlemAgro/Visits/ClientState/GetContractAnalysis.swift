@@ -74,9 +74,9 @@ struct AvgContractsView: View {
         VStack(alignment: .leading) {
             Text("Среднее значение")
                 .fontWeight(.bold).foregroundColor(.green)
-            Text("**Margin**: \(avgContracts.margin)")
-            Text("**Sum**: \(avgContracts.sum)")
-            Text("**Season**: \(String(avgContracts.season))")
+            Text("**Маржа**: \(avgContracts.margin)")
+            Text("**Сумма за сезон**: \(avgContracts.sum)")
+            Text("**Сезон**: \(String(avgContracts.season))")
         }
     }
 }
@@ -91,7 +91,7 @@ struct CAView: View {
                     Text("\(season.season)")
                 }
             }
-            .navigationTitle("Сезоны")
+            .navigationTitle("Анализ контрактов клиента")
         }
         .onAppear {
             viewModel.fetchData()
@@ -112,9 +112,10 @@ struct ContractListView: View {
              
                 ForEach(contracts) { contract in
                     VStack(alignment: .leading) {
-                        Text("**Margin**: \(contract.margin)")
-                        Text("**Sum**: \(contract.sum)")
-                        Text("**Condition Pay**: \(contract.conditionPay)")
+                       
+                        Text("**Сумма**: \(contract.sum)")
+                        Text("**Условие оплаты**: \(contract.conditionPay)")
+                        Text("**Маржа**: \(contract.margin)")
                     }
                 }
             }

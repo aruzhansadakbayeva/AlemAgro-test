@@ -100,7 +100,7 @@ struct GetSubscidesList: View {
                     }
                 }
             }
-            .navigationTitle("Список субсидий")
+            .navigationTitle("Субсидии клиента")
             .onAppear {
                 // Fetch data when the view appears
                 viewModel.fetchData()
@@ -120,15 +120,16 @@ struct CategoryView2: View {
                 ForEach(category.contracts) { product in
                     VStack(alignment: .leading) {
                         Text("**Клиент**: \(product.clientName ?? "")")
-                        Text("**Регион**: \(product.region ?? "")")
-                        Text("**Usage Area**: \(product.usageArea ?? "")")
-                        Text("**Имя провайдера**: \(product.providerName ?? "")")
-
                         Text("**Продукт**: \(product.productName ?? "")")
+                        Text("**Количество**: \(product.count ?? "")")
                         Text("**Цена продукта**: \(product.productPrice ?? "")")
-                        Text("**Сумма**: \(product.sum ?? "")")
-                        Text("**Кол-во**: \(product.count ?? "")")
                         Text("**Единица**: \(product.unit ?? "")")
+                        Text("**Поставщик**: \(product.providerName ?? "")")
+                        Text("**Используемая площадь**: \(product.usageArea ?? "")")
+                        Text("**Сумма субсидии**: \(product.sum ?? "")")
+                        Text("**Область**: \(product.region ?? "")")
+                       
+                        
 
                     }
                     .padding()

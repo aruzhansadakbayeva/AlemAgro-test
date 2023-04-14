@@ -33,7 +33,7 @@ class CropRotationViewModel: ObservableObject {
                 
         let parameters =   [    "type": "client",
                                 "action": "getCropRotation",
-                                "clientId": 4478] as [String : Any]
+                                "clientId": 2191] as [String : Any]
         print(parameters)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -77,7 +77,7 @@ struct SeasonCropView: View {
             .onAppear {
                 viewModel.fetchData()
             }
-            .navigationTitle("Сезоны")
+            .navigationTitle("Севооборот клиента")
         }
     }
 }
@@ -88,9 +88,9 @@ struct CultureListView: View {
     var body: some View {
         List(cultures) { culture in
             VStack(alignment: .leading) {
-                Text("**Culture**: \(culture.culture)")
+                Text("**Культура**: \(culture.culture)")
                
-                Text("**Area**: \(culture.area)")
+                Text("**Площадь**: \(culture.area)")
                
             }
         }
