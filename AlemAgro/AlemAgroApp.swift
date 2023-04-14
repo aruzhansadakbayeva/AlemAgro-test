@@ -61,20 +61,21 @@ struct AlemAgroApp: App {
                                    }
                                    .tag(0)
                        
-                     WebView(url: URL(string: "http://my.alemagro.com/map")!)
+                 /*    WebView(url: URL(string: "http://my.alemagro.com/map")!)
              
                                    .tabItem {
                                        Image(systemName: "folder.fill")
                                        Text("Проекты")
                                    }
                                    .tag(1)
+                  */
                               
                                ProfileView().environmentObject(loginViewModel).environmentObject(appState)
                                    .tabItem {
                                        Image(systemName: "person.fill")
                                        Text("Профиль")
                                    }
-                                   .tag(2)
+                                   .tag(1)
                                
                            }
                        

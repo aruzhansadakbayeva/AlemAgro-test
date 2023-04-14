@@ -10,6 +10,7 @@ import SwiftUI
 struct MatchedView: View {
 
     var body: some View {
+        Spacer()
         VStack(spacing: -20){
             HStack(spacing: 14){
                 Image(systemName: "person.circle").resizable()
@@ -28,6 +29,7 @@ struct MatchedView: View {
                 .background(Color(.systemBackground))
                 .clipShape(Rectangle()).cornerRadius(5).padding(15)
                 .shadow(color: Color.gray.opacity(0.5), radius: 2, x: 0, y: 1)
+            /*
             HStack(spacing: 14){
                 Image(systemName: "person.2.circle.fill").resizable()
                     .frame(width: 40, height: 40)
@@ -44,6 +46,8 @@ struct MatchedView: View {
                 .background(Color(.systemBackground))
                 .clipShape(Rectangle()).cornerRadius(5).padding(15)
                 .shadow(color: Color.gray.opacity(0.5), radius: 2, x: 0, y: 1)
+             */
+            
             HStack(spacing: 14){
                 Image(systemName: "calendar.badge.clock").resizable()
                     .frame(width: 40, height: 35)
