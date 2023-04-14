@@ -9,21 +9,21 @@ import SwiftUI
 
 struct Product: Identifiable, Codable {
     let id = UUID()
-    let productName: String
-    let avgPrice: String
-    let count: String
+    let productName: String?
+    let avgPrice: String?
+    let count: String?
 }
 
 struct Category:Identifiable, Codable{
     let id = UUID()
-    let category: String
-    let contracts: [Product]
+    let category: String?
+    let contracts: [Product]?
 }
 
 struct Season: Identifiable, Codable {
     let id = UUID()
-    let season: String
-    let categories: [Category]
+    let season: String?
+    let categories: [Category]?
 }
 class ContractViewModel: ObservableObject {
     @Published var response: [Season] = []
@@ -78,10 +78,10 @@ struct GetContract: View {
             VStack {
                 List {
                     ForEach(contractViewModel.response, id: \.id) { season in
-                        Section(header: Text(season.season)) {
-                            ForEach(season.categories, id: \.id) { category in
+                        Section(header: Text(season.season ?? "")) {
+                            ForEach(season.categories ?? [], id: \.id) { category in
                                 NavigationLink(destination: CategoryView(category: category, selectedCategory: $selectedCategory)) {
-                                    Text(category.category)
+                                    Text(category.category ?? "")
                                         .font(.headline)
                                         .foregroundColor(colorPrimary)
                                 }
@@ -108,18 +108,18 @@ struct CategoryView: View {
         VStack {
             List{
                 
-                ForEach(category.contracts) { product in
+                ForEach(category.contracts ?? []) { product in
                     VStack(alignment: .leading) {
-                        Text("**Продукт**: \(product.productName)")
+                        Text("**Продукт**: \(product.productName ?? "")")
                        
-                        Text("**Количество продуктов**: \(product.count)")
-                        Text("**Средняя цена**: \(product.avgPrice)")
+                        Text("**Количество продуктов**: \(product.count ?? "")")
+                        Text("**Средняя цена**: \(product.avgPrice ?? "")")
                     }
                     .padding()
                 }
             }
         }
-        .navigationTitle(category.category)
+        .navigationTitle(category.category ?? "")
         .onAppear {
             selectedCategory = category.id
         }

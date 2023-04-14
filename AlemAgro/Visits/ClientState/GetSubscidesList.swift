@@ -24,14 +24,14 @@ struct SubscidesList: Identifiable, Codable {
 
 struct Category2: Identifiable, Codable {
     let id = UUID()
-    let category: String
-    let contracts: [SubscidesList]
+    let category: String?
+    let contracts: [SubscidesList]?
 }
 
 struct Season2: Identifiable, Codable {
     let id = UUID()
-    let season: String
-    let categories: [Category2]
+    let season: String?
+    let categories: [Category2]?
 }
 class SubscidesViewModel: ObservableObject {
     @Published var response: [Season2] = []
@@ -87,10 +87,10 @@ struct GetSubscidesList: View {
             VStack {
                 List {
                     ForEach(viewModel.response, id: \.id) { season in
-                        Section(header: Text(season.season)) {
-                            ForEach(season.categories, id: \.id) { category in
+                        Section(header: Text(season.season ?? "")) {
+                            ForEach(season.categories ?? [], id: \.id) { category in
                                 NavigationLink(destination: CategoryView2(category: category, selectedCategory: $selectedCategory)) {
-                                    Text(category.category)
+                                    Text(category.category ?? "")
                                         .font(.headline)
                                      .foregroundColor(colorPrimary)
                                 }
@@ -117,7 +117,7 @@ struct CategoryView2: View {
         VStack {
             List{
                 
-                ForEach(category.contracts) { product in
+                ForEach(category.contracts ?? []) { product in
                     VStack(alignment: .leading) {
                         Text("**Клиент**: \(product.clientName ?? "")")
                         Text("**Продукт**: \(product.productName ?? "")")
@@ -136,7 +136,7 @@ struct CategoryView2: View {
                 }
             }
         }
-        .navigationTitle(category.category)
+        .navigationTitle(category.category ?? "")
         .onAppear {
             selectedCategory = category.id
         }

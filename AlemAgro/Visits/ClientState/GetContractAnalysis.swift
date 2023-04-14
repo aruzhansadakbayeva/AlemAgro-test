@@ -8,22 +8,22 @@
 import SwiftUI
 
 struct Contract: Codable, Identifiable {
-    var id: Int
-    var margin: String
-    var sum: String
-    var conditionPay: String
+    var id: Int?
+    var margin: String?
+    var sum: String?
+    var conditionPay: String?
 }
 
 struct AvgContracts: Codable {
-    var sum: String
-    var margin: String
-    var season: Int
+    var sum: String?
+    var margin: String?
+    var season: Int?
 }
 
 struct Season3: Codable, Identifiable {
-    var id: Int
-    var season: String
-    var contracts: [Contract]
+    var id: Int?
+    var season: String?
+    var contracts: [Contract]?
     var avgContracts: AvgContracts
 }
 
@@ -74,9 +74,9 @@ struct AvgContractsView: View {
         VStack(alignment: .leading) {
             Text("Среднее значение")
                 .fontWeight(.bold).foregroundColor(.green)
-            Text("**Маржа**: \(avgContracts.margin)")
-            Text("**Сумма за сезон**: \(avgContracts.sum)")
-            Text("**Сезон**: \(String(avgContracts.season))")
+            Text("**Маржа**: \(avgContracts.margin ?? "")")
+            Text("**Сумма за сезон**: \(avgContracts.sum ?? "")")
+            Text("**Сезон**: \(String(avgContracts.season ?? 0))")
         }
     }
 }
@@ -87,8 +87,8 @@ struct CAView: View {
     var body: some View {
         VStack{
             List(viewModel.response) { season in
-                NavigationLink(destination: ContractListView(contracts: season.contracts, avgContracts: season.avgContracts)) {
-                    Text("\(season.season)")
+                NavigationLink(destination: ContractListView(contracts: season.contracts ?? [], avgContracts: season.avgContracts  )) {
+                    Text("\(season.season ?? "")")
                 }
             }
             .navigationTitle("Анализ контрактов клиента")
@@ -113,9 +113,9 @@ struct ContractListView: View {
                 ForEach(contracts) { contract in
                     VStack(alignment: .leading) {
                        
-                        Text("**Сумма**: \(contract.sum)")
-                        Text("**Условие оплаты**: \(contract.conditionPay)")
-                        Text("**Маржа**: \(contract.margin)")
+                        Text("**Сумма**: \(contract.sum ?? "")")
+                        Text("**Условие оплаты**: \(contract.conditionPay ?? "")")
+                        Text("**Маржа**: \(contract.margin ?? "")")
                     }
                 }
             }

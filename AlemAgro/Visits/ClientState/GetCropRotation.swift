@@ -9,14 +9,14 @@ import SwiftUI
 
 
 struct CropData: Identifiable, Decodable {
-    let id: Int
-    let season: String
-    let cultures: [Culture]
+    let id: Int?
+    let season: String?
+    let cultures: [Culture]?
     
     struct Culture: Identifiable, Decodable {
-        let id: String
-        let culture: String
-        let area: String
+        let id: String?
+        let culture: String?
+        let area: String?
     }
 }
 
@@ -66,9 +66,9 @@ struct SeasonCropView: View {
     var body: some View {
         VStack{
             List(viewModel.response) { cropData in
-                NavigationLink(destination: CultureListView(cultures: cropData.cultures)) {
+                NavigationLink(destination: CultureListView(cultures: cropData.cultures ?? [])) {
                     VStack(alignment: .leading) {
-                        Text("Сезон \(cropData.season)")
+                        Text("Сезон \(cropData.season ?? "")")
         
                    
                     }
@@ -88,9 +88,9 @@ struct CultureListView: View {
     var body: some View {
         List(cultures) { culture in
             VStack(alignment: .leading) {
-                Text("**Культура**: \(culture.culture)")
+                Text("**Культура**: \(culture.culture ?? "")")
                
-                Text("**Площадь**: \(culture.area)")
+                Text("**Площадь**: \(culture.area ?? "")")
                
             }
         }
