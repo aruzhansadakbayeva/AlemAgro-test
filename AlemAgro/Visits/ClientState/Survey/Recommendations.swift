@@ -77,6 +77,7 @@ struct Recommendations: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var isPlaying = false
 
+    @State private var selectedOption = ""
 
     var body: some View {
 
@@ -85,23 +86,25 @@ struct Recommendations: View {
                 VStack {
                     HStack {
                         Text("\(item.name)")
-                    
+                        
                         Spacer()
                     }
                     if item.id == 4 {
                         
-                                TextField("Введите свой ответ", text: Binding(
-                                    get: {  SelectedItemsManager.selectedOptions[item] ?? "" },
-                                    set: {  SelectedItemsManager.selectedOptions[item] = $0 }
-                                )).padding()
-              
+                        TextField("Введите свой ответ", text: Binding(
+                            get: {  SelectedItemsManager.selectedOptions[item] ?? "" },
+                            set: {  SelectedItemsManager.selectedOptions[item] = $0 }
+                        )).padding()
+                        
                     }
-                   // print("Selected option for item with id \(item.id): \(SelectedItemsManager.selectedOptions[item] ?? "")")
-
+                    
+                    // print("Selected option for item with id \(item.id): \(SelectedItemsManager.selectedOptions[item] ?? "")")
+                    
                     Picker(selection: Binding(
                         get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
                         set: {
                             SelectedItemsManager.selectedOptions[item] = $0
+                            // SelectedItemsManager.selectedOptions[item] = selectedOption
                             if item.id == 2{
                                 if $0 == "Да" {
                                     showCustomOption = true
@@ -109,7 +112,7 @@ struct Recommendations: View {
                                     showCustomOption = false
                                 }
                             }
-                           // print("Selected option for item with id \(item.id): \($0)")
+                            // print("Selected option for item with id \(item.id): \($0)")
                         }
                     ),
                            label: Text("")) {
@@ -117,42 +120,30 @@ struct Recommendations: View {
                             Text(option)
                         }
                     }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .frame(maxWidth: .infinity)
-                    .padding()
-
+                           .pickerStyle(SegmentedPickerStyle())
+                           .frame(maxWidth: .infinity)
+                           .padding()
+                    
+                    
                     if item.id == 2 && showCustomOption && SelectedItemsManager.selectedOptions[item] == "Да" {
-                      
-                        Picker(selection: Binding(
-                            get: { SelectedItemsManager.selectedOptions[item] ?? "" },
-                            set: {
-                                SelectedItemsManager.selectedOptions[item] = $0
-                                if item.id == 2 {
-                                    if $0 == "Да" {
-                                        showCustomOption = true
-                                        selectedOptionForItem2 = $0
-                                    } else {
-                                        showCustomOption = false
-                                        selectedOptionForItem2 = ""
-                                    }
-                                } else {
-                                    selectedOptionForItem2 = $0
-                                }
-                            }
-                        ), label: Text("")) {
+                        Picker(selection: $selectedOption, label: Text("")) {
                             ForEach(["Продажа на этом визите", "Продажа была ранее", "Продажи не было"], id: \.self) { option in
                                 Text(option).font(.system(size: 16))
                             }
                         }
                         .pickerStyle(WheelPickerStyle())
                         .frame(maxWidth: .infinity, maxHeight: 100)
-
-                     //   .padding()
-                    }
-
+                        .onChange(of: selectedOption) { newValue in
+                            // Присваиваем выбранное значение к SelectedItemsManager.selectedOptions[item]
+                            SelectedItemsManager.selectedOptions[item] = newValue
+                        }
+                        // Дополнительный код
+                    } 
+                    
+                
 
                 
-                
+                   
 
 
                 }
@@ -164,7 +155,7 @@ struct Recommendations: View {
                            NavigationLink(
                                destination:
         {
-            if selectedOptionForItem2 == "Продажи не было" {
+            if selectedOption == "Продажи не было" {
                            Difficulties2()
                         }
                      else {
