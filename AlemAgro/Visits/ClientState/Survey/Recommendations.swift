@@ -101,29 +101,28 @@ struct Recommendations: View {
                     // print("Selected option for item with id \(item.id): \(SelectedItemsManager.selectedOptions[item] ?? "")")
                     
                     Picker(selection: Binding(
-                        get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
-                        set: {
-                            SelectedItemsManager.selectedOptions[item] = $0
-                            // SelectedItemsManager.selectedOptions[item] = selectedOption
-                            if item.id == 2 {
-                                if $0 == "Да" {
-                                    showCustomOption = true
-                                } else {
-                                    showCustomOption = false
+                            get: {   SelectedItemsManager.selectedOptions[item] ?? "" },
+                            set: {
+                                SelectedItemsManager.selectedOptions[item] = $0
+                                if item.id == 2 {
+                                    if $0 == "Да" {
+                                        showCustomOption = true
+                                    } else {
+                                        showCustomOption = false
+                                    }
+                                    SelectedItemsManager.additionalOptionsForId2.removeAll()
                                 }
                             }
-                            // print("Selected option for item with id \(item.id): \($0)")
-                        }
-                    ),
-                           label: Text("")) {
-                        ForEach(optionsDict[item.id] ?? [], id: \.self) { option in
-                            Text(option)
-                        }
+                        ),
+                        label: Text("")) {
+                            ForEach(optionsDict[item.id] ?? [], id: \.self) { option in
+                                Text(option)
+                            }
                     }
-                           .pickerStyle(SegmentedPickerStyle())
-                           .frame(maxWidth: .infinity)
-                           .padding()
-                    
+                    .pickerStyle(SegmentedPickerStyle())
+                    .frame(maxWidth: .infinity)
+                    .padding()
+
                     
            
                     if item.id == 2 && showCustomOption  {
@@ -133,30 +132,30 @@ struct Recommendations: View {
                                     Text(option)
                                 }
                             }
-                            
+                            .onChange(of: selectedOption) { newValue in
+                                SelectedItemsManager.additionalOptionsForId2.append(newValue)
+                            }
                             Picker(selection: $selectedOption, label: Text("")) {
                                 ForEach(["Продажа была ранее"], id: \.self) { option in
                                     Text(option)
                                 }
+                            }
+                            .onChange(of: selectedOption) { newValue in
+                                SelectedItemsManager.additionalOptionsForId2.append(newValue)
                             }
                             Picker(selection: $selectedOption, label: Text("")) {
                                 ForEach(["Продажи не было"], id: \.self) { option in
                                     Text(option)
                                 }
                             }
-                            
-                            
+                            .onChange(of: selectedOption) { newValue in
+                                SelectedItemsManager.additionalOptionsForId2.append(newValue)
+                            }
                         }
                         .pickerStyle(SegmentedPickerStyle())
                         .frame(maxWidth: .infinity, maxHeight: 100)
-                        .onChange(of: selectedOption) { newValue in
-                            // Присваиваем выбранное значение к SelectedItemsManager.selectedOptions[item]
-                            SelectedItemsManager.selectedOptions[item] = newValue
-                     
-                            
-                        }
-                        // Дополнительный код
                     }
+
               
                     
                 

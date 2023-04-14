@@ -11,6 +11,7 @@ import SwiftUI
 class SelectedItemsManager {
 
     static var selectedOptions: [PostmanResponse4: String] = [:]
+    static var additionalOptionsForId2: [String] = []
     static let shared = SelectedItemsManager()
     static var selectedItems3 = Set<PostmanResponse3>() {
         didSet {
