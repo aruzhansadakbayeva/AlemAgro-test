@@ -63,7 +63,7 @@ struct Recommendations: View {
     }
     @StateObject var viewModel = PostmanViewModel4()
     @State var selectedItems = Set<PostmanResponse4>()
-    @State var showCustomOption = false
+    @State private var showCustomOption = false
     @State var customOptionText = ""
     let optionsDict: [Int: [String]] = [
         1: ["Да", "Нет"],
@@ -77,7 +77,7 @@ struct Recommendations: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var isPlaying = false
 
-    @State private var selectedOption = ""
+    @State var selectedOption = ""
 
     var body: some View {
 
@@ -105,7 +105,7 @@ struct Recommendations: View {
                         set: {
                             SelectedItemsManager.selectedOptions[item] = $0
                             // SelectedItemsManager.selectedOptions[item] = selectedOption
-                            if item.id == 2{
+                            if item.id == 2 {
                                 if $0 == "Да" {
                                     showCustomOption = true
                                 } else {
@@ -125,22 +125,39 @@ struct Recommendations: View {
                            .padding()
                     
                     
-                    if item.id == 2 && showCustomOption && SelectedItemsManager.selectedOptions[item] == "Да" {
-                        Picker(selection: $selectedOption, label: Text("")) {
-                            ForEach(["Продажа на этом визите", "Продажа была ранее", "Продажи не было"], id: \.self) { option in
-                                Text(option).font(.system(size: 16))
+           
+                    if item.id == 2 && showCustomOption  {
+                        VStack{
+                            Picker(selection: $selectedOption, label: Text("")) {
+                                ForEach(["Продажа на этом визите"], id: \.self) { option in
+                                    Text(option)
+                                }
                             }
+                            
+                            Picker(selection: $selectedOption, label: Text("")) {
+                                ForEach(["Продажа была ранее"], id: \.self) { option in
+                                    Text(option)
+                                }
+                            }
+                            Picker(selection: $selectedOption, label: Text("")) {
+                                ForEach(["Продажи не было"], id: \.self) { option in
+                                    Text(option)
+                                }
+                            }
+                            
+                            
                         }
-                        .pickerStyle(WheelPickerStyle())
+                        .pickerStyle(SegmentedPickerStyle())
                         .frame(maxWidth: .infinity, maxHeight: 100)
                         .onChange(of: selectedOption) { newValue in
                             // Присваиваем выбранное значение к SelectedItemsManager.selectedOptions[item]
                             SelectedItemsManager.selectedOptions[item] = newValue
-                            
+                     
                             
                         }
                         // Дополнительный код
                     }
+              
                     
                 
 
