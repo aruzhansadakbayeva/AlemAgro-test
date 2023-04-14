@@ -111,6 +111,9 @@ struct AllSelectedItemsView: View {
 
 
 struct FieldView: View {
+    let currentClientName = ClientNameManager.shared.getCurrentClientName() ?? ""
+    let ClientDateVisit = ClientDateVisitManager.shared.getClientDateVisit() ?? ""
+    let currentClientVisitTypeName = ClientVisitTypeNameManager.shared.getCurrentClientVisitTypeName() ?? ""
     @Environment(\.colorScheme) var colorScheme
 
     var colorPrimary: Color {
@@ -137,6 +140,10 @@ struct FieldView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
+                VStack(alignment: .center){
+                    Text("\(currentClientName) на \(ClientDateVisit)").font(.subheadline).fontWeight(.bold)
+                    Text("Основная цель: \(currentClientVisitTypeName)").font(.subheadline).fontWeight(.bold)
+                }
                Text("Культура №\(counter)")
             /*
                 ItemsView(
@@ -230,7 +237,9 @@ struct FieldView: View {
                             }
                         }
                     }
-                    .padding()
+                    .padding(.leading, 10)
+                  
+                    .padding(.top, 5)
                     .background(Color(UIColor.systemBackground))
                 }
             }
@@ -239,7 +248,7 @@ struct FieldView: View {
             .navigationBarTitle("Осмотр поля")
             .navigationBarItems(
                 trailing:
-                    NavigationLink(destination: Recommendations()) {
+                    NavigationLink(destination: Recommendations2()) {
                         Text("Далее")
                     }
                     .disabled(!isNextButtonEnabled)
@@ -306,6 +315,9 @@ struct ItemsView: View {
 }
 
 struct FieldView2: View {
+    let currentClientName = ClientNameManager.shared.getCurrentClientName() ?? ""
+    let ClientDateVisit = ClientDateVisitManager.shared.getClientDateVisit() ?? ""
+    let currentClientVisitTypeName = ClientVisitTypeNameManager.shared.getCurrentClientVisitTypeName() ?? ""
     @Environment(\.colorScheme) var colorScheme
 
     var colorPrimary: Color {
@@ -327,33 +339,37 @@ struct FieldView2: View {
         }
         return true
     }
-    @State var selectedItemsArray: [[PostmanResponse2]] = []
-    var allSelectedItems: [[PostmanResponse2]] {
-        return selectedItemsArray.filter { !$0.isEmpty }
-    }
-    @State var showAllSelectedItems = false
+
 
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                Text("Культура №\(counter)")
-                /*
+                VStack(alignment: .center){
+                    Text("\(currentClientName) на \(ClientDateVisit)").font(.subheadline).fontWeight(.bold)
+                    Text("Основная цель: \(currentClientVisitTypeName)").font(.subheadline).fontWeight(.bold)
+                }
+               Text("Культура №\(counter)")
+            /*
                 ItemsView(
                     viewModel: viewModel,
                   
                     counter: counter
                 )
-               */
+             */
+            
 
                 NavigationLink(destination: FieldView(counter: counter + 1)) {
                     Text("Добавить культуру")
                                 }
                                 .onDisappear {
                                     // Add selected items to history before navigating to the next view
-                                    viewModel.addSelectedItems()
+                                   
+                                        viewModel.addSelectedItems()
+                                   
                                     viewModel.selectedItems.removeAll()
+                                   
                                 }
-                                .navigationBarBackButtonHidden(true)
+                                .navigationBarBackButtonHidden(true) // hide the back button
                 /*
                                 Button(action: {
                                     self.showAllSelectedItems.toggle()
@@ -363,7 +379,8 @@ struct FieldView2: View {
                                 .sheet(isPresented: $showAllSelectedItems) {
                                     AllSelectedItemsView(selectedItemsHistory: viewModel.selectedItemsHistory)
                                 }
-                */
+                 */
+                
                 ForEach(viewModel.categorizedResponse.sorted(by: { $0.value[0].categoryId < $1.value[0].categoryId }), id: \.key) { category, items in
                     Section(header: Text(category).fontWeight(.bold).foregroundColor(Color.primary)) {
                         ScrollView(.horizontal) {
@@ -424,7 +441,9 @@ struct FieldView2: View {
                             }
                         }
                     }
-                    .padding()
+                    .padding(.leading, 10)
+                  
+                    .padding(.top, 5)
                     .background(Color(UIColor.systemBackground))
                 }
             }
@@ -445,7 +464,6 @@ struct FieldView2: View {
         }
     }
 }
-
 
 struct FView2: View{
     @State var counter: Int = 0

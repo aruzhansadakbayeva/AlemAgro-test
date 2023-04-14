@@ -195,6 +195,8 @@ struct ClientDetailView: View {
          }
 */ .onAppear {
     VisitIdManager.shared.setCurrentVisitId(id: client.visitId)
+    ClientNameManager.shared.setCurrentClientName(name: client.clientName)
+    ClientDateVisitManager.shared.setClientDateVisit(datevisit: client.dateVisit)
 }
                
             .navigationBarItems(
@@ -321,6 +323,32 @@ class ClientIdManager {
     
     func getCurrentClientId() -> Int? {
         return currentClientId
+    }
+}
+class ClientNameManager {
+    static let shared = ClientNameManager()
+    
+    private var currentClientName: String? = nil
+    
+    func setCurrentClientName(name: String) {
+        currentClientName = name
+    }
+    
+    func getCurrentClientName() -> String? {
+        return currentClientName
+    }
+}
+class ClientDateVisitManager {
+    static let shared = ClientDateVisitManager()
+    
+    private var ClientDateVisit: String? = nil
+    
+    func setClientDateVisit(datevisit: String) {
+        ClientDateVisit = datevisit
+    }
+    
+    func getClientDateVisit() -> String? {
+        return ClientDateVisit
     }
 }
 class WorkDoneManager {
