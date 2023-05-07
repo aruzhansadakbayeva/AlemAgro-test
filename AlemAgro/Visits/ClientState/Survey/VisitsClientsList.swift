@@ -41,24 +41,32 @@ class VisitViewModel: ObservableObject {
  //   let currentUserId = UserIdManager.shared.getCurrentUserId() ?? 0
 
     func fetchData() {
-       
-        let urlString = "http://10.200.100.17/api/manager/workspace"
-        guard let url = URL(string: urlString) else {
-            fatalError("Invalid URL: \(urlString)")
-        }
-                
-        let parameters = ["type": "plannedMeetingMob","action": "getMeetings", "userId": currentUserId] as [String : Any]
-        print(parameters)
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
+        /*
+        let urlString = "http://localhost:5001/api/movies"
+               guard let url = URL(string: urlString) else {
+                   fatalError("Invalid URL: \(urlString)")
+               }
+        */
 
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                print("Error: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
+                       
+               let parameters = ["type": "plannedMeetingMob"]
+               print(parameters)
+               guard let postData = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
+                   print("Error: Unable to convert parameters to JSON.")
+                   return
+               }
+
+               var request = URLRequest(url: URL(string: "http://localhost:5001/api/meetings")!, timeoutInterval: Double.infinity)
+               request.httpMethod = "POST"
+               request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+               request.httpBody = postData
+
+               let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                 guard let data = data else {
+                   print(String(describing: error))
+                   return
+                 }
+
                     
             do {
                 let decodedResponse = try JSONDecoder().decode([Visit].self, from: data)
@@ -68,7 +76,7 @@ class VisitViewModel: ObservableObject {
             } catch let error {
                 print("Error decoding response: \(error)")
             }
-        //    print(String(data: data, encoding: .utf8)!)
+            print(String(data: data, encoding: .utf8)!)
         }.resume()
       
     }
