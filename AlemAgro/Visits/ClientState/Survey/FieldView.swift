@@ -40,7 +40,7 @@ class PostmanViewModel2: ObservableObject {
     }
 
      func fetchData() {
-         let urlString = "http://10.200.100.17/api/manager/workspace"
+         let urlString = "http://localhost:5001/api/meetings"
          guard let url = URL(string: urlString) else {
              fatalError("Invalid URL: \(urlString)")
          }
@@ -65,7 +65,7 @@ class PostmanViewModel2: ObservableObject {
              } catch let error {
                  print("Error decoding response: \(error)")
              }
-            // print(String(data: data, encoding: .utf8)!)
+             print(String(data: data, encoding: .utf8)!)
          }.resume()
      }
     
