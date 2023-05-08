@@ -26,7 +26,7 @@ class PostmanViewModel4: ObservableObject {
     @Published var response: [PostmanResponse4] = []
     @Published var otherValue: String = ""
     func fetchData() {
-        let urlString = "http://10.200.100.17/api/manager/workspace"
+        let urlString = "http://localhost:5001/api/meetings"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
