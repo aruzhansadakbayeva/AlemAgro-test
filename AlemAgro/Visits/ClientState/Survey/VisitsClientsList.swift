@@ -269,13 +269,18 @@ struct ClientDetailView: View {
  
     func sendVisitIdToAPI() {
     
-        let urlString = "http://10.200.100.17/api/manager/workspace"
+        let urlString = "http://localhost:5001/api/meetings"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
         let defaults = UserDefaults.standard
         defaults.set("VisitId", forKey: "visitId")
-        let parameters = ["type": "plannedMeetingMob", "action": "setStartVisit", "visitId": client.visitId] as [String : Any]
+  
+        let parameters = [
+            "type": "plannedMeetingMob",
+            "action": "setStartVisit",
+            "visitId": "\(client.visitId)"
+        ] as [String: Any]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
