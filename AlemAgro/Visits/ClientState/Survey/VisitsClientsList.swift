@@ -49,7 +49,7 @@ class VisitViewModel: ObservableObject {
         */
 
                        
-               let parameters = ["type": "plannedMeetingMob"]
+        let parameters = ["type": "plannedMeetingMob", "action": "getMeetings", "userId": "\(currentUserId)"]
                print(parameters)
                guard let postData = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
                    print("Error: Unable to convert parameters to JSON.")
