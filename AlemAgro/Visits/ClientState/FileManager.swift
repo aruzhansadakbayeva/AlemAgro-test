@@ -99,7 +99,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
         }
         func sendFileToServer(_ fileItem: FileItem) {
             
-             let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
+            let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
             let fileURL = fileItem.fileURL
             print("Путь: \(fileURL)")
             let parameters = [
@@ -110,23 +110,23 @@ struct DocumentPicker: UIViewControllerRepresentable {
                 ],
                 [
                     "key": "type",
-                        "value": "uploadFile",
-                        "type": "text"
+                    "value": "uploadFile",
+                    "type": "text"
                 ],
                 [
-                  "key": "action",
-                  "value": "visitProfile",
-                  "type": "text"
+                    "key": "action",
+                    "value": "visitProfile",
+                    "type": "text"
                 ],
                 [
-                  "key": "visitId",
-                  "value": "\(currentVisitId)",
-                  "type": "text"
+                    "key": "visitId",
+                    "value": "\(currentVisitId)",
+                    "type": "text"
                 ]
             ] as [[String: Any]]
             print(parameters)
             let postData: Data
-    
+
             let boundary = "Boundary-\(UUID().uuidString)"
             var body = Data()
             for param in parameters {
@@ -145,10 +145,10 @@ struct DocumentPicker: UIViewControllerRepresentable {
                     let paramSrc = param["src"] as! String
                     do {
                         let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc), options: [])
-                        body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
-                        body.append("Content-Type: \"content-type header\"\r\n\r\n".data(using: .utf8)!)
-                        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-                        body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+                        let fileName = (paramSrc as NSString).lastPathComponent
+                        body.append("; filename=\"\(fileName).pdf\"\r\n".data(using: .utf8)!)
+                        // Set the correct content type for a PDF file
+                        body.append("Content-Type: application/pdf\r\n\r\n".data(using: .utf8)!)
                         body.append(fileData)
                         body.append("\r\n".data(using: .utf8)!)
                     } catch {
@@ -158,18 +158,14 @@ struct DocumentPicker: UIViewControllerRepresentable {
                 }
             }
             body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-             postData = body
+            postData = body
 
-
-         
-            var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!,timeoutInterval: Double.infinity)
+            var request = URLRequest(url: URL(string: "http://localhost:5001/api/meetings")!,timeoutInterval: Double.infinity)
             request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-         
 
-            
             request.httpMethod = "POST"
             request.httpBody = postData
-            
+
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data else {
                     print(String(describing: error))
@@ -177,8 +173,10 @@ struct DocumentPicker: UIViewControllerRepresentable {
                 }
                 print(String(data: data, encoding: .utf8)!)
             }
-            
+
             task.resume()
+
+
         }
     }
 }
@@ -286,7 +284,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         postData = body
 
-        var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!,timeoutInterval: Double.infinity)
+        var request = URLRequest(url: URL(string: "http://localhost:5001/api/meetings")!,timeoutInterval: Double.infinity)
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         request.httpMethod = "POST"

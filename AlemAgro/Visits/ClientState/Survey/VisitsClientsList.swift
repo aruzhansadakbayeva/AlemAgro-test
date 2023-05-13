@@ -302,12 +302,18 @@ struct ClientDetailView: View {
     }
     
     func sendVisitIdToAPI2() {
-        let urlString = "http://10.200.100.17/api/manager/workspace"
+        let urlString = "http://localhost:5001/api/meetings"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
-        
-        let parameters = ["type": "plannedMeetingMob", "action": "setFinishVisit", "visitId": client.visitId] as [String : Any]
+        let defaults = UserDefaults.standard
+        defaults.set("VisitId", forKey: "visitId")
+  
+        let parameters = [
+            "type": "plannedMeetingMob",
+            "action": "setFinishVisit",
+            "visitId": "\(client.visitId)"
+        ] as [String: Any]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -319,11 +325,9 @@ struct ClientDetailView: View {
                 return
             }
             
-            print(String(data: data, encoding: .utf8)!)
+      print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
-    
-
 }
 class ClientIdManager {
     static let shared = ClientIdManager()
