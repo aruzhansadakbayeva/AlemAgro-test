@@ -39,14 +39,14 @@ class SubscidesViewModel: ObservableObject {
 
     func fetchData() {
         let currentClientId = ClientIdManager.shared.getCurrentClientId() ?? 0
-        let urlString = "http://10.200.100.17/api/client"
+        let urlString = "http://localhost:5001/api/meetings"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
                 
         let parameters =   [  "type": "client",
         "action": "getSubscidesList",
-        "clientId": 2191] as [String : Any]
+        "clientId": currentClientId] as [String : Any]
         print(parameters)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

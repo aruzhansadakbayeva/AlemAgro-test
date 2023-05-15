@@ -33,14 +33,14 @@ class CAViewModel: ObservableObject {
 
     func fetchData() {
         let currentClientId = ClientIdManager.shared.getCurrentClientId() ?? 0
-        let urlString = "http://10.200.100.17/api/client"
+        let urlString = "http://localhost:5001/api/meetings"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
                 
         let parameters =   [    "type": "client",
                                 "action": "getContractAnalysis",
-                                "clientId": 2191] as [String : Any]
+                                "clientId": currentClientId] as [String : Any]
         print(parameters)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -87,7 +87,7 @@ struct CAView: View {
     var body: some View {
         VStack{
             List(viewModel.response) { season in
-                NavigationLink(destination: ContractListView(contracts: season.contracts ?? [], avgContracts: season.avgContracts  )) {
+                NavigationLink(destination: ContractListView(contracts: season.contracts ?? [], avgContracts: season.avgContracts   )) {
                     Text("\(season.season ?? "")")
                 }
             }
