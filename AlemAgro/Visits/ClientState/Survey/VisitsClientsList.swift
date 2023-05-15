@@ -160,7 +160,7 @@ struct VisitListView: View {
 
 
 struct ClientDetailView: View {
-
+    @StateObject var viewModel = DetailClientViewModel()
     let client: Clientt
     @State private var visitId: Int = 0 // Add a state variable to hold the visitId
     @State private var statusVisit: Bool = false // Add a state variable to hold the statusVisit value
@@ -205,6 +205,7 @@ struct ClientDetailView: View {
     VisitIdManager.shared.setCurrentVisitId(id: client.visitId)
     ClientNameManager.shared.setCurrentClientName(name: client.clientName)
     ClientDateVisitManager.shared.setClientDateVisit(datevisit: client.dateVisit)
+    viewModel.fetchData()
 }
                
             .navigationBarItems(
