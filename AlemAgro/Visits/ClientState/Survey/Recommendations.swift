@@ -370,7 +370,7 @@ struct Recommendations: View {
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         let postData = body
 
-        var request = URLRequest(url: URL(string: "http://10.200.100.17/api/manager/workspace")!, timeoutInterval: Double.infinity)
+        var request = URLRequest(url: URL(string: "http://localhost:5001/api/meetings")!, timeoutInterval: Double.infinity)
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         request.httpMethod = "POST"

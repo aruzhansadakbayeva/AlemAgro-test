@@ -11,7 +11,7 @@ class LoginViewModel: ObservableObject {
     @Published var currentUser: Userr?
       
     func loginUser() {
-        let url = URL(string: "http://10.200.100.17/api/auth/login")!
+        let url = URL(string: "http://localhost:5001/api/auth/login")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -195,9 +195,13 @@ struct ProfileView: View {
             Text(appState.currentUser?.email ?? "")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-            Text("Telegram ID: \(appState.currentUser?.telegramId ?? "")")
+            Text("Должность: \(appState.currentUser?.workPosition ?? "")")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
+            Text("ID: \(appState.currentUser?.id != nil ? String(appState.currentUser!.id) : "")")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+     
             
         /*    Text("\(String(appState.currentUser?.id  ?? 0))")
                 .font(.subheadline)

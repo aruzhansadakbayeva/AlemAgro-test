@@ -84,8 +84,8 @@ struct AlemAgroApp: App {
                 
             } else {
                 LoginView()
-                   // .environmentObject(loginViewModel)
-                    .environmentObject(appState)     
+                  
+                   .environmentObject(appState)
             }
         }
     }

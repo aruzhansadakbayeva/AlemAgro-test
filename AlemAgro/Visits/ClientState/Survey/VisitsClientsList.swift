@@ -22,14 +22,9 @@ struct Clientt: Decodable  {
     let clientId: Int
     let clientName: String
     let dateVisit: String
-    let clientIin: Int
-    let clientAddress: String?
+   
     let visitTypeName: String?
-    let visitTypeId: Int
-    let meetingTypeId: Int
-    let meetingTime: String?
-    let meetingTypeName: String?
-    let plotId: Int
+    
 }
 
 
@@ -37,17 +32,9 @@ struct Clientt: Decodable  {
 class VisitViewModel: ObservableObject {
     @Published var response: [Visit] = []
     @Published var currentUserId: Int = 0
-
- //   let currentUserId = UserIdManager.shared.getCurrentUserId() ?? 0
-
+    
     func fetchData() {
-        /*
-        let urlString = "http://localhost:5001/api/movies"
-               guard let url = URL(string: urlString) else {
-                   fatalError("Invalid URL: \(urlString)")
-               }
-        */
-
+    
                        
         let parameters = ["type": "plannedMeetingMob", "action": "getMeetings", "userId": "\(currentUserId)"]
                print(parameters)
@@ -55,7 +42,6 @@ class VisitViewModel: ObservableObject {
                    print("Error: Unable to convert parameters to JSON.")
                    return
                }
-
                var request = URLRequest(url: URL(string: "http://localhost:5001/api/meetings")!, timeoutInterval: Double.infinity)
                request.httpMethod = "POST"
                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -66,8 +52,6 @@ class VisitViewModel: ObservableObject {
                    print(String(describing: error))
                    return
                  }
-
-                    
             do {
                 let decodedResponse = try JSONDecoder().decode([Visit].self, from: data)
                 DispatchQueue.main.async {
