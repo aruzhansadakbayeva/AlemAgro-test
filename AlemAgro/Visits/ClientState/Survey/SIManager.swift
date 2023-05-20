@@ -151,9 +151,8 @@ struct SelectedItemsView: View {
     func sendToAPI() {
         let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
 print("Current visit id: \(currentVisitId)")
-  
 
-        let urlString = "http://10.200.100.17/api/manager/workspace"
+        let urlString = "http://localhost:5001/api/meetings"
         guard let url = URL(string: urlString) else {
             fatalError("Invalid URL: \(urlString)")
         }
@@ -174,8 +173,6 @@ print("Current visit id: \(currentVisitId)")
             fieldInspectionItem["categories"] = categoryItems
             return fieldInspectionItem
         }
-
-    
             let parameters = [
                 "type": "meetingSurvey",
                 "action": "fixedSurvey",
@@ -210,9 +207,6 @@ print("Current visit id: \(currentVisitId)")
             print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
-
-    
-    
 }
   
     

@@ -52,8 +52,8 @@ struct MatchedView: View {
                 Image(systemName: "calendar.badge.clock").resizable()
                     .frame(width: 40, height: 35)
                 VStack(alignment: .leading, spacing: 2){
-                    Text("Визиты") .fontWeight(.bold)
-                    Text("Визиты к клиентам").font(.system(size: 15)).font(.footnote)
+                    Text("Встречи") .fontWeight(.bold)
+                    Text("Встречи с клиентами").font(.system(size: 15)).font(.footnote)
                 }.frame(maxWidth: .infinity, alignment: .topLeading)
                 NavigationLink(destination: VisitListView()){
                 label: do {
@@ -68,4 +68,6 @@ struct MatchedView: View {
 
     }
 }
+
+
 
