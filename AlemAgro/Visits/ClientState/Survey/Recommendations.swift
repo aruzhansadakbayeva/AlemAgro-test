@@ -8,6 +8,7 @@
 import SwiftUI
 import Speech
 import AVFoundation
+import MobileCoreServices
 
 
 struct PostmanResponse4: Decodable, Equatable, Hashable{
@@ -297,6 +298,7 @@ struct Recommendations: View {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setActive(false, options: .notifyOthersOnDeactivation)
+        
         } catch let error {
             print("Error stopping recording: \(error.localizedDescription)")
         }
@@ -311,88 +313,104 @@ struct Recommendations: View {
         }
     }
     func sendFileToServer() {
-        let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
-        let fileURL = audioRecorder?.url // Get the URL of the recorded audio file
+          let currentVisitId = VisitIdManager.shared.getCurrentVisitId() ?? 0
+          let fileURL = audioRecorder?.url // Get the URL of the recorded audio file
 
-        // Check if file URL is available
-        guard let fileURL = fileURL else {
-            print("Error: URL of recorded audio file is not available")
-            return
-        }
-        
-        let parameters = [
-            [
-                "key": "file",
-                "type": "file"
-            ],
-            [
-                "key": "type",
-                "value": "uploadFile",
+          // Check if file URL is available
+          guard let fileURL = fileURL else {
+              print("Error: URL of recorded audio file is not available")
+              return
+          }
+          
+          let parameters = [
+              [
+                  "key": "file",
+                  "type": "file"
+              ],
+              [
+                  "key": "type",
+                  "value": "uploadFile",
+                  "type": "text"
+              ],
+              [
+                "key": "action",
+                "value": "recommendations",
                 "type": "text"
-            ],
-            [
-              "key": "action",
-              "value": "recommendations",
-              "type": "text"
-            ],
-            [
-              "key": "visitId",
-              "value": "\(currentVisitId)",
-              "type": "text"
-            ]
-        ]
-        print(parameters)
-        let boundary = "Boundary-\(UUID().uuidString)"
-        var body = Data()
+              ],
+              [
+                "key": "visitId",
+                "value": "\(currentVisitId)",
+                "type": "text"
+              ]
+          ]
+          print(parameters)
+          let boundary = "Boundary-\(UUID().uuidString)"
+          var body = Data()
+          
+          for param in parameters {
+              if param["disabled"] != nil { continue }
+              let paramName = param["key"]!
+              body.append("--\(boundary)\r\n".data(using: .utf8)!)
+              body.append("Content-Disposition: form-data; name=\"\(paramName)\"".data(using: .utf8)!)
+              let paramType = param["type"] as! String
+              if paramType == "text" {
+                  let paramValue = param["value"] as! String
+                  body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
+              } else {
+                  body.append("; filename=\"\(fileURL.lastPathComponent)\"\r\n".data(using: .utf8)!)
+                  body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+                  do {
+                      let fileData = try Data(contentsOf: fileURL, options: [])
+                      body.append(fileData)
+                      body.append("\r\n".data(using: .utf8)!)
+                  } catch {
+                      print("Failed to load file data from URL: \(fileURL)")
+                      print(error.localizedDescription)
+                  }
+              }
+          }
+          body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+          let postData = body
+
+          var request = URLRequest(url: URL(string: "http://localhost:5001/api/meetings")!, timeoutInterval: Double.infinity)
+          request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+          request.httpMethod = "POST"
+          request.httpBody = postData
+
+          let task = URLSession.shared.dataTask(with: request) { data, response, error in
+              guard let data = data else {
+                  print(String(describing: error))
+                  return
+              }
+              print(String(data: data, encoding: .utf8)!)
+          }
+
+          task.resume()
+      }
+
+      
+      
+
+   
+      
+  }
+
+
+   
+      
+  
+          
+
+       
+
+
+            
+
+         
         
-        for param in parameters {
-            if param["disabled"] != nil { continue }
-            let paramName = param["key"]!
-            body.append("--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"\(paramName)\"".data(using: .utf8)!)
-            let paramType = param["type"] as! String
-            if paramType == "text" {
-                let paramValue = param["value"] as! String
-                body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
-            } else {
-                body.append("; filename=\"\(fileURL.lastPathComponent)\"\r\n".data(using: .utf8)!)
-                body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
-                do {
-                    let fileData = try Data(contentsOf: fileURL, options: [])
-                    body.append(fileData)
-                    body.append("\r\n".data(using: .utf8)!)
-                } catch {
-                    print("Failed to load file data from URL: \(fileURL)")
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        let postData = body
-
-        var request = URLRequest(url: URL(string: "http://localhost:5001/api/meetings")!, timeoutInterval: Double.infinity)
-        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
-        request.httpMethod = "POST"
-        request.httpBody = postData
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                print(String(describing: error))
-                return
-            }
-            print(String(data: data, encoding: .utf8)!)
-        }
-
-        task.resume()
-    }
-
-    
     
 
- 
-    
-}
    
 /*
 
