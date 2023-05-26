@@ -190,8 +190,7 @@ print("Current visit id: \(currentVisitId)")
                         "typeId": item.key.id,
                         "description": item.value,
                     ]
-                },
-                "fileVisit": "dsasdsa"] as [String : Any]
+                }] as [String : Any]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
