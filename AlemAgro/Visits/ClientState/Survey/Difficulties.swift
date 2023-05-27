@@ -7,20 +7,20 @@
 
 import SwiftUI
 
-struct PostmanResponse3: Decodable, Equatable, Hashable{
+struct ContractComplication: Decodable, Equatable, Hashable{
     var id: Int
     var name: String
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    static func ==(lhs: PostmanResponse3, rhs: PostmanResponse3) -> Bool {
+    static func ==(lhs: ContractComplication, rhs: ContractComplication) -> Bool {
         return lhs.id == rhs.id && lhs.name == rhs.name
     }
 }
 
 
-class PostmanViewModel3: ObservableObject {
-    @Published var response: [PostmanResponse3] = []
+class ContractComplicationViewModel: ObservableObject {
+    @Published var response: [ContractComplication] = []
     @Published var otherValue: String = ""
     func fetchData() {
         let urlString = "http://localhost:5001/api/meetings"
@@ -41,7 +41,7 @@ class PostmanViewModel3: ObservableObject {
             }
                     
             do {
-                let decodedResponse = try JSONDecoder().decode([PostmanResponse3].self, from: data)
+                let decodedResponse = try JSONDecoder().decode([ContractComplication].self, from: data)
                 DispatchQueue.main.async {
                     self.response = decodedResponse
                 }
@@ -55,8 +55,8 @@ class PostmanViewModel3: ObservableObject {
 
 struct Difficulties: View {
 
-    @StateObject var viewModel = PostmanViewModel3()
-    @State var selectedItems = Set<PostmanResponse3>()
+    @StateObject var viewModel = ContractComplicationViewModel()
+    @State var selectedItems = Set<ContractComplication>()
     var isNextButtonEnabled: Bool {
          return !selectedItems.isEmpty
      }
@@ -115,9 +115,9 @@ struct Difficulties: View {
 }
 
 struct Difficulties2: View {
-    @ObservedObject var viewModel2 = PostmanViewModel2.shared
-    @StateObject var viewModel = PostmanViewModel3()
-    @State var selectedItems = Set<PostmanResponse3>()
+    @ObservedObject var viewModel2 = FieldInspectionViewModel.shared
+    @StateObject var viewModel = ContractComplicationViewModel()
+    @State var selectedItems = Set<ContractComplication>()
     var isNextButtonEnabled: Bool {
          return !selectedItems.isEmpty
      }
@@ -176,8 +176,8 @@ struct Difficulties2: View {
 }
 struct Difficulties3: View {
 
-    @StateObject var viewModel = PostmanViewModel3()
-    @State var selectedItems = Set<PostmanResponse3>()
+    @StateObject var viewModel = ContractComplicationViewModel()
+    @State var selectedItems = Set<ContractComplication>()
     var isNextButtonEnabled: Bool {
          return !selectedItems.isEmpty
      }

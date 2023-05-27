@@ -11,20 +11,20 @@ import AVFoundation
 import MobileCoreServices
 
 
-struct PostmanResponse4: Decodable, Equatable, Hashable{
+struct Recommendation: Decodable, Equatable, Hashable{
     var id: Int
     var name: String
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    static func ==(lhs: PostmanResponse4, rhs: PostmanResponse4) -> Bool {
+    static func ==(lhs: Recommendation, rhs: Recommendation) -> Bool {
         return lhs.id == rhs.id && lhs.name == rhs.name
     }
 }
 
 
-class PostmanViewModel4: ObservableObject {
-    @Published var response: [PostmanResponse4] = []
+class RecommendationViewModel: ObservableObject {
+    @Published var response: [Recommendation] = []
     @Published var otherValue: String = ""
     func fetchData() {
         let urlString = "http://localhost:5001/api/meetings"
@@ -45,7 +45,7 @@ class PostmanViewModel4: ObservableObject {
             }
                     
             do {
-                let decodedResponse = try JSONDecoder().decode([PostmanResponse4].self, from: data)
+                let decodedResponse = try JSONDecoder().decode([Recommendation].self, from: data)
                 DispatchQueue.main.async {
                     self.response = decodedResponse
                 }
@@ -58,12 +58,12 @@ class PostmanViewModel4: ObservableObject {
 }
 struct Recommendations: View {
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var viewModel2 = PostmanViewModel2.shared
+    @ObservedObject var viewModel2 = FieldInspectionViewModel.shared
     var colorPrimary: Color {
         return colorScheme == .dark ? .black : .white
     }
-    @StateObject var viewModel = PostmanViewModel4()
-    @State var selectedItems = Set<PostmanResponse4>()
+    @StateObject var viewModel = RecommendationViewModel()
+    @State var selectedItems = Set<Recommendation>()
     @State private var showCustomOption = false
     @State var customOptionText = ""
     let optionsDict: [Int: [String]] = [
@@ -537,12 +537,12 @@ let fieldInspection = [    "culture": culture,    "step": step,    "complication
 */
 struct Recommendations2: View {
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var viewModel2 = PostmanViewModel2.shared
+    @ObservedObject var viewModel2 = FieldInspectionViewModel.shared
     var colorPrimary: Color {
         return colorScheme == .dark ? .black : .white
     }
-    @StateObject var viewModel = PostmanViewModel4()
-    @State var selectedItems = Set<PostmanResponse4>()
+    @StateObject var viewModel = RecommendationViewModel()
+    @State var selectedItems = Set<Recommendation>()
     @State var showCustomOption = false
     @State var customOptionText = ""
     let optionsDict: [Int: [String]] = [

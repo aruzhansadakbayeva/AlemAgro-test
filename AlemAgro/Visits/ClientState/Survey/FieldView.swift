@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PostmanResponse2: Identifiable,Decodable, Equatable, Hashable{
+struct FieldInspection: Identifiable,Decodable, Equatable, Hashable{
     var id: Int
     var name: String
     var category: String
@@ -15,27 +15,27 @@ struct PostmanResponse2: Identifiable,Decodable, Equatable, Hashable{
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    static func ==(lhs: PostmanResponse2, rhs: PostmanResponse2) -> Bool {
+    static func ==(lhs: FieldInspection, rhs: FieldInspection) -> Bool {
         return lhs.id == rhs.id && lhs.name == rhs.name && lhs.categoryId == rhs.categoryId && lhs.category == rhs.category
     }
 }
 
 
-class PostmanViewModel2: ObservableObject {
-    static let shared = PostmanViewModel2() // Синглтон
-    @Published var response: [PostmanResponse2] = []
-    @Published var selectedItems = Set<PostmanResponse2>()
-    var selectedItemsBinding: Binding<Set<PostmanResponse2>> {
-        Binding<Set<PostmanResponse2>>(
+class FieldInspectionViewModel: ObservableObject {
+    static let shared = FieldInspectionViewModel() // Синглтон
+    @Published var response: [FieldInspection] = []
+    @Published var selectedItems = Set<FieldInspection>()
+    var selectedItemsBinding: Binding<Set<FieldInspection>> {
+        Binding<Set<FieldInspection>>(
             get: { self.selectedItems },
             set: { self.selectedItems = $0 }
         )
     }
-    @Published var selectedItemsHistory: [[PostmanResponse2]] = []
-    var categorizedResponse: [String: [PostmanResponse2]] {
+    @Published var selectedItemsHistory: [[FieldInspection]] = []
+    var categorizedResponse: [String: [FieldInspection]] {
          Dictionary(grouping: response, by: { $0.category })
      }
-    var allSelectedItems: [PostmanResponse2] {
+    var allSelectedItems: [FieldInspection] {
         return response.filter { selectedItems.contains($0) }
     }
 
@@ -58,7 +58,7 @@ class PostmanViewModel2: ObservableObject {
              }
                      
              do {
-                 let decodedResponse = try JSONDecoder().decode([PostmanResponse2].self, from: data)
+                 let decodedResponse = try JSONDecoder().decode([FieldInspection].self, from: data)
                  DispatchQueue.main.async {
                      self.response = decodedResponse
                  }
@@ -82,8 +82,8 @@ class PostmanViewModel2: ObservableObject {
     
 }
 struct AllSelectedItemsView: View {
-    var selectedItemsHistory: [[PostmanResponse2]]
-    init(selectedItemsHistory: [[PostmanResponse2]]) { // Add a parameter to the constructor
+    var selectedItemsHistory: [[FieldInspection]]
+    init(selectedItemsHistory: [[FieldInspection]]) { // Add a parameter to the constructor
            self.selectedItemsHistory = selectedItemsHistory
        }
     var body: some View {
@@ -119,7 +119,7 @@ struct FieldView: View {
     var colorPrimary: Color {
         return colorScheme == .dark ? .black : .white
     }
-    @StateObject var viewModel = PostmanViewModel2.shared
+    @StateObject var viewModel = FieldInspectionViewModel.shared
     @State var counter: Int
 
     init(counter: Int) {
@@ -280,13 +280,13 @@ struct FView: View{
    @State var showAllSelectedItems = false
 */
 struct ItemsView: View {
-    @ObservedObject var viewModel = PostmanViewModel2.shared
-    var selectedItemsBinding: Binding<Set<PostmanResponse2>>
+    @ObservedObject var viewModel = FieldInspectionViewModel.shared
+    var selectedItemsBinding: Binding<Set<FieldInspection>>
     var counter: Int
-    var allSelectedItems: [[PostmanResponse2]] {
+    var allSelectedItems: [[FieldInspection]] {
         viewModel.response
             .filter { selectedItemsBinding.wrappedValue.contains($0) }
-            .reduce(into: [String: [PostmanResponse2]]()) { result, response in
+            .reduce(into: [String: [FieldInspection]]()) { result, response in
                 let key = response.category
                 result[key, default: []].append(response)
             }
@@ -294,7 +294,7 @@ struct ItemsView: View {
             .map { $0.value }
     }
 
-    init(viewModel: PostmanViewModel2, counter: Int) {
+    init(viewModel: FieldInspectionViewModel, counter: Int) {
         self.viewModel = viewModel
         self.counter = counter
         self.selectedItemsBinding = viewModel.selectedItemsBinding
@@ -323,7 +323,7 @@ struct FieldView2: View {
     var colorPrimary: Color {
         return colorScheme == .dark ? .black : .white
     }
-    @StateObject var viewModel = PostmanViewModel2.shared
+    @StateObject var viewModel = FieldInspectionViewModel.shared
     @State var counter: Int
 
     init(counter: Int) {

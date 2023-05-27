@@ -10,15 +10,15 @@ import SwiftUI
 
 class SelectedItemsManager {
 
-    static var selectedOptions: [PostmanResponse4: String] = [:]
+    static var selectedOptions: [Recommendation: String] = [:]
     static var additionalOptionsForId2: [String] = []
     static let shared = SelectedItemsManager()
-    static var selectedItems3 = Set<PostmanResponse3>() {
+    static var selectedItems3 = Set<ContractComplication>() {
         didSet {
             print("Выбранные элементы: \(SelectedItemsManager.selectedItems)")
         }
     }
-    static var selectedItems2 = Set<PostmanResponse2>() {
+    static var selectedItems2 = Set<FieldInspection>() {
         didSet {
             print("Выбранные элементы: \(SelectedItemsManager.selectedItems2)")
         }
@@ -26,7 +26,7 @@ class SelectedItemsManager {
 
     static var selectedCategoryIds = Set<Int>()
     
-    static var selectedItems = Set<PostmanResponse>() {
+    static var selectedItems = Set<WorkDone>() {
         didSet {
             print("Выбранные элементы: \(SelectedItemsManager.selectedItems)")
         }
@@ -34,8 +34,8 @@ class SelectedItemsManager {
 }
 
 struct SelectedItemsView: View {
-    @StateObject var viewModel = PostmanViewModel2()
-    var selectedItemsHistory: [[PostmanResponse2]]
+    @StateObject var viewModel = FieldInspectionViewModel()
+    var selectedItemsHistory: [[FieldInspection]]
     var body: some View {
         ScrollView{
             VStack(alignment: .leading) {

@@ -8,20 +8,20 @@
 
 import SwiftUI
 
-struct PostmanResponse: Decodable, Equatable, Hashable{
+struct WorkDone: Decodable, Equatable, Hashable{
     var id: Int
     var name: String
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    static func ==(lhs: PostmanResponse, rhs: PostmanResponse) -> Bool {
+    static func ==(lhs: WorkDone, rhs: WorkDone) -> Bool {
         return lhs.id == rhs.id && lhs.name == rhs.name
     }
 }
 
-class PostmanViewModel: ObservableObject {
-    @Published var response: [PostmanResponse] = []
-    @Published var selectedItems: Set<PostmanResponse> = []
+class WorkDoneViewModel: ObservableObject {
+    @Published var response: [WorkDone] = []
+    @Published var selectedItems: Set<WorkDone> = []
     @Published var otherValue: String = ""
     
 
@@ -44,7 +44,7 @@ class PostmanViewModel: ObservableObject {
             }
                     
             do {
-                let decodedResponse = try JSONDecoder().decode([PostmanResponse].self, from: data)
+                let decodedResponse = try JSONDecoder().decode([WorkDone].self, from: data)
                 DispatchQueue.main.async {
                     self.response = decodedResponse
                 }
@@ -69,8 +69,8 @@ class PostmanViewModel: ObservableObject {
 struct SelectVisitView: View {
     @State private var showDifficulties = false
 
-    @StateObject var viewModel = PostmanViewModel()
-    @State var selectedItems = Set<PostmanResponse>()
+    @StateObject var viewModel = WorkDoneViewModel()
+    @State var selectedItems = Set<WorkDone>()
     var isNextButtonEnabled: Bool {
         return !viewModel.selectedItems.isEmpty
     }
