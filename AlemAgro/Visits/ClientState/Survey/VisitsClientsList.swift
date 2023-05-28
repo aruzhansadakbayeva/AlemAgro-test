@@ -5,37 +5,25 @@
 //  Created by Aruzhan  on 14.03.2023.
 //
 import SwiftUI
-
 struct Visit: Identifiable, Decodable{
     let id: Int
     let dateToVisit: String
     let statusVisit: String
     let clients: [Clientt]
-    
 }
-
-
 struct Clientt: Decodable  {
-
     let visitId: Int
     let statusVisit: Bool
     let clientId: Int
     let clientName: String
     let dateVisit: String
-   
     let visitTypeName: String?
-    
 }
-
-
-
 class VisitViewModel: ObservableObject {
     @Published var response: [Visit] = []
     @Published var currentUserId: Int = 0
     
     func fetchData() {
-    
-                       
         let parameters = ["type": "plannedMeetingMob", "action": "getMeetings", "userId": "\(currentUserId)"]
                print(parameters)
                guard let postData = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
@@ -62,22 +50,9 @@ class VisitViewModel: ObservableObject {
             }
             print(String(data: data, encoding: .utf8)!)
         }.resume()
-      
     }
-      
 }
-
-
-/*     NavigationLink(destination: WebView(url: {
-    var components = URLComponents(string: "http://my.alemagro.com/meeting-details-mobile")!
-    components.queryItems = [
-        URLQueryItem(name: "meetingId", value: "\(client.visitId)"),
-        URLQueryItem(name: "userId", value: "\(client.clientId)")
-    ]
-    return components.url!
-}()) ) */
 struct VisitListView: View {
-    
     @State private var selectedDate = Date()
     @StateObject var viewModel = VisitViewModel()
     @State private var title = "Встречи"
@@ -85,7 +60,7 @@ struct VisitListView: View {
     var sortedVisits: [Visit] {
         viewModel.response.sorted(by: { $0.dateToVisit > $1.dateToVisit })
     }
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
@@ -116,10 +91,6 @@ struct VisitListView: View {
                                 .background(Color(UIColor.systemBackground))
                                 .cornerRadius(8)
                                 .shadow(color: Color.gray.opacity(0.5), radius: 2, x: 0, y: 1)
-                                /*.overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color.blue, lineWidth: 1)
-                                )*/
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
@@ -129,14 +100,11 @@ struct VisitListView: View {
             .padding(.horizontal)
             .background(Color(UIColor.systemBackground))
         }
-
         .navigationBarTitle(title)
         .onAppear {
                    if let userId = appState.currentUser?.id {
                        viewModel.currentUserId = userId
                        viewModel.fetchData()
-              
-                         
                    }
                }
     }
